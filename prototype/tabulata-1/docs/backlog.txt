@@ -1,1 +1,44 @@
 
+
+
+
+------------------------------------------------------------------------------------------
+
+
+PHASE 0) essential functionality
+
+add column -- to backend
+add row -- to backend
+add singleton -- to backend
+
+edit column expression
+edit singular
+edit pane
+
+handle dates
+handle booleans
+
+rename singular
+rename column
+
+infer data type
+control for dates
+control for booleans
+
+
+PHASE 1) ui chrome
+
+editing: let user touch-select columns or singulars
+editing: add columns/rows: count pushes, then do. show number of pushes.
+
+PHASE 2) more functionality
+
+more than 1 list per block
+
+aggregation list
+
+show more than 1 block
+
+
+
+
