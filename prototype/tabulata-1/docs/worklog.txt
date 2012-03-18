@@ -1,0 +1,90 @@
+The Legend
+
+P Phase
+A activity
+D decision
+Q question
+
++ 9. march
+
+P The Beginning
+
+A implementation of gui
+
++ 11. march
+
+A gui
+
++ 12. march
+
+A gui col-name, singular
+
++ 13. march
+
+A implementation of calculation in the list
+Q use a parser generator after all? - http://pegjs.majda.cz/documentation
+
++ 14. march
+
+A playing with parser generator
+D have to use a parser generator
+
++ 15. march
+
+Q separation of javascript/mylan
+D it should be separated (js parts in {})
+Q should the grammar be strict (incl keywords etc)
+  pro: better error detection, simpler
+  con: extensibility
+D for now, be strict
+D revised: turned out to be naturally not strict
+A written parser generator, works for the examples
+A used parser to generate ast, use ast to output working javascript for example
+
+
+
++ 16. march
+
+A engine passes test cases: calculates singular and column values
+A also use parser for column values
+A load block from file into gui
+Q thoughts about the model/nature/kind of interaction between gui and calculation backend
+-> event based (in-queue and out-queue, threaded)
+-> transition based: the context doesn't change state but is applied a transition and
+   generates a new context
+-> something inbetween
+requirements:
+- collaboration must be feasible
+- weak coupling (no direct object references)
+- responsive gui
+- extendable
+
+
++ 17. march
+
+A further research:
+  - web workers (threading) available on ios 5.1 and chrome -> good enough!
+  - still both raw event and transition-based architecture open
+
+D have a go at a event-based architecture
+
+
++ 18. march
+
+A implemented web worker with events for loading, changing of column values
+  changing of number column values works!
+
+problem: implicit casting of values (number / boolean)
+
+A problem solved: when updating a value (which is always a string), convert to proper value
+
+Q how to proceed further.
+
+
+
+
+
+
+
+
+

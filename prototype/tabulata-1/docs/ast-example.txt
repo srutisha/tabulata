@@ -1,0 +1,46 @@
+{
+   "type": "access",
+   "data": {
+      "type": "identifier",
+      "name": "Tasks"
+   },
+   "operand": {
+      "type": "access",
+      "data": {
+         "type": "identifier",
+         "name": "HoursSpentTotal"
+      },
+      "operand": {
+         "type": "access",
+         "data": {
+            "type": "identifier",
+            "name": "select",
+            "param": [
+               {
+                  "type": "binaryFunction",
+                  "op": "<",
+                  "left": {
+                     "type": "access",
+                     "data": {
+                        "type": "identifier",
+                        "name": "Tasks"
+                     },
+                     "operand": {
+                        "type": "identifier",
+                        "name": "Due"
+                     }
+                  },
+                  "right": {
+                     "type": "js",
+                     "execution": "new Date()"
+                  }
+               }
+            ]
+         },
+         "operand": {
+            "type": "identifier",
+            "name": "sum"
+         }
+      }
+   }
+}

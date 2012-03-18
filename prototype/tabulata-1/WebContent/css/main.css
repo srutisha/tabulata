@@ -1,0 +1,32 @@
+@CHARSET "UTF-8";
+
+body {
+	background: black;
+	font-color: white;
+	font-size: 13pt;
+	font-family: "Droid Sans", "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;	
+}
+
+#info {
+	font-size: 10pt;
+	padding:5pt;
+	color:#eee;
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	width: 100%;
+	background: #444;
+}
+
+.hed-act , .inp-key {
+	background: #dfd;
+}
+
+.inp-value {
+	width: 30em;
+}
+
+
+.inp-cal {
+	background: #fdd;
+}

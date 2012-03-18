@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>helper</title>
+
+</head>
+
+<body>
+
+
+
+<body><script>
+function ISODateString(d) {
+    function pad(n){
+        return n<10 ? '0'+n : n
+    }
+    return d.getUTCFullYear()+'-'
+    + pad(d.getUTCMonth()+1)+'-'
+    + pad(d.getUTCDate())+'T'
+    + pad(d.getUTCHours())+':'
+    + pad(d.getUTCMinutes())+':'
+    + pad(d.getUTCSeconds())+'Z'
+}
+var d = new Date();
+document.write(ISODateString(d));
+</script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+{
+var binary = function (op, left, right) {
+  	return {type: "binaryFunction", op: op, left: left, right: right};
+};
+
+}
+
+start
+  = bool
+
+
+bool =
+    left:boolAnd "||" right:bool  { return binary("||", left, right); }
+  / boolAnd
+
+boolAnd =
+    left:comparison "&&" right:boolAnd { return binary("&&", left, right); }
+  / comparison
+
+comparison =
+    left:additive "<" right:additive { return binary("<", left, right); }
+  / left:additive ">" right:additive { return binary(">", left, right); }
+  / left:additive "==" right:additive { return binary("==", left, right); }
+  / additive
+
+additive
+  = left:multiplicative "+" right:additive { return binary("+", left, right); }
+  / multiplicative
+
+multiplicative
+  = left:primary "*" right:multiplicative { return binary("*", left, right); }
+  / left:primary "/" right:multiplicative { return binary("/", left, right); }
+  / primary
+
+primary
+  = __ integer __
+  / path
+  / __ "{" js:(!"}" .)* "}" 
+      { return {
+          type: "js", 
+          execution: js.map(function(a){return a[1]}).join("")
+        };
+      }
+  / __ "(" additive:additive ")" { return additive; }
+
+path =  f:function p:pathEx ? {
+    if (p==="") return f;
+	return {
+	  type: "access",
+	  data: f,
+	  operand: p
+	};
+}
+
+pathEx = __ "." p:path 
+    {return p;}
+
+function =
+   __ id:identifier __ pa:paramList ? 
+   {
+     if (pa === "") return { type: "identifier", name: id };
+     return { type: "identifier", name: id, param:pa };
+   }
+
+paramList
+ = "(" __ p: params __ ")"
+{ return p; }
+
+params
+ = ps:bool __ pa:( __ "," __ bool ) * 
+   {  if (pa === "") return [ps];
+      var px = pa.map(function(a){return a[3]});
+      px.unshift(ps);
+      return px;
+   }
+
+
+integer "integer"
+  = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
+
+identifier "identifier"
+  = letters:[A-Za-z]+ { return letters.join(""); }
+
+__ = (whitespace / eol )*
+
+/* Modelled after ECMA-262, 5th ed., 7.3. */
+eol "end of line"
+  = "\n"
+  / "\r\n"
+  / "\r"
+  / "\u2028"
+  / "\u2029"
+
+eolChar
+  = [\n\r\u2028\u2029]
+
+/* Modelled after ECMA-262, 5th ed., 7.2. */
+whitespace "whitespace"
+  = [ \t\v\f\u00A0\uFEFF\u1680\u180E\u2000-\u200A\u202F\u205F\u3000]
