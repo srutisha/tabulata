@@ -1,10 +1,24 @@
 @CHARSET "UTF-8";
 
 body {
+	margin:0;
+	padding:0;
 	background: black;
 	font-color: white;
 	font-size: 13pt;
 	font-family: "Droid Sans", "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;	
+}
+
+input {
+	font-size: 10pt;
+	border: inset 1px;
+	border-radius: 3px/2px;
+    -webkit-appearance: none;
+
+}
+
+input:focus {
+	border-color:
 }
 
 #info {
@@ -29,4 +43,13 @@ body {
 
 .inp-cal {
 	background: #fdd;
+}
+
+#title {
+	padding-left:8pt;
+	margin-bottom:8pt;
+	font-family: 'Fugaz One', cursive;
+	font-size:28pt;
+	font-color:black;
+	background:white;
 }
