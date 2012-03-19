@@ -29,6 +29,8 @@ control for booleans
 
 infer column width
 
+use singular in column expression
+
 PHASE 1) ui chrome
 
 editing: let user touch-select columns or singulars
