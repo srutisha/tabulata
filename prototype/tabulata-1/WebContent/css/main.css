@@ -14,11 +14,21 @@ input {
 	border: inset 1px;
 	border-radius: 3px/2px;
     -webkit-appearance: none;
-
+	width:7em;
 }
 
 input:focus {
 	border-color:
+}
+
+table {
+	border-spacing: 0px;
+}
+
+input[type=button] {
+	padding:2px;
+	background:#ddd;
+	width:1.5em;
 }
 
 #info {

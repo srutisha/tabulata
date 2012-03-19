@@ -2,6 +2,9 @@
 
 $(document).ready(function () {
 	initEmpty();
+	$("body").ontouchmove = function (event) {
+		event.preventDefault();
+	};
 });
 
 
@@ -141,7 +144,7 @@ function SingularControl() {
 	};
 	
 	this.createAddButton = function () {
-		return "<input id='scAddRow' type='button' value='+' onClick='sc.addRow(this)' />";
+		return "<input class='input-button' id='scAddRow' type='button' value='+' onClick='sc.addRow(this)' />";
 	};
 	
 	this.infoText = function () {

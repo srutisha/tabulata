@@ -17,7 +17,14 @@
 <script src="js/engineMessage.js"></script>
 <script src="js/common.js"></script>
 <script src="js/main.js"></script>
-<body>
+<script>
+ function BlockMove(event) {
+  // Tell Safari not to move the window.
+  event.preventDefault() ;
+  return false;
+ }
+</script>
+<body ontouchmove="BlockMove(event);">
 <div id="title">
 tabulata
 </div>

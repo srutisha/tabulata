@@ -25,6 +25,7 @@ infer data type
 control for dates
 control for booleans
 
+infer column width
 
 PHASE 1) ui chrome
 
@@ -40,5 +41,8 @@ aggregation list
 show more than 1 block
 
 
-
+columns rows singulars gui functions:
+resize 
+reorder 
+delete
 
