@@ -25,6 +25,7 @@ comparison =
 
 additive
   = left:multiplicative "+" right:additive { return binary("+", left, right); }
+  / left:multiplicative "-" right:additive { return binary("+", left, right); }
   / multiplicative
 
 multiplicative

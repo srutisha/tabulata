@@ -43,10 +43,16 @@ EngineFront.prototype.updateColumnEventReceived = function (data) {
 
 EngineFront.prototype.updateSingularEventReceived = function (data) {
 	var id = Symbols.singularSymbol(data.appliesTo);
-	$("#v_"+id).val(data.value);
+	var inp = $("#v_"+id);
+	if (inp.data("locked")) {
+		return;
+	}
+	inp.val(data.value);
 };
 
 EngineFront.prototype.sendEvent = function (frontendMessage) {
+	console.log("Sending message .. ");
+	console.log(frontendMessage);
 	this.worker.postMessage(frontendMessage);
 };
 
@@ -76,6 +82,19 @@ function initEmpty() {
 function attachEvents() {
 	$(".inp-act").focusout(function (event) {
 		ef.handleColumnValueChangeEvent(event);
+	});
+	
+	$(".inp-value").focus(function (event) {
+		$(event.target).data("locked", true);
+		$(event.target).val(event.target.dataset.exp);
+	});
+	
+	$(".inp-value").focusout(function (event) {
+		var exp = event.target.dataset.exp = $(event.target).val();
+		$(event.target).data("locked", false);
+		$(event.target).val("..");
+		
+		ef.sendEvent(FrontendMessage.singularExpChanged(event.target.id.substring(2), exp));
 	});
 }
 
@@ -140,7 +159,7 @@ function SingularControl() {
 	
 	this.createInputFieldValue = function(id, value) {
 		if (value == undefined) value = "";
-		return "<input class='inp-value' id = 'v_"+id+"' value = '"+value+"'/>";
+		return "<input class='inp-value' id = 'v_"+id+"' data-exp = '"+value+"'value = '"+value+"'/>";
 	};
 	
 	this.createAddButton = function () {

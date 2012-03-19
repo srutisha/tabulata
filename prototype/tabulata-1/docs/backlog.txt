@@ -1,6 +1,8 @@
 
 
+edit singular DONE
 
+extend grammar: a-b , floating point numbers
 
 ------------------------------------------------------------------------------------------
 
@@ -12,7 +14,7 @@ add row -- to backend
 add singleton -- to backend
 
 edit column expression
-edit singular
+
 edit pane
 
 handle dates

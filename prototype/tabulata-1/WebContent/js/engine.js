@@ -16,7 +16,7 @@ function Engine(block) {
 	
 	this.ctx.addList(block.lists[0]);
 	
-	this.ctx.logMembers();
+	//this.ctx.logMembers();
 }
 
 
@@ -128,7 +128,7 @@ ColumnExpressionEvaluator.prototype = ExpressionEvaluator.prototype;
 ExpressionEvaluator.prototype.evaluateAst = function (ast) {
 	var compiled = this.handleNode(ast, AccessContext.top());
 	with (this.ctx) {
-		console.log(compiled);
+		// console.log(compiled);
 		return eval(compiled);
 	}
 } ;
@@ -163,7 +163,14 @@ ExpressionEvaluator.prototype.handleNode = function (ast, ac) {
 	case "identifier":
 		return this.handleIdentifier(ac, ast.name, ast.param);
 		break;
-	default: throw Error("Unknown ast type:"+ast.type);
+	default: 
+		// TODO: clean this up
+		if ((''+ast).match(/[\d.-]+/)) {
+			//console.log(ast);
+			return 'stringToObject('+ast.join("")+')';
+		}
+	
+		throw Error("Unknown ast node:"+ast);
 	}
 };
 
@@ -267,6 +274,8 @@ AccessContext.value = function () {
 function Singular(ctx, data) {
 	var self = this;
 	
+	this.exp = data.value;
+	
 	this.symbol = function () {
 		return Symbols.singularSymbol(self.name());
 	};
@@ -280,7 +289,7 @@ function Singular(ctx, data) {
 	};
 	
 	this.$V = function() {
-		return ctx.evaluate(data.value);
+		return ctx.evaluate(self.exp);
 	};
 	
 }
