@@ -82,6 +82,27 @@ Q how to proceed further.
 
 A created and added to git repository.
 
+19. march
+
+A edit singular
+
+20. march
+
+A add row -- to backend and frontend
+
+Q the "list" json datastructure is present on both the backend and frontend. who is master, if any ?
+Q how to represent changes? (==> event/transition model from 16. march)
+  for now, data is present in:
+   - input fields in the gui (must, current)
+   - json structure frontend (not current, used for loading)
+   - json structure backend (not current, used for loading)
+   - backend objects (must)
+
+  together with a unified way to load/save data, this should be cleaned up
+  also, will be a topic when defining meta data
+
+D because i've now set up git, will not list activities resulting in code any more
+
 
 
 

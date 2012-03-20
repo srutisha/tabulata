@@ -1,14 +1,17 @@
-DONE:
+DONE
 
 edit singular
 add row -- to backend and frontend
-
 
 ------------------------------------------------------------------------------------------
 
 ISSUES
 
 extend grammar: a-b , floating point numbers
+
+
+------------------------------------------------------------------------------------------
+
 
 PHASE 0) essential functionality
 
@@ -46,6 +49,7 @@ aggregation list
 
 show more than 1 block
 
+column defaults / series (-> aggregation table?)
 
 columns rows singulars gui functions:
 resize 
