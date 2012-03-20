@@ -1,16 +1,18 @@
+DONE:
 
+edit singular
+add row -- to backend and frontend
 
-edit singular DONE
-
-extend grammar: a-b , floating point numbers
 
 ------------------------------------------------------------------------------------------
 
+ISSUES
+
+extend grammar: a-b , floating point numbers
 
 PHASE 0) essential functionality
 
 add column -- to backend
-add row -- to backend
 add singleton -- to backend
 
 edit column expression

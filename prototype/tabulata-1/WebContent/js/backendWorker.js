@@ -23,7 +23,14 @@ onmessage = function(message) {
 		var exp = message.data.exp;
 		var sg = engine.ctx.singularByName(sgName);
 		sg.exp = exp;
-	}	
+	} else if (message.data.eventName == "rowAdded") {
+		var listName = message.data.listName;
+		var list = engine.ctx.listByName(listName);
+		list.addRow();
+		engine.ctx.columnsByList(listName).forEach(function (col) {
+			col.addRow();
+		});
+	}
 	// for now, do this on any message
 	engine.sendChangedData(resultReceiver);
 };

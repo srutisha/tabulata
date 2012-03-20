@@ -176,6 +176,8 @@ function ListControl() {
 	
 	var dimensions = {'x': 1, 'y' : 1};
 	
+	var _list = new Array();
+	
 	this.build = function () {
 		$("#mtbl").append(tr(th(this.createHeaderField())+th()));
 		
@@ -183,7 +185,22 @@ function ListControl() {
 				tr(td(this.createAddRowButton())+td()));
 	};
 	
+	var createFieldNode = function (listName, col, row) {
+		var id = Symbols.columnRowSymbol(listName, col.name, row);
+		if (col.values) {
+			return td(self.createInputField(id, "inp-act", col.values[row]));
+		} else {
+			if (row == 0) {
+				return td(self.createInputField(id, "inp-cal", col.valueFunction));
+			} else {
+				return td(self.createInputField(id, "inp-cal", ""));
+				//TODO: column.valueFunction
+			}
+		}
+	};
+	
 	this.init = function (list) {
+		_list = list;
 		$("#mtbl").html("");
 		var c = "";
 		list.columns.forEach(function (col) {
@@ -195,17 +212,7 @@ function ListControl() {
 		for (var row=0; row<list.numRows; row++) {
 			c = "";
 			list.columns.forEach(function (col) {
-				var id = Symbols.columnRowSymbol(list.name, col.name, row);
-				if (col.values) {
-					c += td(self.createInputField(id, "inp-act", col.values[row]));
-				} else {
-					if (row == 0) {
-						c += td(self.createInputField(id, "inp-cal", col.valueFunction));
-					} else {
-						c += td(self.createInputField(id, "inp-cal", ""));
-						//TODO: column.valueFunction
-					}
-				}
+				 c += createFieldNode(list.name, col, row);
 			});
 			if (row==0) {
 				c += td(self.createAddColumnButton());
@@ -251,16 +258,18 @@ function ListControl() {
 	
 	this.addRow = function(button) {
 		var tr = $(button).parent().parent().get(0);
-		var t = this;
 		
 		$(tr).children().each(function(index){
 			if (index == dimensions.x) {
 				// last cell
 				$(this).html("");
 			} else {
-				$(this).html(t.createInputField());
+				$(this).html(createFieldNode(_list.name, _list.columns[index], _list.numRows));
 			}
 		});
+		
+		_list.numRows++;
+
 		$(tr).parent().append("<tr></tr>");
 		var newrow = $(tr).next();
 		newrow.append(td(this.createAddRowButton()));
@@ -269,6 +278,9 @@ function ListControl() {
 		}
 		
 		dimensions.y ++;
+		
+		attachEvents();
+		ef.sendEvent(FrontendMessage.rowAdded(_list.name));
 		il.update();
 	};
 	

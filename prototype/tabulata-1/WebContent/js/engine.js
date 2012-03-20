@@ -67,6 +67,12 @@ function Context() {
 				&& column.name () == colName;
 		})[0];
 	};
+
+	this.columnsByList = function (listName) { 
+		return columns.filter(function (column) {
+			return column.listName() == listName;
+		});
+	};	
 	
 	this.addSingular = function (sgData) {
 		var sg = new Singular(self, sgData);
@@ -135,13 +141,18 @@ ExpressionEvaluator.prototype.evaluateAst = function (ast) {
 
 // TODO this is not efficient
 stringToObject = function(s) {
+	
+	if ((''+s).match(/[\d.-]+/)) {
+	    return parseFloat(s);
+	}
+	
 	switch ((''+s).toLowerCase()) {
 		case "true": case "yes": case "1": return true;
 		case "false": case "no": case "0": return false;
 	}
 	
-	if ((''+s).match(/[\d.-]+/)) {
-	    return parseFloat(s);
+	if (s == "") {
+		return 0;
 	}
 	
 	return s;
@@ -294,8 +305,9 @@ function Singular(ctx, data) {
 	
 }
 
-function List(ctx, list) {
+function List(ctx, _list) {
 	var self = this;
+	var list = _list;
 	
 	this.symbol = function () {
 		return Symbols.listSymbol(self.name());
@@ -307,6 +319,10 @@ function List(ctx, list) {
 	
 	this.numRows = function () {
 		return list.numRows;
+	};
+	
+	this.addRow = function () {
+		list.numRows ++;
 	};
 	
 	this.$_count = this.numRows;
@@ -370,6 +386,12 @@ function Column(ctx, list, content) {
 		}
 	};
 	
+	this.addRow = function () {
+		if (isData) {
+			content.values.push("");
+		}
+	};
+	
 	this.values = function () {
 		if (isData) {
 			return content.values;
@@ -386,7 +408,7 @@ function Column(ctx, list, content) {
 	
 	this.$V = function(idx) {
 		if (valueCache[idx] != undefined) return valueCache[idx];
-		return this.values()[idx];
+		return stringToObject(this.values()[idx]);
 	};
 	
 	this.evaluate = function () {
