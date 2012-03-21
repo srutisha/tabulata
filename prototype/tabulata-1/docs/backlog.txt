@@ -36,10 +36,17 @@ control for booleans
 
 infer column width
 
+
+
 PHASE 1) ui chrome
 
 editing: let user touch-select columns or singulars
 editing: add columns/rows: count pushes, then do. show number of pushes.
+
+swipe gestures
+
+column context functions (move/insert left/right)
+
 
 PHASE 2) more functionality
 

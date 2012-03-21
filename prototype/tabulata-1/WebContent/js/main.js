@@ -91,8 +91,8 @@ function attachEvents() {
 	
 	$(".inp-value").focusout(function (event) {
 		var exp = event.target.dataset.exp = $(event.target).val();
-		$(event.target).data("locked", false);
 		$(event.target).val("..");
+		$(event.target).data("locked", false);
 		
 		ef.sendEvent(FrontendMessage.singularExpChanged(event.target.id.substring(2), exp));
 	});

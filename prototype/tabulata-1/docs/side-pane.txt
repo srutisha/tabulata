@@ -1,0 +1,41 @@
+Possible contents of the side pane:
+
+
+For a column header
+For any column (displayed as soon as a column header or value is selected)
+For a value function column
+
+
+
+infer column data type (-> format)
+
+edit value function
+
+style contents
+- size
+- bold
+- color
+- alignment
+
+navigation (up/down/left/right)
+
+sorting?
+
+
+
+--------------------------------------------------------------------------------------------------
+
+
+
+--------------------------------------------------------------------------------------------------
+
+
+
+
+--------------------------------------------------------------------------------------------------
+
+
+
+
+
+--------------------------------------------------------------------------------------------------
