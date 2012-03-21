@@ -189,7 +189,7 @@ ExpressionEvaluator.prototype.handleNode = function (ast, ac) {
 		// TODO: clean this up
 		if ((''+ast).match(/[\d.-]+/)) {
 			//console.log(ast);
-			return 'stringToObject('+ast.join("")+')';
+			return 'stringToObject('+ast+')';
 		}
 	
 		throw Error("Unknown ast node:"+ast);

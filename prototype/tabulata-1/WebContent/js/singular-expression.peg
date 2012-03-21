@@ -3,6 +3,11 @@ var binary = function (op, left, right) {
   	return {type: "binaryFunction", op: op, left: left, right: right};
 };
 
+var flatten = function (ary) {
+    if (! Array.isArray(ary)) return ary;
+    return ary.map(flatten).join("");
+};
+
 }
 
 start
@@ -25,7 +30,7 @@ comparison =
 
 additive
   = left:multiplicative "+" right:additive { return binary("+", left, right); }
-  / left:multiplicative "-" right:additive { return binary("+", left, right); }
+  / left:multiplicative "-" right:additive { return binary("-", left, right); }
   / multiplicative
 
 multiplicative
@@ -34,7 +39,7 @@ multiplicative
   / primary
 
 primary
-  = __ integer __
+  = __ nb:number __ { return nb; }
   / path
   / __ "{" js:(!"}" .)* "}" 
       { return {
@@ -76,8 +81,8 @@ params
    }
 
 
-integer "integer"
-  = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
+number "number"
+  = sg: "-" ? n1:[0-9] + pt:"." ? n2:[0-9]* { return flatten([sg,n1,pt,n2]); }
 
 identifier "identifier"
   = letters:[A-Za-z]+ { return letters.join(""); }

@@ -6,12 +6,11 @@ add row -- to backend and frontend
 add singleton -- to backend and frontend
 use singular in column expression
 
+extend grammar: a-b , floating point numbers
 
 ------------------------------------------------------------------------------------------
 
 ISSUES
-
-extend grammar: a-b , floating point numbers
 
 
 ------------------------------------------------------------------------------------------
