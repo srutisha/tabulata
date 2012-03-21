@@ -104,7 +104,9 @@ Q how to represent changes? (==> event/transition model from 16. march)
 D because i've now set up git, will not list activities resulting in code any more
 
 
+21. march
 
+Q the id-naming with the names of the fields is awkward, especially when considering name changes. consider a different scheme.
 
 
 

@@ -96,7 +96,36 @@ function attachEvents() {
 		
 		ef.sendEvent(FrontendMessage.singularExpChanged(event.target.id.substring(2), exp));
 	});
-}
+
+	$(".inp-key").focus(function (event) {
+		$(event.target).data("oldValue", event.target.value);
+	});
+
+	
+	$(".inp-key").focusout(function (event) {
+		if ($(event.target).data("oldValue") != event.target.value) {
+			handleSingularNameChangedEvent(event);			
+		}
+	});
+	
+};
+
+handleSingularNameChangedEvent = function (event) {
+	var name = event.target.value;
+	var oldSymbol = event.target.id.substring(2);
+	var newSymbol = Symbols.singularSymbol(name);
+	
+	event.target.id = SingularControl.keyId(newSymbol);
+	$("#"+SingularControl.valueId(oldSymbol)).attr("id", SingularControl.valueId(newSymbol));
+	
+	// for a new singular, doesn't send an old symbol (it was only temporary in the gui)
+	if (oldSymbol.match(/\d+/)) {
+		oldSymbol = undefined;
+	}
+	
+	ef.sendEvent(FrontendMessage.singularChanged(oldSymbol, name, undefined));
+};
+
 
 function td(txt) {
 	if (txt == undefined) txt = "";
@@ -127,14 +156,17 @@ function LoadControls() {
 function SingularControl() {
 	this.size = 0;
 	
+	this.newCounter = 0;
+	
 	this.build = function () {
 		$("#stbl").append(tr(td(this.createAddButton())+td()));
 	};
 	
 	this.addRow = function (button) {
-		$(button).parent().parent().before(this.createRow());
+		$(button).parent().parent().before(this.createRow(this.newCounter++, "", ""));
 		this.size ++;
 		il.update();
+		attachEvents();
 	};
 	
 	this.createRow = function (id, key, value) {
@@ -152,14 +184,14 @@ function SingularControl() {
 		this.build();
 	};
 	
-	this.createInputFieldKey = function(id, key) {
+	this.createInputFieldKey = function(symbol, key) {
 		if (key == undefined) key = "";
-		return "<input class='inp-key' id = 'k_"+id+"' value = '"+key+"'/>";
+		return "<input class='inp-key' id = '"+SingularControl.keyId(symbol)+"' value = '"+key+"'/>";
 	};
 	
-	this.createInputFieldValue = function(id, value) {
+	this.createInputFieldValue = function(symbol, value) {
 		if (value == undefined) value = "";
-		return "<input class='inp-value' id = 'v_"+id+"' data-exp = '"+value+"'value = '"+value+"'/>";
+		return "<input class='inp-value' id = '"+SingularControl.valueId(symbol)+"' data-exp = '"+value+"' value = '"+value+"'/>";
 	};
 	
 	this.createAddButton = function () {
@@ -170,6 +202,14 @@ function SingularControl() {
 		return "Singulars: "+this.size;
 	};
 }
+
+SingularControl.valueId = function(symbol) {
+	return "v_"+symbol;
+};
+
+SingularControl.keyId = function(symbol) {
+	return "k_"+symbol;
+};
 
 function ListControl() {
 	var self = this;

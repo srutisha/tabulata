@@ -80,6 +80,17 @@ function Context() {
 		singulars.push(sg);
 	};
 	
+	this.removeSingular = function (sg) {
+		self[sg.symbol()] = undefined;
+		var delIdx = -1;
+		for (var i=0; i<singulars.length; i++) {
+			if (singulars[i] === sg) {
+				delIdx = i;
+			}
+		}
+		singulars.splice(delIdx, 1);
+	};
+	
 	this.addList = function (listData) {
 		var list = new List(self, listData);
 		listData.columns.forEach(function (col) {
@@ -302,8 +313,27 @@ function Singular(ctx, data) {
 	this.$V = function() {
 		return ctx.evaluate(self.exp);
 	};
-	
 }
+
+Singular.changeSingular = function (ctx, oldSymb, newName, exp) {
+
+	var sgData = {name: newName, value: exp};
+
+	if (oldSymb != undefined) {
+		var oldSg = ctx[oldSymb];
+		if (exp != undefined) {
+			oldSg.exp = exp;
+			return;
+		} else {
+			sgData.value = oldSg.exp;
+		}
+		ctx.removeSingular(oldSg);
+	} else {
+		sgData.value = "";
+	}
+	
+	ctx.addSingular(sgData);
+};
 
 function List(ctx, _list) {
 	var self = this;

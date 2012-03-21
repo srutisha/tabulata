@@ -23,6 +23,11 @@ onmessage = function(message) {
 		var exp = message.data.exp;
 		var sg = engine.ctx.singularByName(sgName);
 		sg.exp = exp;
+	} else if (message.data.eventName == "singularChanged") {
+		var oldSymbol = message.data.oldSymbol;
+		var sgNewName = message.data.newName;
+		var sgExp = message.data.exp;
+		Singular.changeSingular(engine.ctx, oldSymbol, sgNewName, sgExp);
 	} else if (message.data.eventName == "rowAdded") {
 		var listName = message.data.listName;
 		var list = engine.ctx.listByName(listName);

@@ -42,6 +42,14 @@ FrontendMessage.singularExpChanged = function (sgSymbol, exp) {
 	return fm;
 };
 
+FrontendMessage.singularChanged = function (oldSymbol, sgNewName, sgExp) {
+	var fm = new FrontendMessage("singularChanged");
+	fm.oldSymbol = oldSymbol;
+	fm.newName = sgNewName;
+	fm.exp = sgExp;
+	return fm;
+};
+
 FrontendMessage.rowAdded = function (listName) {
 	var fm = new FrontendMessage("rowAdded");
 	fm.listName = listName;

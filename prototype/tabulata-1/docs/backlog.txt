@@ -1,7 +1,9 @@
+
 DONE
 
 edit singular
 add row -- to backend and frontend
+add singleton -- to backend and frontend
 
 ------------------------------------------------------------------------------------------
 
@@ -16,7 +18,6 @@ extend grammar: a-b , floating point numbers
 PHASE 0) essential functionality
 
 add column -- to backend
-add singleton -- to backend
 
 edit column expression
 
