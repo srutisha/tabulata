@@ -4,6 +4,8 @@ DONE
 edit singular
 add row -- to backend and frontend
 add singleton -- to backend and frontend
+use singular in column expression
+
 
 ------------------------------------------------------------------------------------------
 
@@ -34,8 +36,6 @@ control for dates
 control for booleans
 
 infer column width
-
-use singular in column expression
 
 PHASE 1) ui chrome
 

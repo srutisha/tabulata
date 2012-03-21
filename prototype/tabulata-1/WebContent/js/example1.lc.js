@@ -26,6 +26,9 @@ block = {
 		name : 'Spent On Done Total',
 		value : 'Tasks.HoursSpentTotal.select(Tasks.Done == {true}).sum'
 	}, {
+		name : 'Salary Per Hour Intern',
+		value : '15'
+	}, {
 		name : 'Total',
 		value : 'Tasks.count'
 	} ],
@@ -45,6 +48,10 @@ block = {
 		    {
 		    	name: 'Hours Spent Intern',
 		    	values: [5, 4, 3, 2]
+		    },
+		    {
+		    	name: 'Salary Intern',
+		    	valueFunction: 'HoursSpentIntern * SalaryPerHourIntern'
 		    },
 		    {
 		    	name: 'Hours Spent Extern',

@@ -46,6 +46,10 @@ input[type=button] {
 	background: #dfd;
 }
 
+.inp-key {
+	width: 15em;
+}
+
 .inp-value {
 	width: 30em;
 }

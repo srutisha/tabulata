@@ -227,6 +227,9 @@ ExpressionEvaluator.prototype.handleIdentifier = function (ac, name, param) {
 		if (this.ctx.columnByListAndName(ac.list.name(), name)) {
 			var col = this.ctx.columnByListAndName(ac.list.name(), name);
 			return col.symbol() +".$V(idx)";
+		} else if (this.ctx.singularByName(name) != undefined) {
+			var sg = this.ctx.singularByName(name);
+			return sg.symbol()+".$V()";
 		} else if (name === "count") {
 			return ac.list.symbol()+".$_count()";
 		} else throw Error("List column not known: "+name);
