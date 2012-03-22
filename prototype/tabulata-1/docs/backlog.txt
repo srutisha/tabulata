@@ -9,6 +9,8 @@ extend grammar: a-b , floating point numbers
 edit column expression
 solved issue: race condition singular update (".." will become the expression, the actual expression is lost)
 -> was actually a problem with re-attaching already existing events. now us on() and selector for proper event handling, without having to reattach them.
+edit pane
+rename singular
 
 
 ------------------------------------------------------------------------------------------
@@ -21,25 +23,32 @@ grammar: )_*_3 doesn't parse (whitespace after closed bracked)
 ------------------------------------------------------------------------------------------
 
 
-PHASE 0) essential functionality
+PHASE 0) essential functionality --- ready for 5 minutes tablet demo
 
-add column -- to backend
+add column (to left/right of existing column)
 
-edit pane
+set column type (values / expression)
+
+tablet usability
+ - tap button optimization (remove the 300ms delay)
+ - scrolling/zooming
+ - keyboard handling
+
+
++ data type boolean as a demonstration (the really simplest case)
+
+------------------------------------------------------------------------------------------
+
+PHASE ?) data types
 
 handle dates
 handle booleans
-
-rename singular
-rename column
 
 infer data type
 control for dates
 control for booleans
 
-infer column width
-
-
+------------------------------------------------------------------------------------------
 
 PHASE 1) ui chrome
 
@@ -47,22 +56,22 @@ editing: let user touch-select columns or singulars
 editing: add columns/rows: count pushes, then do. show number of pushes.
 
 swipe gestures
-tap button optimization (remove the 300ms delay)
 
-column context functions (move/insert left/right)
-
+------------------------------------------------------------------------------------------
 
 PHASE 2) more functionality
 
-more than 1 list per block
+rename column
 
+infer column width
+
+more than 1 list per block
+column defaults / series (-> aggregation table?)
 aggregation list
 
 show more than 1 block
 
-column defaults / series (-> aggregation table?)
-
-columns rows singulars gui functions:
+(columns rows singulars) gui functions:
 resize 
 reorder 
 delete
