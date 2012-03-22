@@ -115,6 +115,10 @@ function attachEvents() {
 	$("input").on("focus", function (event) {
 		EditPane.focusEvent(event);
 	});
+	
+	$("#pane-apply").on("click", function (event) {
+		EditPane.dismissPane();
+	});
 };
 
 handleSingularNameChangedEvent = function (event) {
