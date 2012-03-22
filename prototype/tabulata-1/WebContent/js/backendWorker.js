@@ -18,6 +18,9 @@ onmessage = function(message) {
 		var target = message.data.colRowSymbol.split("_");
 		var col = engine.ctx.columnByListAndName(target[1], target[2]);
 		col.updateValue(target[3], message.data.value);
+	} else if (message.data.eventName == "columnValueFunctionChanged") {
+		var col = engine.ctx.columnByListAndName(message.data.listName, message.data.columnName);
+		col.updateValueFunction(message.data.value);
 	} else if (message.data.eventName == "singularExpChanged") {
 		var sgName = message.data.sgSymbol.split(/_/)[1];
 		var exp = message.data.exp;

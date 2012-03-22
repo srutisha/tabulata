@@ -108,6 +108,32 @@ function attachEvents() {
 		}
 	});
 	
+	$(".inp-cal").focus(function (event) {
+		var idParts = event.target.id.split(/_/);
+		var exp = $("#"+Symbols.columnRowSymbol(idParts[1], idParts[2], "H")).data("exp");
+		var editField = $("#pane-value-function");
+		$(editField).data("listName", idParts[1]);
+		$(editField).data("columnName", idParts[2]);
+		editField.val(exp);
+		
+		$("#pane").toggle(true);
+		
+		editField.focus();
+//		setCursor(editField[0], 0);
+	});
+	
+	$("#pane-value-function").focusout(function (event) {
+		var exp = event.target.value;
+		var d = $(event.target).data();
+		
+		$("#"+Symbols.columnRowSymbol(d.listName, d.columnName, "H")).data("exp", exp);
+
+
+		$("#pane").toggle(false);
+		
+		ef.sendEvent(FrontendMessage.columnValueFunctionChanged(d.listName, d.columnName, exp));
+	});
+	
 };
 
 handleSingularNameChangedEvent = function (event) {
@@ -135,6 +161,21 @@ function td(txt) {
 function th(txt) {
 	if (txt == undefined) txt = "";
 	return "<th>" + txt + "</th>";
+}
+
+function oth(elem) {
+	return crelem("th", elem);
+}
+
+function otr(elem) {
+	return crelem("tr", elem);
+}
+
+function crelem(name, inside) {
+	var elem = document.createElement(name);
+	if (inside != undefined)
+		$(elem).append(inside);
+	return elem;	
 }
 
 function tr(txt) {
@@ -195,7 +236,7 @@ function SingularControl() {
 	};
 	
 	this.createAddButton = function () {
-		return "<input class='input-button' id='scAddRow' type='button' value='+' onClick='sc.addRow(this)' />";
+		return "<input class='input-button add-button' id='scAddRow' type='button' value='+' onClick='sc.addRow(this)' />";
 	};
 	
 	this.infoText = function () {
@@ -219,7 +260,7 @@ function ListControl() {
 	var _list = new Array();
 	
 	this.build = function () {
-		$("#mtbl").append(tr(th(this.createHeaderField())+th()));
+		$("#mtbl").append(tr(th(this.createHeaderField(""))+th()));
 		
 		$("#mtbl").append(tr(td(this.createInputField())+td(this.createAddColumnButton()))+
 				tr(td(this.createAddRowButton())+td()));
@@ -242,12 +283,14 @@ function ListControl() {
 	this.init = function (list) {
 		_list = list;
 		$("#mtbl").html("");
-		var c = "";
+		
+		var headers = new Array();
+		
 		list.columns.forEach(function (col) {
-			c += th(self.createHeaderField(col.name));
+			headers.push(oth(self.createHeaderField(list.name, col)));
 		});
-		c += th();
-		$("#mtbl").append(tr(c));
+
+		$("#mtbl").append(otr(headers));
 		
 		for (var row=0; row<list.numRows; row++) {
 			c = "";
@@ -279,9 +322,23 @@ function ListControl() {
 		return "<input class='"+cls+"' id = '"+id+"' value = '"+value+"'/>";
 	};
 	
-	this.createHeaderField = function(value) {
-		if (value == undefined) value = "";
-		return "<input class='hed-act' value = '"+value+"'/>";
+	this.createHeaderField = function(listName, col) {
+		//TODO kludge for empty creation
+		if (col == undefined) {
+			return "<input class='hed-act' value = ''/>";	
+		}
+		
+		if (col.values) {
+			return "<input class='hed-act' value = '"+col.name+"'/>";
+		}
+		
+		var hi = document.createElement("input");
+		hi.className = 'hed-act';
+		hi.value = col.name;
+		hi.id = Symbols.columnRowSymbol(listName, col.name, "H");
+		hi.dataset.exp = col.valueFunction;
+		
+		return hi;
 	};
 	
 	this.createAddRowButton = function() {
@@ -293,7 +350,7 @@ function ListControl() {
 	};
 	
 	this.createAddButton = function(id, callFn) {
-		return "<input id='"+id+"' type='button' value='+' onClick='lc."+callFn+"(this)' />";
+		return "<input id='"+id+"' class='add-button' type='button' value='+' onClick='lc."+callFn+"(this)' />";
 	};
 	
 	this.addRow = function(button) {

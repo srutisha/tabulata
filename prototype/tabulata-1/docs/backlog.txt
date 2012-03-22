@@ -5,13 +5,15 @@ edit singular
 add row -- to backend and frontend
 add singleton -- to backend and frontend
 use singular in column expression
-
 extend grammar: a-b , floating point numbers
+edit column expression
+
 
 ------------------------------------------------------------------------------------------
 
 ISSUES
 
+race condition singular update (".." will become the expression, the actual expression is lost)
 
 ------------------------------------------------------------------------------------------
 
@@ -19,8 +21,6 @@ ISSUES
 PHASE 0) essential functionality
 
 add column -- to backend
-
-edit column expression
 
 edit pane
 
@@ -44,6 +44,7 @@ editing: let user touch-select columns or singulars
 editing: add columns/rows: count pushes, then do. show number of pushes.
 
 swipe gestures
+tap button optimization (remove the 300ms delay)
 
 column context functions (move/insert left/right)
 

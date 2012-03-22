@@ -419,6 +419,10 @@ function Column(ctx, list, content) {
 		}
 	};
 	
+	this.updateValueFunction = function (fn) {
+		content.valueFunction = fn;
+	};
+	
 	this.addRow = function () {
 		if (isData) {
 			content.values.push("");

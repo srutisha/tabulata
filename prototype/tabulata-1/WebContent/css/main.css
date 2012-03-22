@@ -18,7 +18,7 @@ input {
 }
 
 input:focus {
-	border-color:
+	border-color: #e55;
 }
 
 table {
@@ -28,7 +28,22 @@ table {
 input[type=button] {
 	padding:2px;
 	background:#ddd;
-	width:1.5em;
+}
+
+
+.pane-gui-element input  {
+	width: 240px;
+	border: outset 1px;
+	font-size:11pt;
+}
+
+.pane-button  {
+	width:100px;
+}
+
+.add-button {
+		width:1.5em;
+	
 }
 
 #info {
@@ -67,3 +82,22 @@ input[type=button] {
 	font-color:black;
 	background:white;
 }
+
+#pane {
+	position: fixed;
+	top: 70px;
+	right:20px;
+	width:250px;
+	border: 2px #555;
+	border: inset 2px;
+	border-radius: 3px/2px;
+	background: #eee;
+	font-color:#333;
+	padding:5px;
+	font-size:11pt;
+	display:none;
+}
+
+
+
+
