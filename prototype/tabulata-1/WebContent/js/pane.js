@@ -1,12 +1,9 @@
 
 
 function EditPane () {
-	
 };
 
 EditPane.visible = false;
-
-EditPane.switchEventOn = false;
 
 EditPane.dismissPane = function () {
 	var elem = $("#pane-value-function");
@@ -41,7 +38,6 @@ EditPane.showPaneEvent = function(event) {
 
 EditPane.show = function () {
 	EditPane.visible = true;
-	EditPane.switchEventOn = true;
 };
 
 EditPane.hide = function () {
@@ -50,13 +46,10 @@ EditPane.hide = function () {
 
 
 EditPane.focusEvent = function (event) {
+	console.log("focus event");
+	console.log(event);
 	if (! EditPane.visible) return;
-	
-	if (EditPane.switchEventOn) {
-		EditPane.switchEventOn = false;
-		return;
-	}
-	
+
 	if ($(event.target).closest("#pane").length>0) {
 		return;
 	}

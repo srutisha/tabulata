@@ -112,7 +112,7 @@ function attachEvents() {
 		EditPane.showPaneEvent(event);
 	});
 
-	$("input").on("focus", function (event) {
+	$("#mtbl,#stbl").on("focus", "input", function (event) {
 		EditPane.focusEvent(event);
 	});
 	
