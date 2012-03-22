@@ -91,6 +91,17 @@ function Context() {
 		singulars.splice(delIdx, 1);
 	};
 	
+	this.removeColumn = function (col) {
+		self[col.symbol()] = undefined;
+		var delIdx = -1;
+		for (var i=0; i<columns.length; i++) {
+			if (columns[i] === col) {
+				delIdx = i;
+			}
+		}
+		columns.splice(delIdx, 1);
+	};
+	
 	this.addList = function (listData) {
 		var list = new List(self, listData);
 		listData.columns.forEach(function (col) {
@@ -395,6 +406,8 @@ ValueColumn.prototype.$_select = function (fn) {
 
 function Column(ctx, list, content) {
 	var self = this;
+	this.ctx = ctx;
+	this.list = list;
 	
 	var isData = content.values != undefined;
 	this.isFunction = content.valueFunction != undefined;
@@ -465,6 +478,10 @@ function Column(ctx, list, content) {
 
 Column.prototype = ValueColumn.prototype;
 
+Column.prototype.replaceWith = function (newColData) {
+	this.ctx.removeColumn(this);
+	this.ctx.addColumn(this.list, newColData);
+};
 
 
 

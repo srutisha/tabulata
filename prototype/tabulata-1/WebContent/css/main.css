@@ -13,8 +13,15 @@ input {
 	font-size: 10pt;
 	border: inset 1px;
 	border-radius: 3px/2px;
-    -webkit-appearance: none;
-	width:7em;
+  	width:7em;
+}
+
+#pane fieldset {
+	width: 220px;
+}
+
+input[type=radio] {
+	width:20px;
 }
 
 input:focus {
@@ -31,7 +38,7 @@ input[type=button] {
 }
 
 
-.pane-gui-element input  {
+.pane-input {
 	width: 240px;
 	border: outset 1px;
 	font-size:11pt;

@@ -109,31 +109,12 @@ function attachEvents() {
 	});
 	
 	$("#mtbl").on("focus", ".inp-cal", function (event) {
-		var idParts = event.target.id.split(/_/);
-		var exp = $("#"+Symbols.columnRowSymbol(idParts[1], idParts[2], "H")).data("exp");
-		var editField = $("#pane-value-function");
-		$(editField).data("listName", idParts[1]);
-		$(editField).data("columnName", idParts[2]);
-		editField.val(exp);
-		
-		$("#pane").toggle(true);
-		
-		editField.focus();
-//		setCursor(editField[0], 0);
+		EditPane.showPaneEvent(event);
 	});
-	
-	$("#pane-value-function").focusout(function (event) {
-		var exp = event.target.value;
-		var d = $(event.target).data();
-		
-		$("#"+Symbols.columnRowSymbol(d.listName, d.columnName, "H")).data("exp", exp);
 
-
-		$("#pane").toggle(false);
-		
-		ef.sendEvent(FrontendMessage.columnValueFunctionChanged(d.listName, d.columnName, exp));
+	$("input").on("focus", function (event) {
+		EditPane.focusEvent(event);
 	});
-	
 };
 
 handleSingularNameChangedEvent = function (event) {
