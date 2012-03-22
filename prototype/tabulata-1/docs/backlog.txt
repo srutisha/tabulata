@@ -7,13 +7,14 @@ add singleton -- to backend and frontend
 use singular in column expression
 extend grammar: a-b , floating point numbers
 edit column expression
+solved issue: race condition singular update (".." will become the expression, the actual expression is lost)
+-> was actually a problem with re-attaching already existing events. now us on() and selector for proper event handling, without having to reattach them.
 
 
 ------------------------------------------------------------------------------------------
 
 ISSUES
 
-race condition singular update (".." will become the expression, the actual expression is lost)
 
 ------------------------------------------------------------------------------------------
 

@@ -80,16 +80,16 @@ function initEmpty() {
 }
 
 function attachEvents() {
-	$(".inp-act").focusout(function (event) {
+	$("#mtbl").on("focusout", ".inp-act", function (event) {
 		ef.handleColumnValueChangeEvent(event);
 	});
 	
-	$(".inp-value").focus(function (event) {
+	$("#stbl").on("focus", ".inp-value", function (event) {
 		$(event.target).data("locked", true);
 		$(event.target).val(event.target.dataset.exp);
 	});
 	
-	$(".inp-value").focusout(function (event) {
+	$("#stbl").on("focusout", ".inp-value", function (event) {
 		var exp = event.target.dataset.exp = $(event.target).val();
 		$(event.target).val("..");
 		$(event.target).data("locked", false);
@@ -97,18 +97,18 @@ function attachEvents() {
 		ef.sendEvent(FrontendMessage.singularExpChanged(event.target.id.substring(2), exp));
 	});
 
-	$(".inp-key").focus(function (event) {
+	$("#stbl").on("focus", ".inp-key", function (event) {
 		$(event.target).data("oldValue", event.target.value);
 	});
 
 	
-	$(".inp-key").focusout(function (event) {
+	$("#stbl").on("focusout", ".inp-key", function (event) {
 		if ($(event.target).data("oldValue") != event.target.value) {
 			handleSingularNameChangedEvent(event);			
 		}
 	});
 	
-	$(".inp-cal").focus(function (event) {
+	$("#mtbl").on("focus", ".inp-cal", function (event) {
 		var idParts = event.target.id.split(/_/);
 		var exp = $("#"+Symbols.columnRowSymbol(idParts[1], idParts[2], "H")).data("exp");
 		var editField = $("#pane-value-function");
@@ -207,7 +207,6 @@ function SingularControl() {
 		$(button).parent().parent().before(this.createRow(this.newCounter++, "", ""));
 		this.size ++;
 		il.update();
-		attachEvents();
 	};
 	
 	this.createRow = function (id, key, value) {
@@ -376,7 +375,6 @@ function ListControl() {
 		
 		dimensions.y ++;
 		
-		attachEvents();
 		ef.sendEvent(FrontendMessage.rowAdded(_list.name));
 		il.update();
 	};
