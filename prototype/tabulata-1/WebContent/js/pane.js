@@ -3,35 +3,76 @@
 function EditPane () {
 };
 
+EditPane.attachEvents = function () {
+	$('.radio-coltype').change(function (event) {
+		$('#pane-edit-expression').toggle(event.target.id == 'radio-coltype-valueFunction');
+		EditPane.showPaneForHeader(EditPane.lastClicked, event.target.id == 'radio-coltype-values');
+		
+	});
+};
+
 EditPane.visible = false;
+EditPane.editField = 0;
+
 
 EditPane.dismissPane = function () {
 	var elem = $("#pane-value-function");
 	var exp = elem.val();
 	var d = elem.data();
+	var newType = $('#radio-coltype-values').attr("checked") ? "values" : "valueFunction";
 	
-	$("#"+Symbols.columnRowSymbol(d.listName, d.columnName, "H")).data("exp", exp);
-
+	if (d.originalType != newType) {
+		lc.changeColumnType(d.listName, d.columnName, newType);
+	}
+	
+	if (newType == "valueFunction") {
+		$("#"+Symbols.columnRowSymbol(d.listName, d.columnName, "H")).data("exp", exp);
+		ef.sendEvent(FrontendMessage.columnValueFunctionChanged(d.listName, d.columnName, exp));
+	} else {
+		if (d.originalType == "valueFunction") {
+			$("#"+Symbols.columnRowSymbol(d.listName, d.columnName, "H")).removeData("exp");
+			delete $("#"+Symbols.columnRowSymbol(d.listName, d.columnName, "H"))[0].dataset["exp"];
+		}
+	}
+	
 	$("#pane").toggle(false);
-	
-	ef.sendEvent(FrontendMessage.columnValueFunctionChanged(d.listName, d.columnName, exp));
-	
 	EditPane.hide();
 };
 
+
 EditPane.showPaneEvent = function(event) {
+	EditPane.lastClicked = event.target;
+	
 	var idParts = event.target.id.split(/_/);
+	
+	EditPane.showPaneForHeader(EditPane.lastClicked, 
+			$("#"+Symbols.columnRowSymbol(idParts[1], idParts[2], "H")).data("exp") == undefined);
+	event.stopImmediatePropagation();
+};
+
+EditPane.showPaneForHeader = function(header, isValues) {
+	EditPane.editField = $("#pane-value-function");
+	var idParts = header.id.split(/_/);
 	var exp = $("#"+Symbols.columnRowSymbol(idParts[1], idParts[2], "H")).data("exp");
-	var editField = $("#pane-value-function");
-	$(editField).data("listName", idParts[1]);
-	$(editField).data("columnName", idParts[2]);
-	editField.val(exp);
+	if (isValues) {
+		// it's a values column
+		$('#radio-coltype-values').attr("checked", true);
+		$('#pane-edit-expression').toggle(false);
+	} else {
+		$('#radio-coltype-valueFunction').attr("checked", true);
+		$('#pane-edit-expression').toggle(true);
+	}
+	
+	$(EditPane.editField).data("originalType", exp == undefined ? "values" : "valueFunction");
+	$(EditPane.editField).data("listName", idParts[1]);
+	$(EditPane.editField).data("columnName", idParts[2]);
+	EditPane.editField.val(exp);
 	
 	$("#pane").toggle(true);
-
-	event.stopImmediatePropagation();
 	
-	editField.focus();
+	if (! isValues) {
+		EditPane.editField.focus();
+	}
 	
 	EditPane.show();
 };

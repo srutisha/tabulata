@@ -497,15 +497,22 @@ Column.changeColumn = function (ctx, listName, oldColumnName, newColumnName, typ
 		// new column
 		ctx.addColumn(ctx.listByName(listName), Column.createColumnData(newColumnName, type));
 	} else {
-		if (type == undefined) {
-			// it's just a name change
-			var col = ctx.columnByListAndName(listName, normalizeName(oldColumnName));
-			var content = col.getContent();
-			content.name = newColumnName;
-			col.replaceWith(content);
-		} else {
-			// TODO
+		var col = ctx.columnByListAndName(listName, normalizeName(oldColumnName));
+		var content = col.getContent();
+		content.name = newColumnName;
+		
+		if (type != undefined) {
+			if (type == "values") {
+				content.valueFunction = undefined;
+				content.values = [];
+			}
+			if (type == "valueFunction") {
+				content.values = undefined;
+				content.valueFunction = "";
+			}
 		}
+		
+		col.replaceWith(content);
 	}
 };
 

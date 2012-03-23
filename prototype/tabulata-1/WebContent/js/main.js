@@ -105,6 +105,8 @@ function initEmpty() {
 	il.update();
 	
 	attachEvents();
+	EditPane.attachEvents();
+	
 	
 	ef = new EngineFront();
 	ef.sendEvent(FrontendMessage.initWithBlock(block));
@@ -143,7 +145,7 @@ function attachEvents() {
 		}
 	});
 	
-	$("#mtbl").on("focus", ".inp-cal", function (event) {
+	$("#mtbl").on("focus", ".inp-cal, .hed-act", function (event) {
 		EditPane.showPaneEvent(event);
 	});
 
@@ -438,6 +440,20 @@ function ListControl() {
 		dimensions.x ++;
 		newCounter ++;
 		il.update();
+	};
+	
+	this.changeColumnType = function (listName, columnName, type) {
+		var newClass = '';
+		if (type == "valueFunction") newClass = 'inp-cal';
+		if (type == "values") newClass = 'inp-act';
+		var i = 0;
+		var col;
+		while ((col=$('#'+Symbols.columnRowSymbol(listName, columnName, ""+i))).length > 0) {
+			col.attr("class", newClass);
+			col.val("");
+			i++;
+		}
+		ef.sendEvent(FrontendMessage.columnChanged(listName, columnName, columnName, type));
 	};
 	
 	

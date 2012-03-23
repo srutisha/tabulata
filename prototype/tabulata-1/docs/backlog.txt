@@ -11,6 +11,8 @@ solved issue: race condition singular update (".." will become the expression, t
 -> was actually a problem with re-attaching already existing events. now us on() and selector for proper event handling, without having to reattach them.
 edit pane
 rename singular
+add column to the right of last column
+set column type (values / expression)
 
 
 ------------------------------------------------------------------------------------------
@@ -24,10 +26,6 @@ grammar: )_*_3 doesn't parse (whitespace after closed bracked)
 
 
 PHASE 0) essential functionality --- ready for 5 minutes tablet demo
-
-add column (to left/right of existing column)
-
-set column type (values / expression)
 
 tablet usability
  - tap button optimization (remove the 300ms delay)
@@ -51,6 +49,8 @@ control for booleans
 ------------------------------------------------------------------------------------------
 
 PHASE 1) ui chrome
+
+add column (to left/right of existing column)
 
 editing: let user touch-select columns or singulars
 editing: add columns/rows: count pushes, then do. show number of pushes.
