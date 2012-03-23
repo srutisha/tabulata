@@ -418,8 +418,17 @@ function Column(ctx, list, content) {
 		return list.name();
 	};
 	
+	//TODO NOT GOOD!! BAD PROGRAMMER!
+	this.getContent = function () {
+		return content;
+	};
+	
 	this.symbol = function () {
 		return Symbols.columnSymbol(list.name(),self.name());
+	};
+	
+	this.setName = function (name) {
+		content.name = name;
 	};
 	
 	this.name = function () {
@@ -481,6 +490,32 @@ Column.prototype = ValueColumn.prototype;
 Column.prototype.replaceWith = function (newColData) {
 	this.ctx.removeColumn(this);
 	this.ctx.addColumn(this.list, newColData);
+};
+
+Column.changeColumn = function (ctx, listName, oldColumnName, newColumnName, type) {
+	if (oldColumnName == undefined) {
+		// new column
+		ctx.addColumn(ctx.listByName(listName), Column.createColumnData(newColumnName, type));
+	} else {
+		if (type == undefined) {
+			// it's just a name change
+			var col = ctx.columnByListAndName(listName, normalizeName(oldColumnName));
+			var content = col.getContent();
+			content.name = newColumnName;
+			col.replaceWith(content);
+		} else {
+			// TODO
+		}
+	}
+};
+
+Column.createColumnData = function (name, type) {
+	if (type == "valueFunction") {
+		return {name: name, valueFunction: ""};
+	} else {
+		// default should be values
+		return {name: name, values: []};
+	}
 };
 
 

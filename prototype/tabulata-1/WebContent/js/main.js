@@ -61,6 +61,35 @@ EngineFront.prototype.handleColumnValueChangeEvent = function (event) {
 	this.sendEvent(FrontendMessage.columnValueChanged(event.target.id, event.target.value));
 };
 
+EngineFront.prototype.handleColumnHeaderChangeEvent = function (event) {
+	var idp = event.target.id.split(/_/);
+	var listName = idp[1];
+	var oldColumnSymbol = idp[2];
+	var oldColumnName = $(event.target).data("name");
+	var newName = event.target.value;
+	
+	$(event.target).data("name", newName);
+	
+	EngineFront.renameColumnIds(listName, oldColumnSymbol, newName);
+		
+	this.sendEvent(FrontendMessage.columnChanged(listName, oldColumnName, newName));
+
+	// TODO this should not be here
+	if (oldColumnName == undefined) oldColumnName = oldColumnSymbol;
+	lc.changeColumnName(oldColumnName, newName);
+};
+
+EngineFront.renameColumnIds = function (listName, oldColumnSymbol, newName) {
+	$("#"+Symbols.columnRowSymbol(listName, oldColumnSymbol, "H")).attr("id", Symbols.columnRowSymbol(listName, newName, "H"));
+	
+	var i = 0;
+	var col;
+	while ((col = $("#"+Symbols.columnRowSymbol(listName, oldColumnSymbol, i))).length > 0) {
+		col.attr("id", Symbols.columnRowSymbol(listName, newName, i++));
+	}
+	
+};
+
 function initEmpty() {
 	sc = new SingularControl();
 	sc.build();
@@ -82,6 +111,10 @@ function initEmpty() {
 function attachEvents() {
 	$("#mtbl").on("focusout", ".inp-act", function (event) {
 		ef.handleColumnValueChangeEvent(event);
+	});
+
+	$("#mtbl").on("focusout", ".hed-act", function (event) {
+		ef.handleColumnHeaderChangeEvent(event);
 	});
 	
 	$("#stbl").on("focus", ".inp-value", function (event) {
@@ -245,6 +278,15 @@ function ListControl() {
 	
 	var newCounter = 0;
 	
+	// TODO this is ugly
+	this.changeColumnName = function (oldName, newName) {
+		_list.columns.forEach(function(col) {
+			if (col.name == oldName) {
+				col.name = newName;
+			}
+		});
+	};
+	
 	this.build = function () {
 		$("#mtbl").append(tr(th(this.createHeaderField(""))+th()));
 		
@@ -321,6 +363,8 @@ function ListControl() {
 			hi.value = col.name;
 			hi.id = Symbols.columnRowSymbol(listName, col.name, "H");
 			
+			$(hi).data("name", col.name);
+			
 			if (col.valueFunction) {
 				hi.dataset.exp = col.valueFunction;
 			}
@@ -344,7 +388,7 @@ function ListControl() {
 	this.addRow = function(button) {
 		var tr = $(button).parent().parent().get(0);
 		
-		$(tr).children().each(function(index){
+		$(tr).children().each(function(index, elem){
 			if (index == dimensions.x) {
 				// last cell
 				$(this).html("");

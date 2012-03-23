@@ -45,6 +45,18 @@ FrontendMessage.columnValueFunctionChanged = function (listName, columName, valu
 	return fm;
 };
 
+FrontendMessage.columnChanged = function (listName, oldColumnName, newColumnName, type) {
+	var fm = new FrontendMessage("columnChanged");
+	
+	fm.listName = listName;
+	fm.oldColumnName = oldColumnName;
+	fm.newColumnName = newColumnName;
+	
+	fm.type = type;
+	
+	return fm;
+};
+
 FrontendMessage.singularExpChanged = function (sgSymbol, exp) {
 	var fm = new FrontendMessage("singularExpChanged");
 	fm.sgSymbol = sgSymbol;
