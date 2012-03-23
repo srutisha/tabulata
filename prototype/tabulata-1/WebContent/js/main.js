@@ -243,6 +243,8 @@ function ListControl() {
 	
 	var _list = new Array();
 	
+	var newCounter = 0;
+	
 	this.build = function () {
 		$("#mtbl").append(tr(th(this.createHeaderField(""))+th()));
 		
@@ -274,6 +276,8 @@ function ListControl() {
 			headers.push(oth(self.createHeaderField(list.name, col)));
 		});
 
+		headers.push(oth());
+
 		$("#mtbl").append(otr(headers));
 		
 		for (var row=0; row<list.numRows; row++) {
@@ -291,7 +295,7 @@ function ListControl() {
 		c = "";
 		
 		c += td(self.createAddRowButton());
-		for (var col=1; col<list.columns.length; col++) {
+		for (var col=1; col<list.columns.length+1; col++) {
 			c += td();
 		}
 		$("#mtbl").append(tr(c));
@@ -307,20 +311,20 @@ function ListControl() {
 	};
 	
 	this.createHeaderField = function(listName, col) {
-		//TODO kludge for empty creation
-		if (col == undefined) {
-			return "<input class='hed-act' value = ''/>";	
-		}
-		
-		if (col.values) {
-			return "<input class='hed-act' value = '"+col.name+"'/>";
-		}
 		
 		var hi = document.createElement("input");
 		hi.className = 'hed-act';
-		hi.value = col.name;
-		hi.id = Symbols.columnRowSymbol(listName, col.name, "H");
-		hi.dataset.exp = col.valueFunction;
+
+		if (col == undefined) {
+			hi.id = Symbols.columnRowSymbol(listName, "" + newCounter, "H");
+		} else {
+			hi.value = col.name;
+			hi.id = Symbols.columnRowSymbol(listName, col.name, "H");
+			
+			if (col.valueFunction) {
+				hi.dataset.exp = col.valueFunction;
+			}
+		}
 		
 		return hi;
 	};
@@ -367,23 +371,26 @@ function ListControl() {
 	this.addColumn = function(button) {
 		var tr = $(button).parent().parent().get(0);
 		
-		$(button).replaceWith(this.createInputField());
+		$(button).replaceWith(this.createInputField(Symbols.columnRowSymbol(_list.name, ""+newCounter, "0")));
 		$(tr).append(td(this.createAddColumnButton()));
 		
 		var hr = $(tr).siblings().first();
-		$(hr).children().last().html(this.createHeaderField());
+		$(hr).children().last().html(this.createHeaderField(_list.name));
 		$(hr).append(th(""));
 		
 		var cr = tr;
 		for (var i=1; i<dimensions.y; i++) {
 			cr = $(cr).next();
-			$(cr).children().last().html(this.createInputField());
+			$(cr).children().last().html(this.createInputField(Symbols.columnRowSymbol(_list.name, ""+newCounter, ""+i)));
 			$(cr).append(td(""));
 		}
 		
 		$(cr).next().append(td(""));
 		
+		_list.columns[dimensions.x] = {name: ""+newCounter, values: []};
+		
 		dimensions.x ++;
+		newCounter ++;
 		il.update();
 	};
 	
