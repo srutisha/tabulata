@@ -21,6 +21,9 @@ ISSUES
 
 grammar: )_*_3 doesn't parse (whitespace after closed bracked)
 
+use dom manipulation instead of html creation
+
+only use jq data() , remove plain dataset access
 
 ------------------------------------------------------------------------------------------
 
