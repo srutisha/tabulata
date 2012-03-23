@@ -68,6 +68,8 @@ EngineFront.prototype.handleColumnHeaderChangeEvent = function (event) {
 	var oldColumnName = $(event.target).data("name");
 	var newName = event.target.value;
 	
+	if (oldColumnName == newName) return;
+	
 	$(event.target).data("name", newName);
 	
 	EngineFront.renameColumnIds(listName, oldColumnSymbol, newName);
