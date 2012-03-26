@@ -69,6 +69,11 @@ EngineFront.prototype.handleColumnHeaderChangeEvent = function (event) {
 	var newName = event.target.value;
 	
 	if (oldColumnName == newName) return;
+	if (newName == "") {
+		// don't allow setting a column name to blank.
+		event.target.value = oldColumnName;
+		return;
+	};
 	
 	$(event.target).data("name", newName);
 	

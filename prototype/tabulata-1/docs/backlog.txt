@@ -15,7 +15,6 @@ add column to the right of last column
 set column type (values / expression)
 use dom manipulation instead of html creation
 
-
 ------------------------------------------------------------------------------------------
 
 ISSUES
@@ -23,8 +22,6 @@ ISSUES
 grammar: )_*_3 doesn't parse (whitespace after closed bracked)
 
 only use jq data() , remove plain dataset access
-
-when updating column title, don't update if the title is empty (leave temporary id)
 
 ------------------------------------------------------------------------------------------
 
