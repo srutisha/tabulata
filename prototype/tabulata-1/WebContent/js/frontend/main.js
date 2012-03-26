@@ -10,7 +10,7 @@ $(document).ready(function () {
 
 function EngineFront() {
 	var self = this;
-	this.worker = new Worker("js/backendWorker.js");
+	this.worker = new Worker("js/backend/backendWorker.js");
 	
 	this.worker.onmessage = function(event) {
 		self.messageHandler(event);

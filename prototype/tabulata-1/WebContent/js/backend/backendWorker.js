@@ -1,5 +1,5 @@
 
-importScripts('engine.js', 'common.js', 'engineMessage.js', 'parser.js');
+importScripts('engine.js', 'interface/common.js', 'interface/engineMessage.js', '../lib/parser.js');
 
 var engine;
 
