@@ -121,6 +121,14 @@ function attachEvents() {
 		ef.handleColumnHeaderChangeEvent(event);
 	});
 	
+	$("#mtbl").on("click", "#lcAddRowButton", function (event) {
+		lc.addRow(event.target);
+	});
+
+	$("#mtbl").on("click", "#lcAddColumnButton", function (event) {
+		lc.addColumn(event.target);
+	});
+	
 	$("#stbl").on("focus", ".inp-value", function (event) {
 		$(event.target).data("locked", true);
 		$(event.target).val(event.target.dataset.exp);
@@ -143,6 +151,10 @@ function attachEvents() {
 		if ($(event.target).data("oldValue") != event.target.value) {
 			handleSingularNameChangedEvent(event);			
 		}
+	});
+
+	$("#stbl").on("click", "#scAddRow", function (event) {
+		sc.addRow(event.target);
 	});
 	
 	$("#mtbl").on("focus", ".inp-cal, .hed-act", function (event) {
@@ -174,35 +186,37 @@ handleSingularNameChangedEvent = function (event) {
 	ef.sendEvent(FrontendMessage.singularChanged(oldSymbol, name, undefined));
 };
 
-
-function td(txt) {
-	if (txt == undefined) txt = "";
-	return "<td>" + txt + "</td>";
+function html() {
+	
 }
 
-function th(txt) {
-	if (txt == undefined) txt = "";
-	return "<th>" + txt + "</th>";
-}
+html.td = function(elem) {
+	return html.crelem("td", elem);
+};
 
-function oth(elem) {
-	return crelem("th", elem);
-}
+html.tr = function(elem) {
+	return html.crelem("tr", elem);
+};
 
-function otr(elem) {
-	return crelem("tr", elem);
-}
+html.th = function(elem) {
+	return html.crelem("th", elem);
+};
 
-function crelem(name, inside) {
+
+html.input = function (id, className, value) {
+	var e = document.createElement("input");
+	e.className = className;
+	e.id = id;
+	e.value = value;
+	return e;
+};
+
+html.crelem = function (name, inside) {
 	var elem = document.createElement(name);
 	if (inside != undefined)
 		$(elem).append(inside);
 	return elem;	
-}
-
-function tr(txt) {
-	return "<tr>" + txt + "</tr>";
-}
+};
 
 function loadExample() {
 	new LoadControls().load(block);
@@ -222,7 +236,7 @@ function SingularControl() {
 	this.newCounter = 0;
 	
 	this.build = function () {
-		$("#stbl").append(tr(td(this.createAddButton())+td()));
+		$("#stbl").append(html.tr([html.td(this.createAddButton()), html.td()]));
 	};
 	
 	this.addRow = function (button) {
@@ -232,7 +246,8 @@ function SingularControl() {
 	};
 	
 	this.createRow = function (id, key, value) {
-		return tr(td(this.createInputFieldKey(id, key)) + td(this.createInputFieldValue(id, value)));
+		var tdcont = [html.td(this.createInputFieldKey(id, key)), html.td(this.createInputFieldValue(id, value))];
+		return html.tr(tdcont);
 	};
 	
 	this.init = function (singulars) {
@@ -248,16 +263,20 @@ function SingularControl() {
 	
 	this.createInputFieldKey = function(symbol, key) {
 		if (key == undefined) key = "";
-		return "<input class='inp-key' id = '"+SingularControl.keyId(symbol)+"' value = '"+key+"'/>";
+		return html.input(SingularControl.keyId(symbol), 'inp-key', key);
 	};
 	
 	this.createInputFieldValue = function(symbol, value) {
 		if (value == undefined) value = "";
-		return "<input class='inp-value' id = '"+SingularControl.valueId(symbol)+"' data-exp = '"+value+"' value = '"+value+"'/>";
+		var e = html.input (SingularControl.valueId(symbol), 'inp-value', value);
+		e.dataset.exp = value;
+		return e;
 	};
 	
 	this.createAddButton = function () {
-		return "<input class='input-button add-button' id='scAddRow' type='button' value='+' onClick='sc.addRow(this)' />";
+		var e = html.input('scAddRow', 'input-button add-button', '+');
+		e.type = 'button';
+		return e;
 	};
 	
 	this.infoText = function () {
@@ -292,21 +311,21 @@ function ListControl() {
 	};
 	
 	this.build = function () {
-		$("#mtbl").append(tr(th(this.createHeaderField(""))+th()));
+		$("#mtbl").append(html.tr([html.th(this.createHeaderField("")), html.th()]));
 		
-		$("#mtbl").append(tr(td(this.createInputField())+td(this.createAddColumnButton()))+
-				tr(td(this.createAddRowButton())+td()));
+		$("#mtbl").append([html.tr([html.td(this.createInputField()), html.td(this.createAddColumnButton())]),
+				html.tr([html.td(this.createAddRowButton()), html.td()])]);
 	};
 	
 	var createFieldNode = function (listName, col, row) {
 		var id = Symbols.columnRowSymbol(listName, col.name, row);
 		if (col.values) {
-			return td(self.createInputField(id, "inp-act", col.values[row]));
+			return html.td(self.createInputField(id, "inp-act", col.values[row]));
 		} else {
 			if (row == 0) {
-				return td(self.createInputField(id, "inp-cal", col.valueFunction));
+				return html.td(self.createInputField(id, "inp-cal", col.valueFunction));
 			} else {
-				return td(self.createInputField(id, "inp-cal", ""));
+				return html.td(self.createInputField(id, "inp-cal", ""));
 				//TODO: column.valueFunction
 			}
 		}
@@ -319,32 +338,38 @@ function ListControl() {
 		var headers = new Array();
 		
 		list.columns.forEach(function (col) {
-			headers.push(oth(self.createHeaderField(list.name, col)));
+			headers.push(html.th(self.createHeaderField(list.name, col)));
 		});
 
-		headers.push(oth());
+		headers.push(html.th());
 
-		$("#mtbl").append(otr(headers));
+		$("#mtbl").append(html.tr(headers));
+		
 		
 		for (var row=0; row<list.numRows; row++) {
-			c = "";
+			var c = new Array();
+
 			list.columns.forEach(function (col) {
-				 c += createFieldNode(list.name, col, row);
+				 c.push(createFieldNode(list.name, col, row));
 			});
+			
 			if (row==0) {
-				c += td(self.createAddColumnButton());
+				c.push(html.td(self.createAddColumnButton()));
 			} else {
-				c += td();
+				c.push(html.td());
 			}
-			$("#mtbl").append(tr(c));
+			
+			$("#mtbl").append(html.tr(c));
 		}
-		c = "";
+
+		var footer = new Array();
 		
-		c += td(self.createAddRowButton());
+		footer.push(html.td(self.createAddRowButton()));
 		for (var col=1; col<list.columns.length+1; col++) {
-			c += td();
+			footer.push(html.td());
 		}
-		$("#mtbl").append(tr(c));
+		
+		$("#mtbl").append(html.tr(footer));
 		
 		dimensions.x = list.columns.length;
 		dimensions.y = list.numRows;
@@ -353,11 +378,10 @@ function ListControl() {
 	this.createInputField = function(id, cls, value) {
 		if (value == undefined) value = "";
 		if (cls == undefined) cls = "inp-act";
-		return "<input class='"+cls+"' id = '"+id+"' value = '"+value+"'/>";
+		return html.input(id, cls, value);
 	};
 	
 	this.createHeaderField = function(listName, col) {
-		
 		var hi = document.createElement("input");
 		hi.className = 'hed-act';
 
@@ -378,15 +402,17 @@ function ListControl() {
 	};
 	
 	this.createAddRowButton = function() {
-		return this.createAddButton("lcAddRowButton", "addRow");
+		return this.createAddButton("lcAddRowButton");
 	};
 	
 	this.createAddColumnButton = function() {
-		return this.createAddButton("lcAddColumnButton", "addColumn");
+		return this.createAddButton("lcAddColumnButton");
 	};
 	
-	this.createAddButton = function(id, callFn) {
-		return "<input id='"+id+"' class='add-button' type='button' value='+' onClick='lc."+callFn+"(this)' />";
+	this.createAddButton = function(id) {
+		var e = html.input(id, 'add-button', '+');
+		e.type = 'button';
+		return e;
 	};
 	
 	this.addRow = function(button) {
@@ -395,20 +421,21 @@ function ListControl() {
 		$(tr).children().each(function(index, elem){
 			if (index == dimensions.x) {
 				// last cell
-				$(this).html("");
+				$(this).empty();
 			} else {
-				$(this).html(createFieldNode(_list.name, _list.columns[index], _list.numRows));
+				$(this).replaceWith(createFieldNode(_list.name, _list.columns[index], _list.numRows));
 			}
 		});
 		
 		_list.numRows++;
 
-		$(tr).parent().append("<tr></tr>");
-		var newrow = $(tr).next();
-		newrow.append(td(this.createAddRowButton()));
+		var newrow = new Array();
+		newrow.push(html.td(this.createAddRowButton()));
 		for (var i = 0; i<dimensions.x; i++) {
-			newrow.append(td(""));
+			newrow.push(html.td());
 		}
+
+		$(tr).after(html.tr(newrow));
 		
 		dimensions.y ++;
 		
@@ -420,20 +447,20 @@ function ListControl() {
 		var tr = $(button).parent().parent().get(0);
 		
 		$(button).replaceWith(this.createInputField(Symbols.columnRowSymbol(_list.name, ""+newCounter, "0")));
-		$(tr).append(td(this.createAddColumnButton()));
+		$(tr).append(html.td(this.createAddColumnButton()));
 		
 		var hr = $(tr).siblings().first();
-		$(hr).children().last().html(this.createHeaderField(_list.name));
-		$(hr).append(th(""));
+		$(hr).children().last().append(this.createHeaderField(_list.name));
+		$(hr).append(html.th());
 		
 		var cr = tr;
 		for (var i=1; i<dimensions.y; i++) {
 			cr = $(cr).next();
-			$(cr).children().last().html(this.createInputField(Symbols.columnRowSymbol(_list.name, ""+newCounter, ""+i)));
-			$(cr).append(td(""));
+			$(cr).children().last().append(this.createInputField(Symbols.columnRowSymbol(_list.name, ""+newCounter, ""+i)));
+			$(cr).append(html.td());
 		}
 		
-		$(cr).next().append(td(""));
+		$(cr).next().append(html.td());
 		
 		_list.columns[dimensions.x] = {name: ""+newCounter, values: []};
 		
