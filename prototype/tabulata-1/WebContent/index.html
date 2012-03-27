@@ -6,14 +6,14 @@
 <meta name="apple-mobile-web-app-capable"
       content="yes" />
 <meta name="viewport"
-    content="user-scalable=no, width=device-width" />
+    content="initial-scale = 1.0, user-scalable=no, width=device-width" />
 <link rel="apple-touch-icon"
       href="./media/apple-touch-icon.png" />
 <title>tabulata Tester 1</title>
 <link rel="stylesheet" type="text/css"  href="css/main.css" />
 </head>
 <script src="js/lib/jquery-1.7.1.js"></script>
-<script src="js/data/example1.lc.js"></script>
+<script src="js/data/example1-large.lc.js"></script>
 <script src="js/backend/interface/engineMessage.js"></script>
 <script src="js/backend/interface/common.js"></script>
 <script src="js/frontend/pane.js"></script>
@@ -27,19 +27,22 @@
   return false;
  }
 </script>
-<body ontouchmove="BlockMove(event);">
-<div id="title">
+<!-- body ontouchmove="BlockMove(event);" -->
+<body>
+</body><div id="title">
 tabulata
+<div id="info">tabulata. Hello.</div>
 </div>
-<div id="main">
+<div id="singulars">
 <table id="stbl">
 </table>
-<hr />
+<span id="bottom-singulars">&nbsp;</span>
+</div>
+<div id="main">
 <table id="mtbl">
 </table>
 </div>
 <div id="pane">
-
 <fieldset class="pane-gui-element">
 <legend>Column Type</legend>
 	<input class="radio-coltype" id="radio-coltype-values" type="radio" name="col-type" value="values" />
@@ -54,6 +57,5 @@ tabulata
 </p>
 <input id="pane-apply" class="pane-button" type="button" value="Apply">
 </div>
-<div id="info">tabulata. Hello.</div>
 </body>
 </html>

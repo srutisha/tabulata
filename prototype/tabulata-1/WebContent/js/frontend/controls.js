@@ -12,6 +12,12 @@ function SingularControl() {
 		$(button).parent().parent().before(this.createRow(this.newCounter++, "", ""));
 		this.size ++;
 		il.update();
+		this.updateOffset();
+	};
+	
+	this.updateOffset = function () {
+		var refElem = $("#bottom-singulars");
+		$("#main").css('margin-top', (refElem.offset().top + 15) + "px");
 	};
 	
 	this.createRow = function (id, key, value) {
@@ -28,6 +34,7 @@ function SingularControl() {
 		}
 		//recreate the button
 		this.build();
+		this.updateOffset();
 	};
 	
 	this.createInputFieldKey = function(symbol, key) {

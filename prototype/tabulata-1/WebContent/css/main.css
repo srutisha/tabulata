@@ -55,13 +55,12 @@ input[type=button] {
 
 #info {
 	font-size: 10pt;
-	padding:5pt;
-	color:#eee;
-	position: absolute;
-	left: 0px;
-	bottom: 0px;
-	width: 100%;
-	background: #444;
+	padding-top:10pt;
+	padding-right:25pt;
+	color:#333;
+	position: float;
+	float:right;
+	font-family: "Droid Sans", "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 }
 
 .hed-act , .inp-key {
@@ -83,11 +82,15 @@ input[type=button] {
 
 #title {
 	padding-left:8pt;
-	margin-bottom:8pt;
+	padding-bottom:8pt;
 	font-family: 'Fugaz One', cursive;
 	font-size:28pt;
 	font-color:black;
 	background:white;
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
 }
 
 #pane {
@@ -103,8 +106,29 @@ input[type=button] {
 	padding:5px;
 	font-size:11pt;
 	display:none;
+	
+	z-index:95;
 }
 
+#singulars {
+	position:fixed;
+	left:0;
+	top:60px;
+	width:100%;
+	background:#000;
+	border-bottom: 2px solid #fff;
+	z-index:90;
+}
 
+#main {
+	margin-bottom:30pt;
+	-webkit-overflow-scrolling: touch;
+	overflow:scroll;
+	z-index:100;
+}
+
+#bottom-singulars {
+	font-size:5px;	
+}
 
 

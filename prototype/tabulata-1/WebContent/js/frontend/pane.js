@@ -70,8 +70,10 @@ EditPane.showPaneForHeader = function(header, isValues) {
 	
 	$("#pane").toggle(true);
 	
-	if (! isValues) {
-		EditPane.editField.focus();
+	if (! isValues && idParts[3] != 'H') {
+		// take away focus when field is not editable
+		// TODO: set field to readonly
+		header.blur();
 	}
 	
 	EditPane.show();
