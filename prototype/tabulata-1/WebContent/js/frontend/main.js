@@ -92,7 +92,9 @@ EngineFront.prototype.handleColumnHeaderChangeEvent = function (event) {
 	if (oldColumnName == newName) return;
 	if (newName == "") {
 		// don't allow setting a column name to blank.
-		event.target.value = oldColumnName;
+		if (oldColumnName != undefined) {
+			event.target.value = oldColumnName;			
+		}
 		return;
 	};
 	
@@ -103,7 +105,7 @@ EngineFront.prototype.handleColumnHeaderChangeEvent = function (event) {
 	this.sendEvent(FrontendMessage.columnChanged(listName, oldColumnName, newName));
 
 	// TODO this should not be here
-	if (oldColumnName == undefined) oldColumnName = oldColumnSymbol;
+	if (oldColumnName == "" || oldColumnName == undefined) oldColumnName = oldColumnSymbol;
 	lc.changeColumnName(oldColumnName, newName);
 };
 

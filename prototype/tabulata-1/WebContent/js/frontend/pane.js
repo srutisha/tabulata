@@ -13,6 +13,7 @@ EditPane.attachEvents = function () {
 
 EditPane.visible = false;
 EditPane.editField = 0;
+EditPane.showing = "";
 
 
 EditPane.dismissPane = function () {
@@ -36,6 +37,10 @@ EditPane.dismissPane = function () {
 	}
 	
 	$("#pane").toggle(false);
+	
+	EditPane.normalColumn(EditPane.showing);
+	EditPane.showing = "";
+	
 	EditPane.hide();
 };
 
@@ -50,9 +55,9 @@ EditPane.showPaneEvent = function(event) {
 	event.stopImmediatePropagation();
 };
 
-EditPane.showPaneForHeader = function(header, isValues) {
+EditPane.showPaneForHeader = function(inputElem, isValues) {
 	EditPane.editField = $("#pane-value-function");
-	var idParts = header.id.split(/_/);
+	var idParts = inputElem.id.split(/_/);
 	var exp = $("#"+Symbols.columnRowSymbol(idParts[1], idParts[2], "H")).data("exp");
 	if (isValues) {
 		// it's a values column
@@ -73,10 +78,25 @@ EditPane.showPaneForHeader = function(header, isValues) {
 	if (! isValues && idParts[3] != 'H') {
 		// take away focus when field is not editable
 		// TODO: set field to readonly
-		header.blur();
+		inputElem.blur();
 	}
 	
+	EditPane.highlightColumn(inputElem);
+	
 	EditPane.show();
+};
+
+EditPane.highlightColumn = function (elem) {
+	var className = elem.className.match(/list_col_\d+/);
+	if (EditPane.showing != "" && EditPane.showing != className) {
+		EditPane.normalColumn(EditPane.showing);
+	}
+	$("."+className).css("border-color", "#f99");
+	EditPane.showing = className;
+};
+
+EditPane.normalColumn = function (className) {
+	$("."+className).css("border-color", "initial");
 };
 
 EditPane.show = function () {
@@ -96,6 +116,7 @@ EditPane.focusEvent = function (event) {
 	if ($(event.target).closest("#pane").length>0) {
 		return;
 	}
+	
 	EditPane.dismissPane();
 };
 

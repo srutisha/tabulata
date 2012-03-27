@@ -77,6 +77,11 @@ function ListControl() {
 	
 	var newCounter = 0;
 	
+	this.genColumnClassName = function (idx) {
+		if (idx == undefined) idx = newCounter;
+		return " list_col_"+idx;
+	};
+	
 	// TODO this is ugly
 	this.changeColumnName = function (oldName, newName) {
 		_list.columns.forEach(function(col) {
@@ -93,15 +98,15 @@ function ListControl() {
 				html.tr([html.td(this.createAddRowButton()), html.td()])]);
 	};
 	
-	var createFieldNode = function (listName, col, row) {
+	var createFieldNode = function (listName, col, colNr, row) {
 		var id = Symbols.columnRowSymbol(listName, col.name, row);
 		if (col.values) {
-			return html.td(self.createInputField(id, "inp-act", col.values[row]));
+			return html.td(self.createInputField(id, "inp-act"+self.genColumnClassName(colNr), col.values[row]));
 		} else {
 			if (row == 0) {
-				return html.td(self.createInputField(id, "inp-cal", col.valueFunction));
+				return html.td(self.createInputField(id, "inp-cal"+self.genColumnClassName(colNr), col.valueFunction));
 			} else {
-				return html.td(self.createInputField(id, "inp-cal", ""));
+				return html.td(self.createInputField(id, "inp-cal"+self.genColumnClassName(colNr), ""));
 				//TODO: column.valueFunction
 			}
 		}
@@ -113,8 +118,8 @@ function ListControl() {
 		
 		var headers = new Array();
 		
-		list.columns.forEach(function (col) {
-			headers.push(html.th(self.createHeaderField(list.name, col)));
+		list.columns.forEach(function (col, idx) {
+			headers.push(html.th(self.createHeaderField(list.name, col, idx)));
 		});
 
 		headers.push(html.th());
@@ -124,9 +129,9 @@ function ListControl() {
 		
 		for (var row=0; row<list.numRows; row++) {
 			var c = new Array();
-
-			list.columns.forEach(function (col) {
-				 c.push(createFieldNode(list.name, col, row));
+			
+			list.columns.forEach(function (col, idx) {
+				 c.push(createFieldNode(list.name, col, idx, row));
 			});
 			
 			if (row==0) {
@@ -147,7 +152,7 @@ function ListControl() {
 		
 		$("#mtbl").append(html.tr(footer));
 		
-		dimensions.x = list.columns.length;
+		newCounter = dimensions.x = list.columns.length;
 		dimensions.y = list.numRows;
 	};
 	
@@ -157,12 +162,13 @@ function ListControl() {
 		return html.input(id, cls, value);
 	};
 	
-	this.createHeaderField = function(listName, col) {
+	this.createHeaderField = function(listName, col, idx) {
 		var hi = document.createElement("input");
-		hi.className = 'hed-act';
+		hi.className = 'hed-act'+self.genColumnClassName(idx);
 
-		if (col == undefined) {
+		if (col == null) {
 			hi.id = Symbols.columnRowSymbol(listName, "" + newCounter, "H");
+			$(hi).data("name", undefined);
 		} else {
 			hi.value = col.name;
 			hi.id = Symbols.columnRowSymbol(listName, col.name, "H");
@@ -199,7 +205,7 @@ function ListControl() {
 				// last cell
 				$(this).empty();
 			} else {
-				$(this).replaceWith(createFieldNode(_list.name, _list.columns[index], _list.numRows));
+				$(this).replaceWith(createFieldNode(_list.name, _list.columns[index], index, _list.numRows));
 			}
 		});
 		
@@ -226,7 +232,7 @@ function ListControl() {
 		$(tr).append(html.td(this.createAddColumnButton()));
 		
 		var hr = $(tr).siblings().first();
-		$(hr).children().last().append(this.createHeaderField(_list.name));
+		$(hr).children().last().append(this.createHeaderField(_list.name, null, newCounter));
 		$(hr).append(html.th());
 		
 		var cr = tr;
@@ -242,6 +248,7 @@ function ListControl() {
 		
 		dimensions.x ++;
 		newCounter ++;
+
 		il.update();
 	};
 	
