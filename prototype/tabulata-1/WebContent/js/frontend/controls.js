@@ -227,7 +227,9 @@ function ListControl() {
 	this.addColumn = function(button) {
 		var tr = $(button).parent().parent().get(0);
 		
-		$(button).replaceWith(this.createInputField(Symbols.columnRowSymbol(_list.name, ""+newCounter, "0")));
+		var col = _list.columns[dimensions.x] = {name: ""+newCounter, values: []};
+		
+		$(button).parent().replaceWith(createFieldNode(_list.name, col, dimensions.x, 0));
 		$(tr).append(html.td(this.createAddColumnButton()));
 		
 		var hr = $(tr).siblings().first();
@@ -237,13 +239,11 @@ function ListControl() {
 		var cr = tr;
 		for (var i=1; i<dimensions.y; i++) {
 			cr = $(cr).next();
-			$(cr).children().last().append(this.createInputField(Symbols.columnRowSymbol(_list.name, ""+newCounter, ""+i)));
+			$(cr).children().last().replaceWith(createFieldNode(_list.name, col, dimensions.x, i));
 			$(cr).append(html.td());
 		}
 		
 		$(cr).next().append(html.td());
-		
-		_list.columns[dimensions.x] = {name: ""+newCounter, values: []};
 		
 		dimensions.x ++;
 		newCounter ++;
@@ -253,12 +253,20 @@ function ListControl() {
 	
 	this.changeColumnType = function (listName, columnName, type) {
 		var newClass = '';
-		if (type == "valueFunction") newClass = 'inp-cal';
-		if (type == "values") newClass = 'inp-act';
+		var oldClass = '';
+		if (type == "valueFunction") { 
+			newClass = 'inp-cal';
+			oldClass = 'inp-act'; 
+		}
+		if (type == "values") {
+			newClass = 'inp-act'; 
+			oldClass = 'inp-cal';
+		}
 		var i = 0;
 		var col;
 		while ((col=$('#'+Symbols.columnRowSymbol(listName, columnName, ""+i))).length > 0) {
-			col.attr("class", newClass);
+			col.removeClass(oldClass);
+			col.addClass(newClass);
 			col.val("");
 			i++;
 		}

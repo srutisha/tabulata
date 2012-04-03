@@ -91,12 +91,12 @@ EditPane.highlightColumn = function (elem) {
 	if (EditPane.showing != "" && EditPane.showing != className) {
 		EditPane.normalColumn(EditPane.showing);
 	}
-	$("."+className).css("border-color", "#f99");
+	$("."+className).addClass("shown-in-pane");
 	EditPane.showing = className;
 };
 
 EditPane.normalColumn = function (className) {
-	$("."+className).css("border-color", "initial");
+	$("."+className).removeClass("shown-in-pane");
 };
 
 EditPane.show = function () {

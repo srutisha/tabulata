@@ -80,6 +80,18 @@ input[type=button] {
 	background: #fdd;
 }
 
+.hed-act.shown-in-pane {
+	background: #afa;
+}
+
+.inp-cal.shown-in-pane {
+	background: #faa;
+}
+
+.shown-in-pane {
+	background: #ffa;
+}
+
 #title {
 	padding-left:8pt;
 	padding-bottom:8pt;
@@ -123,8 +135,8 @@ input[type=button] {
 #main {
 	margin-bottom:30pt;
 	-webkit-overflow-scrolling: touch;
-	overflow:scroll;
 	z-index:100;
+	background: #000;
 }
 
 #bottom-singulars {

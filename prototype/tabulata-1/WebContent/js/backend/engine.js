@@ -384,7 +384,7 @@ ValueColumn.prototype.values = function() {
 ValueColumn.prototype.$_sum = function () {
 	var ret = 0;
 	this.values().forEach(function(v) {
-		ret += stringToObject(v);
+		ret += ExpressionEvaluator.stringToObject(v);
 	});
 	return ret;
 };
@@ -467,7 +467,7 @@ function Column(ctx, list, content) {
 	
 	this.$V = function(idx) {
 		if (valueCache[idx] != undefined) return valueCache[idx];
-		return stringToObject(this.values()[idx]);
+		return ExpressionEvaluator.stringToObject(this.values()[idx]);
 	};
 	
 	this.evaluate = function () {
