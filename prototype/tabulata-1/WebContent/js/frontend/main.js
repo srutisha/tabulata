@@ -192,10 +192,7 @@ function attachEvents() {
 	$("#mtbl,#stbl").on("focus", "input", function (event) {
 		EditPane.focusEvent(event);
 	});
-	
-	$("#pane-apply").on("click", function (event) {
-		EditPane.dismissPane();
-	});
+
 };
 
 handleSingularNameChangedEvent = function (event) {

@@ -9,6 +9,15 @@ EditPane.attachEvents = function () {
 		EditPane.showPaneForHeader(EditPane.lastClicked, event.target.id == 'radio-coltype-values');
 		
 	});
+	
+	$("#pane-apply").on("click", function (event) {
+		EditPane.savePane();
+		EditPane.dismissPane();
+	});
+	
+	$("#pane-cancel").on("click", function (event) {
+		EditPane.dismissPane();
+	});
 };
 
 EditPane.visible = false;
@@ -16,7 +25,7 @@ EditPane.editField = 0;
 EditPane.showing = "";
 
 
-EditPane.dismissPane = function () {
+EditPane.savePane = function () {
 	var elem = $("#pane-value-function");
 	var exp = elem.val();
 	var d = elem.data();
@@ -36,6 +45,10 @@ EditPane.dismissPane = function () {
 		}
 	}
 	
+};
+
+
+EditPane.dismissPane = function () {
 	$("#pane").toggle(false);
 	
 	EditPane.normalColumn(EditPane.showing);
