@@ -161,10 +161,12 @@ ExpressionEvaluator.prototype.evaluateAst = function (ast) {
 	}
 } ;
 
-// TODO this is not efficient
-stringToObject = function(s) {
-	
-	if ((''+s).match(/[\d.-]+/)) {
+ExpressionEvaluator.isNumber = function (s) {
+	return (''+s).match(/[\d.-]+/);
+};
+
+ExpressionEvaluator.stringToObject = function(s) {	
+	if (ExpressionEvaluator.isNumber(s)) {
 	    return parseFloat(s);
 	}
 	
@@ -197,10 +199,8 @@ ExpressionEvaluator.prototype.handleNode = function (ast, ac) {
 		return this.handleIdentifier(ac, ast.name, ast.param);
 		break;
 	default: 
-		// TODO: clean this up
-		if ((''+ast).match(/[\d.-]+/)) {
-			//console.log(ast);
-			return 'stringToObject('+ast+')';
+		if (ExpressionEvaluator.isNumber(ast)) {
+			return 'ExpressionEvaluator.stringToObject('+ast+')';
 		}
 	
 		throw Error("Unknown ast node:"+ast);

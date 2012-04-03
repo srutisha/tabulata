@@ -107,7 +107,6 @@ function ListControl() {
 				return html.td(self.createInputField(id, "inp-cal"+self.genColumnClassName(colNr), col.valueFunction));
 			} else {
 				return html.td(self.createInputField(id, "inp-cal"+self.genColumnClassName(colNr), ""));
-				//TODO: column.valueFunction
 			}
 		}
 	};
