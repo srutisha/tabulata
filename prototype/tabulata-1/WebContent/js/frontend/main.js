@@ -146,17 +146,25 @@ function attachEvents() {
 		ef.handleColumnHeaderChangeEvent(event);
 	});
 	
-	$("#mtbl").on("click", "#lcAddRowButton", function (event) {
+	$("#mtbl").on("tap", "#lcAddRowButton", function (event) {
 		lc.addRow(event.target);
+		event.preventDefault();
 	});
 
-	$("#mtbl").on("click", "#lcAddColumnButton", function (event) {
+	$("#mtbl").on("tap", "#lcAddColumnButton", function (event) {
 		lc.addColumn(event.target);
+		event.preventDefault();
 	});
 	
-	$("#stbl").on("click", ".inp-value", function (event) {
+	$("#stbl").on("tap", ".inp-value", function (event) {
 		$(event.target).data("locked", true);
 		$(event.target).val(event.target.dataset.exp);
+		$(event.target).focus();
+		//event.preventDefault();
+	});
+	
+	$("#stbl").on("click", function (event) {
+		event.preventDefault();
 	});
 	
 	$("#stbl").on("focusout", ".inp-value", function (event) {
@@ -167,7 +175,7 @@ function attachEvents() {
 		ef.sendEvent(FrontendMessage.singularExpChanged(event.target.id.substring(2), exp));
 	});
 
-	$("#stbl").on("click", ".inp-key", function (event) {
+	$("#stbl").on("tap", ".inp-key", function (event) {
 		$(event.target).data("oldValue", event.target.value);
 	});
 
@@ -178,16 +186,19 @@ function attachEvents() {
 		}
 	});
 
-	$("#stbl").on("click", "#scAddRow", function (event) {
+	$("#stbl").on("tap", "#scAddRow", function (event) {
 		sc.addRow(event.target);
+		event.preventDefault();
 	});
 	
-	$("#mtbl").on("click", ".inp-cal, .hed-act", function (event) {
+	$("#mtbl").on("tap", ".inp-cal, .hed-act", function (event) {
 		EditPane.showPaneEvent(event);
+		event.preventDefault();
 	});
 
-	$("#mtbl,#stbl").on("click", "input", function (event) {
+	$("#mtbl,#stbl").on("tap", "input", function (event) {
 		EditPane.focusEvent(event);
+		event.preventDefault();
 	});
 
 };

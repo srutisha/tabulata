@@ -6,17 +6,19 @@ function EditPane () {
 EditPane.attachEvents = function () {
 	$('.radio-coltype').change(function (event) {
 		$('#pane-edit-expression').toggle(event.target.id == 'radio-coltype-valueFunction');
-		EditPane.showPaneForHeader(EditPane.lastClicked, event.target.id == 'radio-coltype-values');
+		//EditPane.showPaneForHeader(EditPane.lastClicked, event.target.id == 'radio-coltype-values');
 		
 	});
 	
-	$("#pane-apply").on("click", function (event) {
+	$("#pane-apply").on("tap", function (event) {
 		EditPane.savePane();
 		EditPane.dismissPane();
+		event.preventDefault();
 	});
 	
-	$("#pane-cancel").on("click", function (event) {
+	$("#pane-cancel").on("tap", function (event) {
 		EditPane.dismissPane();
+		event.preventDefault();
 	});
 };
 
@@ -29,7 +31,8 @@ EditPane.savePane = function () {
 	var elem = $("#pane-value-function");
 	var exp = elem.val();
 	var d = elem.data();
-	var newType = $('#radio-coltype-values').attr("checked") ? "values" : "valueFunction";
+
+	var newType = $('#radio-coltype-values').prop("checked") ? "values" : "valueFunction";
 	
 	if (d.originalType != newType) {
 		lc.changeColumnType(d.listName, d.columnName, newType);
@@ -74,10 +77,12 @@ EditPane.showPaneForHeader = function(inputElem, isValues) {
 	var exp = $("#"+Symbols.columnRowSymbol(idParts[1], idParts[2], "H")).data("exp");
 	if (isValues) {
 		// it's a values column
-		$('#radio-coltype-values').attr("checked", true);
+		$('#radio-coltype-values').prop("checked", true).checkboxradio("refresh");
+		$('#radio-coltype-valueFunction').prop("checked", false).checkboxradio("refresh");
 		$('#pane-edit-expression').toggle(false);
 	} else {
-		$('#radio-coltype-valueFunction').attr("checked", true);
+		$('#radio-coltype-valueFunction').prop("checked", true).checkboxradio("refresh");
+		$('#radio-coltype-values').prop("checked", false).checkboxradio("refresh");
 		$('#pane-edit-expression').toggle(true);
 	}
 	

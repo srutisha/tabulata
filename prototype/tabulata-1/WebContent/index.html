@@ -12,8 +12,12 @@
       href="./media/apple-touch-icon.png" />
 <title>tabulata Tester 1</title>
 <link rel="stylesheet" type="text/css"  href="css/main.css" />
-</head>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.css" />
+
 <script src="js/lib/jquery-1.7.1.js"></script>
+
+<script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js"></script>
+
 <script src="js/data/example1-large.lc.js"></script>
 <script src="js/backend/interface/engineMessage.js"></script>
 <script src="js/backend/interface/common.js"></script>
@@ -21,6 +25,8 @@
 <script src="js/frontend/controls.js"></script>
 <script src="js/frontend/util.js"></script>
 <script src="js/frontend/main.js"></script>
+
+</head>
 <script>
  function BlockMove(event) {
   // Tell Safari not to move the window.
@@ -44,20 +50,19 @@ tabulata
 </table>
 </div>
 <div id="pane">
-<fieldset class="pane-gui-element">
+<fieldset data-role="controlgroup" class="pane-gui-element">
 <legend>Column Type</legend>
-	<input class="radio-coltype" id="radio-coltype-values" type="radio" name="col-type" value="values" />
+	<input class="radio-coltype" id="radio-coltype-values" type="radio" name="col_type" value="values" />
 	<label for="radio-coltype-values">Values</label>
-	<br />
-	<input class="radio-coltype" id="radio-coltype-valueFunction" type="radio" name="col-type" value="valueFunction" />
+	<input class="radio-coltype" id="radio-coltype-valueFunction" type="radio" name="col_type" value="valueFunction" />
 	<label for="radio-coltype-valueFunction">Expression</label>
 </fieldset>
 <p id="pane-edit-expression" class="pane-gui-element">
 <span>Column Expression</span> <br/>
 <input id="pane-value-function" class="pane-input"/>
 </p>
-<input id="pane-apply" class="pane-button" type="button" value="Apply">
-<input id="pane-cancel" class="pane-button" type="button" value="Cancel">
+<input id="pane-apply" data-inline="true" class="pane-button" type="button" value="Apply">
+<input id="pane-cancel" data-inline="true" class="pane-button" type="button" value="Cancel">
 </div>
 </body>
 </html>
