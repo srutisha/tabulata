@@ -2,12 +2,9 @@
 
 $(document).ready(function () {
 	initEmpty();
-	/*
-	$("body").ontouchmove = function (event) {
-		event.preventDefault();
-	};
-	*/
+
 	scrollHooks();
+
 });
 
 
@@ -157,7 +154,7 @@ function attachEvents() {
 		lc.addColumn(event.target);
 	});
 	
-	$("#stbl").on("focus", ".inp-value", function (event) {
+	$("#stbl").on("click", ".inp-value", function (event) {
 		$(event.target).data("locked", true);
 		$(event.target).val(event.target.dataset.exp);
 	});
@@ -170,7 +167,7 @@ function attachEvents() {
 		ef.sendEvent(FrontendMessage.singularExpChanged(event.target.id.substring(2), exp));
 	});
 
-	$("#stbl").on("focus", ".inp-key", function (event) {
+	$("#stbl").on("click", ".inp-key", function (event) {
 		$(event.target).data("oldValue", event.target.value);
 	});
 
@@ -185,11 +182,11 @@ function attachEvents() {
 		sc.addRow(event.target);
 	});
 	
-	$("#mtbl").on("focus", ".inp-cal, .hed-act", function (event) {
+	$("#mtbl").on("click", ".inp-cal, .hed-act", function (event) {
 		EditPane.showPaneEvent(event);
 	});
 
-	$("#mtbl,#stbl").on("focus", "input", function (event) {
+	$("#mtbl,#stbl").on("click", "input", function (event) {
 		EditPane.focusEvent(event);
 	});
 
@@ -236,4 +233,6 @@ function InfoLine(sources) {
 		$("#info").html(txt);
 	};
 }
+
+
 
