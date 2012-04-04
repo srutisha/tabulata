@@ -104,6 +104,8 @@ EngineFront.prototype.handleColumnHeaderChangeEvent = function (event) {
 	// TODO this should not be here
 	if (oldColumnName == "" || oldColumnName == undefined) oldColumnName = oldColumnSymbol;
 	lc.changeColumnName(oldColumnName, newName);
+	
+	EditPane.updatePaneEvent(event);
 };
 
 EngineFront.renameColumnIds = function (listName, oldColumnSymbol, newName) {

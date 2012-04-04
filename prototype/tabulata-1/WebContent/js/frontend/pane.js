@@ -71,6 +71,13 @@ EditPane.showPaneEvent = function(event) {
 	event.stopImmediatePropagation();
 };
 
+EditPane.updatePaneEvent = function(event) {
+	EditPane.lastClicked = event.target;
+	var idParts = event.target.id.split(/_/);
+	$(EditPane.editField).data("listName", idParts[1]);
+	$(EditPane.editField).data("columnName", idParts[2]);
+};
+
 EditPane.showPaneForHeader = function(inputElem, isValues) {
 	EditPane.editField = $("#pane-value-function");
 	var idParts = inputElem.id.split(/_/);
