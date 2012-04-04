@@ -437,7 +437,7 @@ function Column(ctx, list, content) {
 	
 	this.updateValue = function (idx, value) {
 		if (isData) {
-			content.values[idx] = stringToObject(value);
+			content.values[idx] = ExpressionEvaluator.stringToObject(value);
 		}
 	};
 	
