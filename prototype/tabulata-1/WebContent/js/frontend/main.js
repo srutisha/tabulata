@@ -145,7 +145,12 @@ attachSingularEvents = function () {
 	});
 
 	$("#stbl").on("tap", ".inp-key", function (event) {
-		$(event.target).data("oldValue", event.target.value);
+		if (EditPane.singularKeyPushed(event)) {
+			event.stopImmediatePropagation();
+			event.preventDefault();
+		} else {
+			$(event.target).data("oldValue", event.target.value);
+		}
 	});
 
 	
@@ -168,6 +173,10 @@ attachSingularEvents = function () {
 };
 
 attachListEvents = function () {
+	$("#mtbl").on("click", function (event) {
+		event.preventDefault();
+	});
+	
 	$("#mtbl").on("focusout", ".inp-act", function (event) {
 		ef.handleColumnValueChangeEvent(event);
 	});
@@ -189,7 +198,17 @@ attachListEvents = function () {
 		event.stopImmediatePropagation();
 	});
 	
-	$("#mtbl").on("tap", ".inp-cal, .hed-act", function (event) {
+	$("#mtbl").on("tap", ".hed-act", function (event) {
+		if (EditPane.headerColumnPushed(event)) {
+			event.stopImmediatePropagation();
+			event.preventDefault();
+		} else {
+			EditPane.showPaneEvent(event);
+			focusScrollblock(event.target, event);
+		}
+	});
+	
+	$("#mtbl").on("tap", ".inp-cal", function (event) {
 		EditPane.showPaneEvent(event);
 		event.preventDefault();
 	});

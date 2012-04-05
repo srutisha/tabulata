@@ -20,12 +20,37 @@ EditPane.attachEvents = function () {
 		EditPane.dismissPane();
 		event.preventDefault();
 	});
+	
+	$("#pane-value-function").on("focus", function(event) {
+		EditPane.isEditingFunction = true;
+	});
+	$("#pane-value-function").on("focusout", function(event) {
+		//EditPane.isEditingFunction = false;
+	});
 };
 
 EditPane.visible = false;
 EditPane.editField = 0;
 EditPane.showing = "";
+EditPane.isEditingFunction = false;
 
+EditPane.singularKeyPushed = function(event) {
+	return EditPane.headerColumnPushed(event);
+};
+
+EditPane.headerColumnPushed = function(event) {
+	if (EditPane.isEditingFunction) {
+		var currentFormula = $("#pane-value-function").val();
+		var name = normalizeName($(event.target).val());
+		var idx = $("#pane-value-function")[0].selectionStart;
+		var newFormula = currentFormula.substr(0, idx) + name + currentFormula.substr(idx);
+		$("#pane-value-function").val(newFormula);
+		$("#pane-value-function").focus();
+		$("#pane-value-function")[0].setSelectionRange(idx + name.length, idx + name.length);
+		return true;
+	}
+	return false;
+};
 
 EditPane.savePane = function () {
 	var elem = $("#pane-value-function");
@@ -51,7 +76,11 @@ EditPane.savePane = function () {
 };
 
 
-EditPane.dismissPane = function () {
+EditPane.dismissPane = function () {	
+	//dismiss the keyboard
+	$(document.activeElement).blur();
+
+	EditPane.isEditingFunction = false;
 	$("#pane").toggle(false);
 	
 	EditPane.normalColumn(EditPane.showing);

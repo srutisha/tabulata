@@ -17,6 +17,7 @@ use dom manipulation instead of html creation
 
 tablet usability
  - tap button optimization (remove the 300ms delay)
+ - editing: let user touch-select columns or singulars
 
 ------------------------------------------------------------------------------------------
 
@@ -55,7 +56,6 @@ PHASE 1) ui chrome
 
 add column (to left/right of existing column)
 
-editing: let user touch-select columns or singulars
 editing: add columns/rows: count pushes, then do. show number of pushes.
 
 swipe gestures
