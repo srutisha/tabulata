@@ -27,6 +27,10 @@ grammar: )_*_3 doesn't parse (whitespace after closed bracket)
 
 only use jq data() , remove plain dataset access
 
+touch-selecting: if holding longer than a bit (ie. click-event gets fired (working assumption)), then
+the expression-editing field looses focus and the touched field gains the focus (bypassing the javascript
+event handlers). intercepting and cancelling focus and click events did not help so far.
+
 ------------------------------------------------------------------------------------------
 
 
