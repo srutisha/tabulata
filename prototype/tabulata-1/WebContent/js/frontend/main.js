@@ -178,12 +178,35 @@ function attachEvents() {
 		event.preventDefault();
 	});
 
-	$("#mtbl,#stbl").on("tap", "input", function (event) {
+	$("#stbl").on("tap", "input", function (event) {
 		EditPane.focusEvent(event);
 		event.preventDefault();
 	});
+	
+	$("#mtbl").on("tap", "input", function (event) {
+		EditPane.focusEvent(event);
+		//event.preventDefault();
+		var currentScrollPos = $("#main").scrollTop();
+		var elemPosRelative = $(event.target).position().top;
+		var totalHeight = $("#mainwrapper").height();
+		
+		if (totalHeight - elemPosRelative < c.KEYBOARD_HEIGHT) { 
+			$("#main").scrollTop(currentScrollPos+elemPosRelative-totalHeight+c.KEYBOARD_HEIGHT);
+		}
+		
+        event.target.focus();
+		
+        window.scrollTo(0, 0);
+        document.body.scrollTop = 0;
+        
+        event.preventDefault();
+	});
 
 };
+
+c = new function () {};
+//TODO: dynamically determine
+c.KEYBOARD_HEIGHT = 340;
 
 handleSingularNameChangedEvent = function (event) {
 	var name = event.target.value;

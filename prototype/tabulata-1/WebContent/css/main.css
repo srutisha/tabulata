@@ -140,11 +140,14 @@ input[type=button] {
 }
 
 #main {
-	position:float;
-	margin-bottom:30pt;
 	-webkit-overflow-scrolling: touch;
 	overflow: scroll;
 	background: #000;
+}
+
+#bottomspacer {
+	display:block;
+	height:352px; // keyboard height, TODO: make it dynamic
 }
 
 #bottom-singulars {
