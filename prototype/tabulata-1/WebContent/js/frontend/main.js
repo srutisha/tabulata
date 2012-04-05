@@ -120,24 +120,11 @@ function initEmpty() {
 }
 
 function attachEvents() {
-	$("#mtbl").on("focusout", ".inp-act", function (event) {
-		ef.handleColumnValueChangeEvent(event);
-	});
+	attachSingularEvents();
+	attachListEvents();
+};
 
-	$("#mtbl").on("focusout", ".hed-act", function (event) {
-		ef.handleColumnHeaderChangeEvent(event);
-	});
-	
-	$("#mtbl").on("tap", "#lcAddRowButton", function (event) {
-		lc.addRow(event.target);
-		event.preventDefault();
-	});
-
-	$("#mtbl").on("tap", "#lcAddColumnButton", function (event) {
-		lc.addColumn(event.target);
-		event.preventDefault();
-	});
-	
+attachSingularEvents = function () {
 	$("#stbl").on("tap", ".inp-value", function (event) {
 		$(event.target).data("locked", true);
 		$(event.target).val(event.target.dataset.exp);
@@ -172,14 +159,35 @@ function attachEvents() {
 		sc.addRow(event.target);
 		event.preventDefault();
 	});
-	
-	$("#mtbl").on("tap", ".inp-cal, .hed-act", function (event) {
-		EditPane.showPaneEvent(event);
-		event.preventDefault();
-	});
+
 
 	$("#stbl").on("tap", "input", function (event) {
 		EditPane.focusEvent(event);
+		event.preventDefault();
+	});
+};
+
+attachListEvents = function () {
+	$("#mtbl").on("focusout", ".inp-act", function (event) {
+		ef.handleColumnValueChangeEvent(event);
+	});
+
+	$("#mtbl").on("focusout", ".hed-act", function (event) {
+		ef.handleColumnHeaderChangeEvent(event);
+	});
+	
+	$("#mtbl").on("tap", "#lcAddRowButton", function (event) {
+		lc.addRow(event.target);
+		event.preventDefault();
+	});
+
+	$("#mtbl").on("tap", "#lcAddColumnButton", function (event) {
+		lc.addColumn(event.target);
+		event.preventDefault();
+	});
+	
+	$("#mtbl").on("tap", ".inp-cal, .hed-act", function (event) {
+		EditPane.showPaneEvent(event);
 		event.preventDefault();
 	});
 	
@@ -201,7 +209,6 @@ function attachEvents() {
         
         event.preventDefault();
 	});
-
 };
 
 c = new function () {};
