@@ -132,10 +132,18 @@ input[type=button] {
 	z-index:90;
 }
 
+#mainwrapper {
+	position:fixed;
+	width:100%;
+	left:0;
+	z-index:100;
+}
+
 #main {
+	position:float;
 	margin-bottom:30pt;
 	-webkit-overflow-scrolling: touch;
-	z-index:100;
+	overflow: scroll;
 	background: #000;
 }
 

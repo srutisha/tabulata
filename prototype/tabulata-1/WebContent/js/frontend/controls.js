@@ -17,7 +17,11 @@ function SingularControl() {
 	
 	this.updateOffset = function () {
 		var refElem = $("#bottom-singulars");
-		$("#main").css('margin-top', (refElem.offset().top + 15) + "px");
+		var topIdx = refElem.offset().top + 12;
+		$("#mainwrapper").css('top', topIdx + "px");
+		var bottom = $(window).height();
+		$("#mainwrapper").css('height', (bottom - topIdx) + "px");
+		$("#main").css('height', (bottom - topIdx) + "px");
 	};
 	
 	this.createRow = function (id, key, value) {

@@ -3,28 +3,8 @@
 $(document).ready(function () {
 	initEmpty();
 
-	scrollHooks();
-
 });
 
-
-function scrollHooks() {
-	var needsScrollUpdate = false;
-    $(document).scroll(function(){
-        if(needsScrollUpdate) {
-            setTimeout(function() {
-                $("body").css("height", "+=1").css("height", "-=1");
-            }, 0);
-        }
-    });
-    $("input, textarea").live("focus", function(e) {
-        needsScrollUpdate = true;
-    });
-
-    $("input, textarea").live("blur", function(e) {
-        needsScrollUpdate = false;
-    });
-}
 
 function EngineFront() {
 	var self = this;
