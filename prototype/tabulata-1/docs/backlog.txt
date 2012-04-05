@@ -15,6 +15,9 @@ add column to the right of last column
 set column type (values / expression)
 use dom manipulation instead of html creation
 
+tablet usability
+ - tap button optimization (remove the 300ms delay)
+
 ------------------------------------------------------------------------------------------
 
 ISSUES
@@ -29,7 +32,6 @@ only use jq data() , remove plain dataset access
 PHASE 0) essential functionality --- ready for 5 minutes tablet demo
 
 tablet usability
- - tap button optimization (remove the 300ms delay)
  - scrolling/zooming
  - keyboard handling
 
