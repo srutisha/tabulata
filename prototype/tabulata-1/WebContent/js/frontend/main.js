@@ -182,8 +182,11 @@ attachListEvents = function () {
 	});
 
 	$("#mtbl").on("tap", "#lcAddColumnButton", function (event) {
-		lc.addColumn(event.target);
-		event.preventDefault();
+		var headerField = lc.addColumn(event.target);
+		EditPane.showPaneForHeader(headerField, true);
+		focusScrollblock(headerField, event);
+		// this is for the pane to not immediately disappear again due to the focus event
+		event.stopImmediatePropagation();
 	});
 	
 	$("#mtbl").on("tap", ".inp-cal, .hed-act", function (event) {
@@ -202,13 +205,17 @@ attachListEvents = function () {
 			$("#main").scrollTop(currentScrollPos+elemPosRelative-totalHeight+c.KEYBOARD_HEIGHT);
 		}
 		
-        event.target.focus();
-		
-        window.scrollTo(0, 0);
-        document.body.scrollTop = 0;
-        
-        event.preventDefault();
+		focusScrollblock(event.target, event);
 	});
+};
+
+focusScrollblock = function (elem, event) {
+    elem.focus();
+	
+    window.scrollTo(0, 0);
+    document.body.scrollTop = 0;
+    
+    event.preventDefault();
 };
 
 c = new function () {};

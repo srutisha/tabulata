@@ -237,7 +237,8 @@ function ListControl() {
 		$(tr).append(html.td(this.createAddColumnButton()));
 		
 		var hr = $(tr).siblings().first();
-		$(hr).children().last().append(this.createHeaderField(_list.name, null, newCounter));
+		var headerField = this.createHeaderField(_list.name, null, newCounter);
+		$(hr).children().last().append(headerField);
 		$(hr).append(html.th());
 		
 		var cr = tr;
@@ -253,6 +254,8 @@ function ListControl() {
 		newCounter ++;
 
 		il.update();
+		
+		return headerField;
 	};
 	
 	this.changeColumnType = function (listName, columnName, type) {
