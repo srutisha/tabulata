@@ -9,11 +9,11 @@ $(document).ready(function () {
 function EngineFront() {
 	var self = this;
 	this.worker = new Worker("js/backend/backendWorker.js");
-	
+
 	this.worker.onmessage = function(event) {
 		self.messageHandler(event);
 	};
-	
+
 	this.worker.onerror = function(error) {
 		console.log("Worker error: " + error.message + " in "+error.filename+":"+error.lineno+"\n");
 		throw error;
@@ -66,57 +66,58 @@ EngineFront.prototype.handleColumnHeaderChangeEvent = function (event) {
 	var oldColumnSymbol = idp[2];
 	var oldColumnName = $(event.target).data("name");
 	var newName = event.target.value;
-	
+
 	if (oldColumnName == newName) return;
 	if (newName == "") {
 		// don't allow setting a column name to blank.
 		if (oldColumnName != undefined) {
-			event.target.value = oldColumnName;			
+			event.target.value = oldColumnName;
 		}
 		return;
 	}
-	
+
 	$(event.target).data("name", newName);
-	
+
 	EngineFront.renameColumnIds(listName, oldColumnSymbol, newName);
-		
+
 	this.sendEvent(FrontendMessage.columnChanged(listName, oldColumnName, newName));
 
 	// TODO this should not be here
 	if (oldColumnName == "" || oldColumnName == undefined) oldColumnName = oldColumnSymbol;
 	lc.changeColumnName(oldColumnName, newName);
-	
+
 	EditPane.updatePaneEvent(event);
 };
 
 EngineFront.renameColumnIds = function (listName, oldColumnSymbol, newName) {
 	$("#"+Symbols.columnRowSymbol(listName, oldColumnSymbol, "H")).attr("id", Symbols.columnRowSymbol(listName, newName, "H"));
-	
+
 	var i = 0;
 	var col;
 	while ((col = $("#"+Symbols.columnRowSymbol(listName, oldColumnSymbol, i))).length > 0) {
 		col.attr("id", Symbols.columnRowSymbol(listName, newName, i++));
 	}
-	
+
 };
+
 
 function initEmpty() {
 	sc = new SingularControl();
 	sc.build();
 	lc = new ListControl();
 	lc.build();
-	
+
 	il = new InfoLine([sc, lc]);
-	
+
 	loadExample();
-	
+
 	il.update();
-	
+
+    ef = new EngineFront();
+
 	attachEvents();
 	EditPane.attachEvents();
-	
-	
-	ef = new EngineFront();
+
 	ef.sendEvent(FrontendMessage.initWithBlock(block));
 }
 
@@ -132,16 +133,16 @@ attachSingularEvents = function () {
 		$(event.target).focus();
 		//event.preventDefault();
 	});
-	
+
 	$("#stbl").on("click", function (event) {
 		event.preventDefault();
 	});
-	
+
 	$("#stbl").on("focusout", ".inp-value", function (event) {
 		var exp = event.target.dataset.exp = $(event.target).val();
 		$(event.target).val("..");
 		$(event.target).data("locked", false);
-		
+
 		ef.sendEvent(FrontendMessage.singularExpChanged(event.target.id.substring(2), exp));
 	});
 
@@ -154,10 +155,10 @@ attachSingularEvents = function () {
 		}
 	});
 
-	
+
 	$("#stbl").on("focusout", ".inp-key", function (event) {
 		if ($(event.target).data("oldValue") != event.target.value) {
-			handleSingularNameChangedEvent(event);			
+			handleSingularNameChangedEvent(event);
 		}
 	});
 
@@ -173,24 +174,22 @@ attachSingularEvents = function () {
 	});
 };
 
+var ColumnValueChangeHandler = function(e, v) {
+    // a lambda such that "this" will be set to ef and not the window object when passing the function as reference
+    return ef.handleColumnValueChangeEvent(e, v);
+};
+
 attachListEvents = function () {
 	$("#mtbl").on("click", function (event) {
 		event.preventDefault();
 	});
-	
-	$("#mtbl").on("focusout", ".inp-act", function (event) {
-		ef.handleColumnValueChangeEvent(event.target.id, event.target.value);
-	});
 
-    $("#mtbl").on("change", ".control-type-boolean select", function (event) {
-        var value = BooleanControl.valueFromSelect(event.target);
-        ef.handleColumnValueChangeEvent($(event.target).parents(".control-type-boolean")[0].id, value);
-    });
+    DetailControlFactory.attachChangeHandlers($("#mtbl"), ColumnValueChangeHandler);
 
 	$("#mtbl").on("focusout", ".hed-act", function (event) {
 		ef.handleColumnHeaderChangeEvent(event);
 	});
-	
+
 	$("#mtbl").on("tap", "#lcAddRowButton", function (event) {
 		lc.addRow(event.target);
 		event.preventDefault();
@@ -203,7 +202,7 @@ attachListEvents = function () {
 		// this is for the pane to not immediately disappear again due to the focus event
 		event.stopImmediatePropagation();
 	});
-	
+
 	$("#mtbl").on("tap", ".hed-act", function (event) {
 		if (EditPane.headerColumnPushed(event)) {
 			event.stopImmediatePropagation();
@@ -213,33 +212,33 @@ attachListEvents = function () {
 			focusScrollblock(event.target, event);
 		}
 	});
-	
+
 	$("#mtbl").on("tap", ".inp-cal", function (event) {
 		EditPane.showPaneEvent(event);
 		event.preventDefault();
 	});
-	
+
 	$("#mtbl").on("tap", "input", function (event) {
 		EditPane.focusEvent(event);
 		//event.preventDefault();
 		var currentScrollPos = $("#main").scrollTop();
 		var elemPosRelative = $(event.target).position().top;
 		var totalHeight = $("#mainwrapper").height();
-		
-		if (totalHeight - elemPosRelative < c.KEYBOARD_HEIGHT) { 
+
+		if (totalHeight - elemPosRelative < c.KEYBOARD_HEIGHT) {
 			$("#main").scrollTop(currentScrollPos+elemPosRelative-totalHeight+c.KEYBOARD_HEIGHT);
 		}
-		
+
 		focusScrollblock(event.target, event);
 	});
 };
 
 focusScrollblock = function (elem, event) {
     elem.focus();
-	
+
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
-    
+
     event.preventDefault();
 };
 
@@ -251,15 +250,15 @@ handleSingularNameChangedEvent = function (event) {
 	var name = event.target.value;
 	var oldSymbol = event.target.id.substring(2);
 	var newSymbol = Symbols.singularSymbol(name);
-	
+
 	event.target.id = SingularControl.keyId(newSymbol);
 	$("#"+SingularControl.valueId(oldSymbol)).attr("id", SingularControl.valueId(newSymbol));
-	
+
 	// for a new singular, doesn't send an old symbol (it was only temporary in the gui)
 	if (oldSymbol.match(/\d+/)) {
 		oldSymbol = undefined;
 	}
-	
+
 	ef.sendEvent(FrontendMessage.singularChanged(oldSymbol, name, undefined));
 };
 
@@ -278,13 +277,13 @@ function LoadControls() {
 function InfoLine(sources) {
 	this.update = function () {
 		var txt = "";
-		
+
 		sources.forEach(function (source) {
 			if (txt.length>0) txt += " &mdash; ";
 			if (source.infoText)
 				txt += source.infoText();
 		});
-		
+
 		$("#info").html(txt);
 	};
 }

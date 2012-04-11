@@ -1,17 +1,38 @@
 
-DetailControlFactory = function () {
-	
+DetailControlFactory_ = function () {
+
+    var cos = [];
+
+    this.addControlObject = function (obj) {
+        cos.push(obj);
+    };
+
+    this.attachChangeHandlers = function (parentElem, changeHandler) {
+        cos.forEach(function (co) {
+            co.attachChangeHandler(parentElem, changeHandler);
+        });
+    }
 };
 
-DetailControlFactory.getControlObject = function (type) {
+
+DetailControlFactory_.prototype.getControlObject = function (type) {
     switch (type) {
         case "boolean": return BooleanControl;
     }
 	return TextInputControl;
 };
 
+DetailControlFactory = new DetailControlFactory_();
+
 TextInputControl = function () {
-	
+};
+
+DetailControlFactory.addControlObject(TextInputControl);
+
+TextInputControl.attachChangeHandler = function (parentElem, changeHandler) {
+    parentElem.on("focusout", ".inp-act", function (event) {
+        changeHandler(event.target.id, event.target.value);
+    });
 };
 
 TextInputControl.createInputField = function(id, cls, value) {
@@ -62,12 +83,22 @@ TextInputControl.changeValueType = function (listName, columnName, type) {
 BooleanControl = function () {
 };
 
+DetailControlFactory.addControlObject(BooleanControl);
+
 BooleanControl.renderToDisplay = function (id, className, isValue, value) {
     if (isValue) {
         return BooleanControl.doRender(id, className, value);
     } else {
         // TODO
     }
+};
+
+BooleanControl.attachChangeHandler = function (parentElem, changeHandler) {
+    parentElem.on("change", ".control-type-boolean select", function (event) {
+        var elem = $(event.target).parents(".control-type-boolean")[0];
+        var value = BooleanControl.valueFromIdElement(elem);
+        changeHandler(elem.id, value);
+    });
 };
 
 function createOption(txt1, txt2, selected) {
@@ -96,6 +127,6 @@ BooleanControl.doRender = function (id, className, value) {
     return div;
 };
 
-BooleanControl.valueFromSelect = function (target) {
-    return $(target).val();
+BooleanControl.valueFromIdElement = function (elem) {
+    return $(elem).children("select").val();
 };
