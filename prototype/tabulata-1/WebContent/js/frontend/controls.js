@@ -98,21 +98,22 @@ function ListControl() {
 	this.build = function () {
 		$("#mtbl").append(html.tr([html.th(this.createHeaderField("")), html.th()]));
 		
-		$("#mtbl").append([html.tr([html.td(this.createInputField()), html.td(this.createAddColumnButton())]),
+		$("#mtbl").append([html.tr([html.td(createFieldNode("", {name: "0", values: [""]}, 0, 0)), html.td(this.createAddColumnButton())]),
 				html.tr([html.td(this.createAddRowButton()), html.td()])]);
 	};
 	
 	var createFieldNode = function (listName, col, colNr, row) {
 		var id = Symbols.columnRowSymbol(listName, col.name, row);
+		var co = DetailControlFactory.getControlObject("todo");
+		var value = "";
+		var isEditable = false;
+		
 		if (col.values) {
-			return html.td(self.createInputField(id, "inp-act"+self.genColumnClassName(colNr), col.values[row]));
-		} else {
-			if (row == 0) {
-				return html.td(self.createInputField(id, "inp-cal"+self.genColumnClassName(colNr), col.valueFunction));
-			} else {
-				return html.td(self.createInputField(id, "inp-cal"+self.genColumnClassName(colNr), ""));
-			}
+			value = col.values[row];
+			isEditable = true;
 		}
+		
+		return html.td(co.renderToDisplay(id, self.genColumnClassName(colNr), isEditable, value));
 	};
 	
 	this.init = function (list) {
@@ -157,12 +158,6 @@ function ListControl() {
 		
 		newCounter = dimensions.x = list.columns.length;
 		dimensions.y = list.numRows;
-	};
-	
-	this.createInputField = function(id, cls, value) {
-		if (value == undefined) value = "";
-		if (cls == undefined) cls = "inp-act";
-		return html.input(id, cls, value);
 	};
 	
 	this.createHeaderField = function(listName, col, idx) {
@@ -259,25 +254,24 @@ function ListControl() {
 	};
 	
 	this.changeColumnType = function (listName, columnName, type) {
-		var newClass = '';
-		var oldClass = '';
-		if (type == "valueFunction") { 
-			newClass = 'inp-cal';
-			oldClass = 'inp-act'; 
-		}
-		if (type == "values") {
-			newClass = 'inp-act'; 
-			oldClass = 'inp-cal';
-		}
-		var i = 0;
-		var col;
-		while ((col=$('#'+Symbols.columnRowSymbol(listName, columnName, ""+i))).length > 0) {
-			col.removeClass(oldClass);
-			col.addClass(newClass);
-			col.val("");
-			i++;
-		}
-		ef.sendEvent(FrontendMessage.columnChanged(listName, columnName, columnName, type));
+        TextInputControl.changeValueType( listName, columnName, type );
+        this.changeTypeInListData(columnName, type);
+		ef.sendEvent( FrontendMessage.columnChanged( listName, columnName, columnName, type ) );
+	};
+	
+	this.changeTypeInListData = function (columnName, type) {
+		_list.columns.forEach(function (col) {
+			if (normalizeName(col.name) == columnName) {
+				if (type == "values" ) {
+                    delete col.valueFunction;
+                    col.values = [];
+                }
+                if (type == "valueFunction") {
+                    delete col.values;
+                    col.valueFunction = [];
+                }
+			}
+		});
 	};
 	
 	

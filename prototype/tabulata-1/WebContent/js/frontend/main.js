@@ -36,6 +36,7 @@ EngineFront.prototype.updateColumnEventReceived = function (data) {
 	for (var i=0; i<data.values.length; i++) {
 		var id = Symbols.columnRowSymbol(data.listName, data.columnName, i);
 		$("#"+id).val(data.values[i]);
+		//$("#"+id).text(data.values[i]);
 	}
 };
 

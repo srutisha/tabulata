@@ -78,6 +78,11 @@ input[type=button] {
 
 .inp-cal {
 	background: #fdd;
+	font-size: 10pt;
+	border: inset 1px;
+	border-radius: 3px/2px;
+	padding-top:1px;
+	padding-bottom:1px;
 }
 
 .hed-act.shown-in-pane {
