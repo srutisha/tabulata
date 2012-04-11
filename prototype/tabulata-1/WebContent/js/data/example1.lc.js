@@ -2,7 +2,7 @@
 //var
 block = {
 	prolog: {
-		name: 'Check List',
+		name: 'Check List'
 	},
 	singulars : [ {
 		name : 'Percentage Done',
@@ -43,6 +43,7 @@ block = {
 		    },
 		    {
 		    	name: 'Done',
+                type: 'boolean',
 		    	values: [true, true, false, false]
 		    },
 		    {
@@ -68,7 +69,7 @@ block = {
 		    {
 		    	name: 'Due',
 		    	values: ['2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z']
-		    },
+		    }
 		    
 		]
 	}

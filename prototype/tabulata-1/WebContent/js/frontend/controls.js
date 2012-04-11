@@ -101,10 +101,11 @@ function ListControl() {
 		$("#mtbl").append([html.tr([html.td(createFieldNode("", {name: "0", values: [""]}, 0, 0)), html.td(this.createAddColumnButton())]),
 				html.tr([html.td(this.createAddRowButton()), html.td()])]);
 	};
+
 	
 	var createFieldNode = function (listName, col, colNr, row) {
 		var id = Symbols.columnRowSymbol(listName, col.name, row);
-		var co = DetailControlFactory.getControlObject("todo");
+		var co = DetailControlFactory.getControlObject(col.type);
 		var value = "";
 		var isEditable = false;
 		
@@ -155,7 +156,7 @@ function ListControl() {
 		}
 		
 		$("#mtbl").append(html.tr(footer));
-		
+
 		newCounter = dimensions.x = list.columns.length;
 		dimensions.y = list.numRows;
 	};

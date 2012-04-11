@@ -4,6 +4,9 @@ DetailControlFactory = function () {
 };
 
 DetailControlFactory.getControlObject = function (type) {
+    switch (type) {
+        case "boolean": return BooleanControl;
+    }
 	return TextInputControl;
 };
 
@@ -18,14 +21,14 @@ TextInputControl.createInputField = function(id, cls, value) {
 
 TextInputControl.renderToDisplay = function (id, className, isValue, value) {
 	if (isValue) {
-		return TextInputControl.createInputField(id, "inp-act " + className, value);
+		return TextInputControl.createInputField(id, "control-type-text inp-act " + className, value);
 	} else {
-		return TextInputControl.renderReadOnly(id, className, value); 
+		return TextInputControl.renderReadOnly(id, "control-type-text inp-cal " + className, value);
 	}
 };
 
 TextInputControl.renderReadOnly = function (id, className, value) {
-	var elem = TextInputControl.createInputField(id, "inp-cal " + className, value);
+	var elem = TextInputControl.createInputField(id, className, value);
 	elem.readOnly = true;
 	
 	return elem;
@@ -56,12 +59,43 @@ TextInputControl.changeValueType = function (listName, columnName, type) {
 };
 
 
-/*
-TextInputControl.renderReadOnly = function (id, classNames, value) {
-	var dv = html.crelem("div");
-	dv.id = id;
-	dv.className = "inp-cal " + classNames;
-	dv.innerText = value;
-	return dv;
+BooleanControl = function () {
 };
-*/
+
+BooleanControl.renderToDisplay = function (id, className, isValue, value) {
+    if (isValue) {
+        return BooleanControl.doRender(id, className, value);
+    } else {
+        // TODO
+    }
+};
+
+function createOption(txt1, txt2, selected) {
+    var option = html.crelem("option", txt2);
+    option.value = txt1;
+    option.selected = selected;
+    return option;
+}
+
+BooleanControl.doRender = function (id, className, value) {
+    // TODO: make jqm render this as a slider
+    var selectId = id+"-select";
+
+    var label = html.crelem("label", "OnOff");
+    label.htmlFor = selectId;
+    label.className = "ui-hidden-accessible";
+
+    var select = html.crelem("select", [
+        createOption("true", "True", value),
+        createOption("false", "False", ! value)], selectId);
+    select.dataset.role = "slider"; // JQM
+
+    var div =  html.crelem("div", [label, select], id);
+    div.className = "control-type-boolean";
+
+    return div;
+};
+
+BooleanControl.valueFromSelect = function (target) {
+    return $(target).val();
+};

@@ -55,9 +55,9 @@ EngineFront.prototype.sendEvent = function (frontendMessage) {
 	this.worker.postMessage(frontendMessage);
 };
 
-EngineFront.prototype.handleColumnValueChangeEvent = function (event) {
-	console.log("Column change: "+event.target.id+" -> "+event.target.value);
-	this.sendEvent(FrontendMessage.columnValueChanged(event.target.id, event.target.value));
+EngineFront.prototype.handleColumnValueChangeEvent = function (id, newValue) {
+	console.log("Column change: "+id+" -> "+newValue);
+	this.sendEvent(FrontendMessage.columnValueChanged(id, newValue));
 };
 
 EngineFront.prototype.handleColumnHeaderChangeEvent = function (event) {
@@ -74,7 +74,7 @@ EngineFront.prototype.handleColumnHeaderChangeEvent = function (event) {
 			event.target.value = oldColumnName;			
 		}
 		return;
-	};
+	}
 	
 	$(event.target).data("name", newName);
 	
@@ -123,7 +123,7 @@ function initEmpty() {
 function attachEvents() {
 	attachSingularEvents();
 	attachListEvents();
-};
+}
 
 attachSingularEvents = function () {
 	$("#stbl").on("tap", ".inp-value", function (event) {
@@ -179,8 +179,13 @@ attachListEvents = function () {
 	});
 	
 	$("#mtbl").on("focusout", ".inp-act", function (event) {
-		ef.handleColumnValueChangeEvent(event);
+		ef.handleColumnValueChangeEvent(event.target.id, event.target.value);
 	});
+
+    $("#mtbl").on("change", ".control-type-boolean select", function (event) {
+        var value = BooleanControl.valueFromSelect(event.target);
+        ef.handleColumnValueChangeEvent($(event.target).parents(".control-type-boolean")[0].id, value);
+    });
 
 	$("#mtbl").on("focusout", ".hed-act", function (event) {
 		ef.handleColumnHeaderChangeEvent(event);

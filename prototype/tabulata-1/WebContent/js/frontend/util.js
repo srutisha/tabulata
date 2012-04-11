@@ -24,9 +24,11 @@ html.input = function (id, className, value) {
 	return e;
 };
 
-html.crelem = function (name, inside) {
+html.crelem = function (name, inside, id) {
 	var elem = document.createElement(name);
 	if (inside != undefined)
 		$(elem).append(inside);
+    if (id != undefined)
+        elem.id = id;
 	return elem;	
 };
