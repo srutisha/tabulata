@@ -259,6 +259,24 @@ function ListControl() {
         this.changeTypeInListData(columnName, type);
 		ef.sendEvent( FrontendMessage.columnChanged( listName, columnName, columnName, type ) );
 	};
+
+    this.getColumnDataType = function (listName, columnName) {
+        var ret;
+        _list.columns.forEach(function (col) {
+            if (normalizeName(col.name) == columnName) {
+                ret = col.type;
+            }
+        });
+        return ret;
+    };
+
+    this.setColumnDataType = function (listName, columnName, newType) {
+        _list.columns.forEach(function (col) {
+            if (normalizeName(col.name) == columnName) {
+                col.type = newType;
+            }
+        });
+    };
 	
 	this.changeTypeInListData = function (columnName, type) {
 		_list.columns.forEach(function (col) {

@@ -16,9 +16,6 @@ input {
   	width:7em;
 }
 
-#pane fieldset {
-	width: 220px;
-}
 
 input[type=radio] {
 	width:20px;
@@ -123,7 +120,7 @@ input[type=button] {
 	font-size:11pt;
 	display:none;
 	
-	z-index:95;
+	z-index:105;
 }
 
 #singulars {

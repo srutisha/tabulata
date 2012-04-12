@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<!-- script type="text/javascript" src="https://getfirebug.com/firebug-lite.js#startOpened=true"></script -->
+<!--script type="text/javascript" src="https://getfirebug.com/firebug-lite.js#startOpened=true"></script-->
 <link href='http://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="apple-mobile-web-app-capable"
@@ -54,13 +54,22 @@ tabulata
 </div>
 </div>
 <div id="pane">
-<fieldset data-role="controlgroup" class="pane-gui-element">
+<fieldset data-role="controlgroup" data-type="horizontal" class="pane-gui-element">
 <legend>Column Type</legend>
 	<input class="radio-coltype" id="radio-coltype-values" type="radio" name="col_type" value="values" />
 	<label for="radio-coltype-values">Values</label>
 	<input class="radio-coltype" id="radio-coltype-valueFunction" type="radio" name="col_type" value="valueFunction" />
 	<label for="radio-coltype-valueFunction">Expression</label>
 </fieldset>
+    <fieldset data-role="controlgroup" data-type="horizontal" class="pane-gui-element">
+        <legend>Data Type</legend>
+        <input class="radio-datatype" id="radio-datatype-text" type="radio" name="data_type" value="text" />
+        <label for="radio-datatype-text">Text</label>
+        <input class="radio-datatype" id="radio-datatype-number" type="radio" name="data_type" value="number" />
+        <label for="radio-datatype-number">Number</label>
+        <input class="radio-datatype" id="radio-datatype-boolean" type="radio" name="data_type" value="boolean" />
+        <label for="radio-datatype-boolean">Boolean</label>
+    </fieldset>
 <p id="pane-edit-expression" class="pane-gui-element">
 <span>Column Expression</span> <br/>
 <input id="pane-value-function" class="pane-input"/>

@@ -30,6 +30,9 @@ DetailControlFactory_.prototype.getControlObjectByClass = function (classNames) 
     if (classNames.indexOf("control-type-boolean")!=-1) {
         return BooleanControl;
     }
+    if (classNames.indexOf("control-type-number")!=-1) {
+        return BooleanControl;
+    }
     return undefined;
 };
 

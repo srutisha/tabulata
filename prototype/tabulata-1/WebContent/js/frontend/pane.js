@@ -62,6 +62,8 @@ EditPane.savePane = function () {
 	if (d.originalType != newType) {
 		lc.changeColumnType(d.listName, d.columnName, newType);
 	}
+
+    EditPane.handleDataTypeChange(d.listName, d.columnName);
 	
 	if (newType == "valueFunction") {
 		$("#"+Symbols.columnRowSymbol(d.listName, d.columnName, "H")).data("exp", exp);
@@ -73,6 +75,15 @@ EditPane.savePane = function () {
 		}
 	}
 	
+};
+
+EditPane.handleDataTypeChange = function (listName, columnName) {
+    var newDataType = $('.radio-datatype:checked').val();
+    var oldDataType = lc.getColumnDataType(listName, columnName);
+    if (newDataType != oldDataType) {
+        DetailControlOps.replaceControlWithType(listName, columnName, newDataType);
+    }
+    lc.setColumnDataType(listName, columnName, newDataType);
 };
 
 
@@ -94,7 +105,8 @@ EditPane.showPaneEvent = function(event) {
 	EditPane.lastClicked = event.target;
 	
 	var idParts = event.target.id.split(/_/);
-	
+
+    //TODO remove dependency on DOM for determining column type, but query the list control.
 	EditPane.showPaneForHeader(EditPane.lastClicked, 
 			$("#"+Symbols.columnRowSymbol(idParts[1], idParts[2], "H")).data("exp") == undefined);
 	event.stopImmediatePropagation();
@@ -121,6 +133,11 @@ EditPane.showPaneForHeader = function(inputElem, isValues) {
 		$('#radio-coltype-values').prop("checked", false).checkboxradio("refresh");
 		$('#pane-edit-expression').toggle(true);
 	}
+
+    var dataType = lc.getColumnDataType(idParts[1], idParts[2]);
+    $('#radio-datatype-text').prop("checked", dataType == "text").checkboxradio("refresh");
+    $('#radio-datatype-number').prop("checked", dataType == "number").checkboxradio("refresh");
+    $('#radio-datatype-boolean').prop("checked", dataType == "boolean").checkboxradio("refresh");
 	
 	$(EditPane.editField).data("originalType", exp == undefined ? "values" : "valueFunction");
 	$(EditPane.editField).data("listName", idParts[1]);
