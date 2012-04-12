@@ -9,13 +9,37 @@ body {
 	font-family: "Droid Sans", "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;	
 }
 
-input {
+
+#mtbl tbody td, #mtbl th {
+    width: 103px;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    padding-right: 1px;
+}
+
+input, #mtbl select {
 	font-size: 10pt;
 	border: inset 1px;
 	border-radius: 3px/2px;
-  	width:7em;
+	width: 90px;
 }
 
+#mtbl select {
+    -webkit-appearance: none;
+    background: #fefefe;
+    padding: 1px;
+    width: 103px;
+    margin-right: 1px;
+    padding-top:2px;
+    padding-bottom:2px;
+
+}
+
+
+.control-type-boolean {
+    /*width: 150px;*/
+}
 
 input[type=radio] {
 	width:20px;
@@ -71,14 +95,20 @@ input[type=button] {
 	width: 30em;
 }
 
+.inp-act {
+    -webkit-appearance: caret;
+    padding-top:2px;
+    padding-bottom:2px;
+}
 
 .inp-cal {
+    -webkit-appearance: caret;
 	background: #fdd;
 	font-size: 10pt;
 	border: inset 1px;
 	border-radius: 3px/2px;
-	padding-top:1px;
-	padding-bottom:1px;
+	padding-top:2px;
+	padding-bottom:2px;
 }
 
 .hed-act.shown-in-pane {
@@ -141,14 +171,10 @@ input[type=button] {
 }
 
 #main {
-	-webkit-overflow-scrolling: touch;
-	overflow: scroll;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
 	background: #000;
-}
-
-#bottomspacer {
-	display:block;
-	height:352px; // keyboard height, TODO: make it dynamic
+    width: 100%;
 }
 
 #bottom-singulars {
@@ -156,3 +182,22 @@ input[type=button] {
 }
 
 
+#mtbl tbody {
+    display: block;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+    border-collapse: collapse;
+    padding-bottom:352px; /* keyboard height, TODO: make it dynamic */
+}
+
+#mtbl thead {
+    border-collapse: collapse;
+}
+
+#mtbl thead {
+    width: 100%;
+}
+
+#mtbl thead tr {
+    display: block;
+}

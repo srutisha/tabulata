@@ -112,6 +112,8 @@ function initEmpty() {
 
 	il.update();
 
+    sc.updateOffset();
+
     ef = new EngineFront();
 
 	attachEvents();
@@ -220,12 +222,12 @@ attachListEvents = function () {
 	$("#mtbl").on("tap", "input", function (event) {
 		EditPane.focusEvent(event);
 		//event.preventDefault();
-		var currentScrollPos = $("#main").scrollTop();
+		var currentScrollPos = $("#mtbl tbody").scrollTop();
 		var elemPosRelative = $(event.target).position().top;
 		var totalHeight = $("#mainwrapper").height();
 
 		if (totalHeight - elemPosRelative < c.KEYBOARD_HEIGHT) {
-			$("#main").scrollTop(currentScrollPos+elemPosRelative-totalHeight+c.KEYBOARD_HEIGHT);
+			$("#mtbl tbody").scrollTop(currentScrollPos+elemPosRelative-totalHeight+c.KEYBOARD_HEIGHT);
 		}
 
 		focusScrollblock(event.target, event);

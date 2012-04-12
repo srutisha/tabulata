@@ -11,6 +11,14 @@ html.tr = function(elem) {
 	return html.crelem("tr", elem);
 };
 
+html.thead = function(elem) {
+    return html.crelem("thead", elem);
+};
+
+html.tbody = function(elem) {
+    return html.crelem("tbody", elem);
+};
+
 html.th = function(elem) {
 	return html.crelem("th", elem);
 };

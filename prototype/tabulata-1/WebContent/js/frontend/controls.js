@@ -22,6 +22,7 @@ function SingularControl() {
 		var bottom = $(window).height();
 		$("#mainwrapper").css('height', (bottom - topIdx) + "px");
 		$("#main").css('height', (bottom - topIdx) + "px");
+        $("#mtbl tbody").css('height', (bottom - topIdx - 25 - c.KEYBOARD_HEIGHT) + "px");
 	};
 	
 	this.createRow = function (id, key, value) {
@@ -124,13 +125,15 @@ function ListControl() {
 		var headers = new Array();
 		
 		list.columns.forEach(function (col, idx) {
-			headers.push(html.th(self.createHeaderField(list.name, col, idx)));
+            var th = html.th(self.createHeaderField(list.name, col, idx));
+			headers.push(th);
 		});
 
 		headers.push(html.th());
 
-		$("#mtbl").append(html.tr(headers));
-		
+		$("#mtbl").append(html.thead(html.tr(headers)));
+
+        var allRows = [];
 		
 		for (var row=0; row<list.numRows; row++) {
 			var c = new Array();
@@ -145,7 +148,7 @@ function ListControl() {
 				c.push(html.td());
 			}
 			
-			$("#mtbl").append(html.tr(c));
+			allRows.push(html.tr(c));
 		}
 
 		var footer = new Array();
@@ -154,8 +157,10 @@ function ListControl() {
 		for (var col=1; col<list.columns.length+1; col++) {
 			footer.push(html.td());
 		}
+
+        allRows.push(html.tr(footer));
 		
-		$("#mtbl").append(html.tr(footer));
+		$("#mtbl").append(html.tbody(allRows));
 
 		newCounter = dimensions.x = list.columns.length;
 		dimensions.y = list.numRows;
@@ -178,7 +183,8 @@ function ListControl() {
 				hi.dataset.exp = col.valueFunction;
 			}
 		}
-		
+
+
 		return hi;
 	};
 	
@@ -232,7 +238,7 @@ function ListControl() {
 		$(button).parent().replaceWith(createFieldNode(_list.name, col, dimensions.x, 0));
 		$(tr).append(html.td(this.createAddColumnButton()));
 		
-		var hr = $(tr).siblings().first();
+		var hr = $(tr).parents("table").find("thead>tr");
 		var headerField = this.createHeaderField(_list.name, null, newCounter);
 		$(hr).children().last().append(headerField);
 		$(hr).append(html.th());
