@@ -23,6 +23,8 @@ tablet usability
 + data type boolean as a demonstration (the really simplest case)
 handle booleans
 
+always show header line
+
 ------------------------------------------------------------------------------------------
 
 ISSUES
@@ -65,8 +67,6 @@ add column (to left/right of existing column)
 editing: add columns/rows: count pushes, then do. show number of pushes.
 
 swipe gestures
-
-always show header line
 
 ------------------------------------------------------------------------------------------
 
