@@ -1,3 +1,29 @@
+function ObjUtil() {
+
+};
+
+ObjUtil.isNumber = function (s) {
+    return (''+s).match(/[\d.-]+/);
+};
+
+ObjUtil.stringToObject = function(s) {
+    if (ObjUtil.isNumber(s)) {
+        return parseFloat(s);
+    }
+
+    switch ((''+s).toLowerCase()) {
+        case "true": case "yes": case "1": return true;
+        case "false": case "no": case "0": return false;
+    }
+
+    if (s == "") {
+        return 0;
+    }
+
+    return s;
+};
+
+
 function normalizeName(name) {
 	return name.replace(/\s+/g, "");
 }

@@ -22,9 +22,20 @@ DetailControlFactory_.prototype.getControlObject = function (type) {
 	return TextInputControl;
 };
 
+DetailControlFactory_.prototype.getControlObjectByClass = function (classNames) {
+    if (classNames.indexOf("control-type-text")!=-1) {
+        return TextInputControl;
+    }
+    if (classNames.indexOf("control-type-boolean")!=-1) {
+        return BooleanControl;
+    }
+    return undefined;
+};
+
 DetailControlFactory = new DetailControlFactory_();
 
 TextInputControl = function () {
+    this.name = "TextInputControl";
 };
 
 DetailControlFactory.addControlObject(TextInputControl);
@@ -33,6 +44,10 @@ TextInputControl.attachChangeHandler = function (parentElem, changeHandler) {
     parentElem.on("focusout", ".inp-act", function (event) {
         changeHandler(event.target.id, event.target.value);
     });
+};
+
+TextInputControl.valueFromIdElement = function (elem) {
+    return $(elem).val();
 };
 
 TextInputControl.createInputField = function(id, cls, value) {
@@ -81,6 +96,7 @@ TextInputControl.changeValueType = function (listName, columnName, type) {
 
 
 BooleanControl = function () {
+    this.name = "BooleanControl";
 };
 
 DetailControlFactory.addControlObject(BooleanControl);
@@ -115,14 +131,13 @@ BooleanControl.doRender = function (id, className, value) {
     var label = html.crelem("label", "OnOff");
     label.htmlFor = selectId;
     label.className = "ui-hidden-accessible";
-
     var select = html.crelem("select", [
         createOption("true", "True", value),
         createOption("false", "False", ! value)], selectId);
     select.dataset.role = "slider"; // JQM
 
     var div =  html.crelem("div", [label, select], id);
-    div.className = "control-type-boolean";
+    div.className = "control-type-boolean " + className;
 
     return div;
 };
@@ -130,3 +145,25 @@ BooleanControl.doRender = function (id, className, value) {
 BooleanControl.valueFromIdElement = function (elem) {
     return $(elem).children("select").val();
 };
+
+
+DetailControlOps = function () {
+
+};
+
+DetailControlOps.replaceControlWithType = function (listName, columnName, newType) {
+    var colSymb = Symbols.columnSymbol(listName, columnName);
+    var controlElem;
+    var i = 0;
+    var controlObject;
+    while ((controlElem = $("#"+colSymb+"_"+i)).length > 0) {
+        controlElem = controlElem[0];
+        controlObject = DetailControlFactory.getControlObjectByClass(controlElem.className);
+        var val = controlObject.valueFromIdElement(controlElem);
+        var id = controlElem.id;
+        var cls = controlElem.className.match(/list_col_\d+/)[0];
+        $(controlElem).replaceWith(DetailControlFactory.getControlObject(newType).renderToDisplay(id, cls, true, ObjUtil.stringToObject(val)));
+        i++;
+    }
+};
+

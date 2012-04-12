@@ -159,27 +159,6 @@ ExpressionEvaluator.prototype.evaluateAst = function (ast) {
 		// console.log(compiled);
 		return eval(compiled);
 	}
-} ;
-
-ExpressionEvaluator.isNumber = function (s) {
-	return (''+s).match(/[\d.-]+/);
-};
-
-ExpressionEvaluator.stringToObject = function(s) {	
-	if (ExpressionEvaluator.isNumber(s)) {
-	    return parseFloat(s);
-	}
-	
-	switch ((''+s).toLowerCase()) {
-		case "true": case "yes": case "1": return true;
-		case "false": case "no": case "0": return false;
-	}
-	
-	if (s == "") {
-		return 0;
-	}
-	
-	return s;
 };
 
 
@@ -199,7 +178,7 @@ ExpressionEvaluator.prototype.handleNode = function (ast, ac) {
 		return this.handleIdentifier(ac, ast.name, ast.param);
 		break;
 	default: 
-		if (ExpressionEvaluator.isNumber(ast)) {
+		if (ObjUtil.isNumber(ast)) {
 			return 'ExpressionEvaluator.stringToObject('+ast+')';
 		}
 	
@@ -384,7 +363,7 @@ ValueColumn.prototype.values = function() {
 ValueColumn.prototype.$_sum = function () {
 	var ret = 0;
 	this.values().forEach(function(v) {
-		ret += ExpressionEvaluator.stringToObject(v);
+		ret += ObjUtil.stringToObject(v);
 	});
 	return ret;
 };
@@ -437,7 +416,7 @@ function Column(ctx, list, content) {
 	
 	this.updateValue = function (idx, value) {
 		if (isData) {
-			content.values[idx] = ExpressionEvaluator.stringToObject(value);
+			content.values[idx] = ObjUtil.stringToObject(value);
 		}
 	};
 	
@@ -467,7 +446,7 @@ function Column(ctx, list, content) {
 	
 	this.$V = function(idx) {
 		if (valueCache[idx] != undefined) return valueCache[idx];
-		return ExpressionEvaluator.stringToObject(this.values()[idx]);
+		return ObjUtil.stringToObject(this.values()[idx]);
 	};
 	
 	this.evaluate = function () {
