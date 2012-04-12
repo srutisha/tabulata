@@ -19,6 +19,10 @@ tablet usability
  - tap button optimization (remove the 300ms delay)
  - editing: let user touch-select columns or singulars
 
+
++ data type boolean as a demonstration (the really simplest case)
+handle booleans
+
 ------------------------------------------------------------------------------------------
 
 ISSUES
@@ -41,14 +45,12 @@ tablet usability
  - keyboard handling
 
 
-+ data type boolean as a demonstration (the really simplest case)
 
 ------------------------------------------------------------------------------------------
 
-PHASE ?) data types
+PHASE 0.5) data types
 
 handle dates
-handle booleans
 
 infer data type
 control for dates
@@ -63,6 +65,8 @@ add column (to left/right of existing column)
 editing: add columns/rows: count pushes, then do. show number of pushes.
 
 swipe gestures
+
+always show header line
 
 ------------------------------------------------------------------------------------------
 
