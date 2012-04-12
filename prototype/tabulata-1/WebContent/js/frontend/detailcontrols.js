@@ -18,6 +18,7 @@ DetailControlFactory_ = function () {
 DetailControlFactory_.prototype.getControlObject = function (type) {
     switch (type) {
         case "boolean": return BooleanControl;
+        case "number": return NumberInputControl;
     }
 	return TextInputControl;
 };
@@ -56,11 +57,15 @@ TextInputControl.createInputField = function(id, cls, value) {
 };
 
 TextInputControl.renderToDisplay = function (id, className, isValue, value) {
-	if (isValue) {
-		return TextInputControl.createInputField(id, "control-type-text inp-act " + className, value);
-	} else {
-		return TextInputControl.renderReadOnly(id, "control-type-text inp-cal " + className, value);
-	}
+    return this.renderToDisplayWithTypeClass(id, "control-type-text "+className, isValue, value);
+};
+
+TextInputControl.renderToDisplayWithTypeClass = function (id, className, isValue, value) {
+    if (isValue) {
+        return TextInputControl.createInputField(id, "inp-act " + className, value);
+    } else {
+        return TextInputControl.renderReadOnly(id, "inp-cal " + className, value);
+    }
 };
 
 TextInputControl.renderReadOnly = function (id, className, value) {
@@ -92,6 +97,18 @@ TextInputControl.changeValueType = function (listName, columnName, type) {
 		col.prop("readOnly", readOnly);
 		i++;
 	}
+};
+
+
+NumberInputControl = new TextInputControl();
+NumberInputControl.constructor = function () {
+    this.name = "NumberInputControl";
+};
+
+NumberInputControl.renderToDisplay = function (id, className, isValue, value) {
+    var ctrl = TextInputControl.renderToDisplayWithTypeClass(id, "control-type-number "+className, isValue, value);
+    ctrl.type = "number";
+    return ctrl;
 };
 
 

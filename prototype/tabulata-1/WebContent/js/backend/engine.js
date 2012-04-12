@@ -179,7 +179,7 @@ ExpressionEvaluator.prototype.handleNode = function (ast, ac) {
 		break;
 	default: 
 		if (ObjUtil.isNumber(ast)) {
-			return 'ExpressionEvaluator.stringToObject('+ast+')';
+			return 'ObjUtil.stringToObject('+ast+')';
 		}
 	
 		throw Error("Unknown ast node:"+ast);

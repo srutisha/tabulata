@@ -48,6 +48,7 @@ block = {
 		    },
 		    {
 		    	name: 'Hours Spent Intern',
+                type: 'number',
 		    	values: [5, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2]
 		    },
 		    {
@@ -56,6 +57,7 @@ block = {
 		    },
 		    {
 		    	name: 'Hours Spent Extern',
+                type: 'number',
 		    	values: [6, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1]
 		    },
 		    {
