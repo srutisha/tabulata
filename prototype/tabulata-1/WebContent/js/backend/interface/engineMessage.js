@@ -4,6 +4,12 @@ function EngineMessage(eventName, appliesTo) {
 	 this.appliesTo = appliesTo;
 };
 
+EngineMessage.blockDataMessage = function(blockData) {
+    var em = new EngineMessage("blockDataMessage", null);
+    em.blockData = blockData;
+    return em;
+};
+
 EngineMessage.updateSingularValue = function(sgName, value) {
 	var em = new EngineMessage("updateSingular", sgName);
 	em.value = value;

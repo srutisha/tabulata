@@ -24,6 +24,23 @@ html.th = function(elem) {
 };
 
 
+html.div = function(elem) {
+    return html.crelem("div", elem);
+};
+
+html.dl = function(elem) {
+    return html.crelem("dl", elem);
+};
+
+html.dt = function(elem) {
+    return html.crelem("dt", elem);
+};
+
+html.dd = function(elem) {
+    return html.crelem("dd", elem);
+};
+
+
 html.input = function (id, className, value) {
 	var e = document.createElement("input");
 	e.className = className;
