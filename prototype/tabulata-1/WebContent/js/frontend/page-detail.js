@@ -21,9 +21,17 @@ DetailPageController.init = function () {
 DetailPageController.attachEvents = function () {
     DetailPageController.attachSingularEvents();
     DetailPageController.attachListEvents();
+    $("#navigation-to-home").on("tap", function (event) {
+        $(".page-home").css("display", "block");
+        $(".page-detail").css("display", "none");
+        $("#info").html("");
+    });
 };
 
 DetailPageController.loadBlock = function(block) {
+    $(".page-home").css("display", "none");
+    $(".page-detail").css("display", "block");
+
     document.title = block.prolog.name + " -- tabulata";
     sc.init(block.singulars);
     lc.init(block.lists[0]);
@@ -31,6 +39,8 @@ DetailPageController.loadBlock = function(block) {
 
     il.update();
     sc.updateOffset();
+
+    //TODO XXX PRIO-ONE This roundtrip is not necessary at all
 
     ef.sendEvent(FrontendMessage.initWithBlock(block));
 };

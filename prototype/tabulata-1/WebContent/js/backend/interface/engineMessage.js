@@ -18,9 +18,15 @@ EngineMessage.updateColumnValues = function (listName, columnName, values) {
 	return em;
 };
 
-EngineMessage.blockDataMessage= function(blockData) {
+EngineMessage.blockDataMessage = function(blockData) {
     var em = new EngineMessage("blockDataMessage");
     em.data = blockData;
+    return em;
+};
+
+EngineMessage.fullBlockMessage = function(block) {
+    var em = new EngineMessage("fullBlockMessage");
+    em.block = block;
     return em;
 };
 
@@ -33,9 +39,15 @@ FrontendMessage.loadBlocks = function () {
     return fm;
 };
 
+FrontendMessage.initWithBlockOfId = function (blockId) {
+    var fm = new FrontendMessage("initWithBlockOfId");
+    fm.blockId = blockId;
+    return fm;
+};
+
 FrontendMessage.initWithBlock = function (block) {
 	var fm = new FrontendMessage("initWithBlock");
-	fm.data = block;
+	fm.block = block;
 	return fm;
 };
 

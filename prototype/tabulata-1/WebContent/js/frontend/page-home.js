@@ -5,12 +5,17 @@ HomePageController = function () {
 }
 
 HomePageController.init = function () {
+    $("#content-page-home").on("tap", ".home-block-container", function (event) {
+        var id = $(event.target).parents(".home-block-container").data("id");
 
+        ef.sendEvent(FrontendMessage.initWithBlockOfId(id));
+
+        event.preventDefault();
+    });
 };
 
 HomePageController.load = function (blocks) {
     var content = blocks.map(BlockDisplayControl.render);
-    console.log(content);
     $("#content-page-home").append(content);
 };
 
@@ -30,6 +35,7 @@ BlockDisplayControl.render = function (blockData) {
     $(bldiv).append($(html.div(blockData.name)).addClass("home-block-title"), content);
 
     $(bldiv).addClass("home-block-container");
+    $(bldiv).data("id", blockData.id);
 
     return bldiv;
 

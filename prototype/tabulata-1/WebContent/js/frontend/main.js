@@ -4,6 +4,7 @@ $(document).ready(function () {
     ef = new EngineFront();
 
     DetailPageController.init();
+    HomePageController.init();
 
     ef.sendEvent(FrontendMessage.loadBlocks());
 
@@ -33,6 +34,9 @@ function EngineFront() {
 EngineFront.prototype.messageHandler = function (event) {
     if (event.data.eventName == "blockDataMessage") {
         HomePageController.load([event.data.data]);
+    }
+    if (event.data.eventName == "fullBlockMessage") {
+        DetailPageController.loadBlock(event.data.block);
     }
 	if (event.data.eventName == "updateColumn") {
         DetailPageController.updateColumnEventReceived(event.data);

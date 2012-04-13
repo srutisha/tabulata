@@ -1,6 +1,7 @@
 
 
-BlockData = function (name, values) {
+BlockData = function (id, name, values) {
+    this.id = id;
     this.name = name;
     this.values = values == undefined ? [] : values;
 };

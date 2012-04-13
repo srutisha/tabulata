@@ -1,9 +1,19 @@
 var DataSource = function () {};
 
 DataSource.getBlocks = function () {
-return [ {
+return DataSource.staticData;
+};
+
+DataSource.getBlockWithId = function (id) {
+    return (DataSource.staticData.filter(function (block) {
+        return block.prolog.id == id;
+    }))[0];
+};
+
+DataSource.staticData = [ {
     prolog: {
-        name: 'Check List'
+        name: 'Check List',
+        id: 'tid-1'
     },
     singulars : [ {
         name : 'Percentage Done',
@@ -78,11 +88,12 @@ return [ {
         }
     ]
 }
-,
+    ,
 
     {
         prolog: {
-            name: 'Check List 2'
+            name: 'Check List 2',
+            id: 'tid-2'
         },
         singulars : [ {
             name : 'Percentage Done',
@@ -160,7 +171,8 @@ return [ {
 
     {
         prolog: {
-            name: 'Check List 3'
+            name: 'Check List 3',
+            id: 'tid-3'
         },
         singulars : [ {
             name : 'Percentage Done',
@@ -238,4 +250,3 @@ return [ {
 
 
 ];
-};

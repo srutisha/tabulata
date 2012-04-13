@@ -31,6 +31,7 @@ function SingularControl() {
 	};
 	
 	this.init = function (singulars) {
+        this.size = 0;
 		$("#stbl").html("");
 		for (var i = 0; i<singulars.length; i++) {
 			$("#stbl").append(this.createRow(Symbols.singularSymbol(singulars[i].name),

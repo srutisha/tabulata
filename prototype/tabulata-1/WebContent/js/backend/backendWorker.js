@@ -14,11 +14,16 @@ function errorReceiver(event) {
 onmessage = function(message) {
 	if (message.data.eventName == "initWithBlock") {
 		engine = new Engine (message.data.block);
-	} else if (message.data.eventName == "loadBlocks") {
+	} else if (message.data.eventName == "initWithBlockOfId") {
+        var block = DataSource.getBlockWithId(message.data.blockId);
+        engine = new Engine (block);
+        resultReceiver(EngineMessage.fullBlockMessage(block));
+        return;
+    } else if (message.data.eventName == "loadBlocks") {
         var blocks = DataSource.getBlocks();
         blocks.forEach(function (block) {
             engine = new Engine (block);
-            var blockData = new BlockData(block.prolog.name, engine.singularResultValues());
+            var blockData = new BlockData(block.prolog.id, block.prolog.name, engine.singularResultValues());
             resultReceiver(EngineMessage.blockDataMessage(blockData));
         });
         return;
