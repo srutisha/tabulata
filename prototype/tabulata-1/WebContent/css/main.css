@@ -236,6 +236,7 @@ input[type=button] {
 .home-block-container .home-block-title {
     font-size: 15pt;
     padding-bottom: 5px;
+    text-decoration: underline;
 
 }
 
@@ -253,13 +254,16 @@ input[type=button] {
 }
 
 
-dt {
+.home-block-container dt {
     float: left;
     clear: left;
     width:60%;
+    border-bottom: 1px dotted #555;
 }
 
 .home-block-container dd {
     float: left;
+    border-bottom: 1px dotted #555;
+    -webkit-margin-start: 0px;
 }
 
