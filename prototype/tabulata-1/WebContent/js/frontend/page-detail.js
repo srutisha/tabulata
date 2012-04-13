@@ -36,6 +36,23 @@ DetailPageController.loadBlock = function(block) {
 };
 
 
+DetailPageController.updateColumnEventReceived = function (data) {
+    for (var i=0; i<data.values.length; i++) {
+        var id = Symbols.columnRowSymbol(data.listName, data.columnName, i);
+        $("#"+id).val(data.values[i]);
+        //$("#"+id).text(data.values[i]);
+    }
+};
+
+DetailPageController.updateSingularEventReceived = function (data) {
+    var id = Symbols.singularSymbol(data.appliesTo);
+    var inp = $("#v_"+id);
+    if (inp.data("locked")) {
+        return;
+    }
+    inp.val(data.value);
+};
+
 DetailPageController.attachSingularEvents = function () {
     $("#stbl").on("tap", ".inp-value", function (event) {
         $(event.target).data("locked", true);

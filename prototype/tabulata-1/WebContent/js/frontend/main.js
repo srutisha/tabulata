@@ -24,32 +24,16 @@ function EngineFront() {
 
 EngineFront.prototype.messageHandler = function (event) {
 	if (event.data.eventName == "updateColumn") {
-		this.updateColumnEventReceived(event.data);
+        DetailPageController.updateColumnEventReceived(event.data);
 	}
 	if (event.data.eventName == "updateSingular") {
-		this.updateSingularEventReceived(event.data);
+        DetailPageController.updateSingularEventReceived(event.data);
 	}
 	if (event.data.eventName == "log") {
 		console.log(event.data.msg);
 	}
 };
 
-EngineFront.prototype.updateColumnEventReceived = function (data) {
-	for (var i=0; i<data.values.length; i++) {
-		var id = Symbols.columnRowSymbol(data.listName, data.columnName, i);
-		$("#"+id).val(data.values[i]);
-		//$("#"+id).text(data.values[i]);
-	}
-};
-
-EngineFront.prototype.updateSingularEventReceived = function (data) {
-	var id = Symbols.singularSymbol(data.appliesTo);
-	var inp = $("#v_"+id);
-	if (inp.data("locked")) {
-		return;
-	}
-	inp.val(data.value);
-};
 
 EngineFront.prototype.sendEvent = function (frontendMessage) {
 	console.log("Sending message .. ");
