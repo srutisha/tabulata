@@ -74,15 +74,6 @@ input[type=button] {
 	
 }
 
-#info {
-	font-size: 10pt;
-	padding-top:10pt;
-	padding-right:25pt;
-	color:#333;
-	float:right;
-	font-family: "Droid Sans", "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-}
-
 .hed-act , .inp-key {
 	background: #dfd;
 }
@@ -123,11 +114,10 @@ input[type=button] {
 	background: #ffa;
 }
 
-#title {
+#headerbar {
 	padding-left:8pt;
-	padding-bottom:8pt;
-	font-family: 'Fugaz One', cursive;
-	font-size:28pt;
+	padding-top:4pt;
+    padding-bottom:4pt;
 	font-color:black;
 	background:white;
 	position:fixed;
@@ -136,10 +126,36 @@ input[type=button] {
 	width:100%;
 }
 
+#title {
+    font-family: 'Fugaz One', cursive;
+    font-size:35px;
+    float:left;
+}
+
+#info {
+    font-size: 10pt;
+    padding-top:10pt;
+    padding-right:25pt;
+    color:#333;
+    float:right;
+    font-family: "Droid Sans", "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+#detailheader {
+    float: left;
+}
+
+#block-title {
+    display: inline;
+    width: 300px;
+    margin-left: 15px;
+    font-weight: bold;
+}
+
 #pane {
 	position: fixed;
-	top: 70px;
-	right:20px;
+	top: 55px;
+	right:10px;
 	width:400px;
 	border: 2px #555;
 	border: inset 2px;
@@ -156,7 +172,7 @@ input[type=button] {
 #singulars {
 	position:fixed;
 	left:0;
-	top:60px;
+	top:50px;
 	width:100%;
 	background:#000;
 	border-bottom: 2px solid #fff;
@@ -201,3 +217,8 @@ input[type=button] {
 #mtbl thead tr {
     display: block;
 }
+
+.page-home {
+    display: none;
+}
+

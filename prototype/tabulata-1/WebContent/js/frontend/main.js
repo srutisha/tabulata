@@ -272,6 +272,7 @@ function LoadControls() {
 		document.title = block.prolog.name + " -- tabulata";
 		sc.init(block.singulars);
 		lc.init(block.lists[0]);
+        $("#block-title").val(block.prolog.name);
 	};
 }
 

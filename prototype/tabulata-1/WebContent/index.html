@@ -35,46 +35,53 @@
   return false;
  }
 </script>
-<!-- body ontouchmove="BlockMove(event);" -->
 <body>
-</body><div id="title">
-tabulata
+</body><div id="headerbar">
+<div id="title" class="page-home">tabulata</div>
+<div id="detailheader" class="page-detail">
+    <a id="navigation-to-home" href="#" data-role="button" data-icon="back" data-inline="true" data-mini="true">Home</a>
+    <input id="block-title" data-inline="true"/>
+</div>
 <div id="info">tabulata. Hello.</div>
 </div>
-<div id="singulars">
-<table id="stbl">
-</table>
-<span id="bottom-singulars">&nbsp;</span>
+<div id="content-page-home" class="page-home">
 </div>
-<div id="mainwrapper">
-<div id="main">
-<table id="mtbl">
-</table>
-</div>
-</div>
-<div id="pane">
-<fieldset data-role="controlgroup" data-type="horizontal" class="pane-gui-element">
-<legend>Column Type</legend>
-	<input class="radio-coltype" id="radio-coltype-values" type="radio" name="col_type" value="values" />
-	<label for="radio-coltype-values">Values</label>
-	<input class="radio-coltype" id="radio-coltype-valueFunction" type="radio" name="col_type" value="valueFunction" />
-	<label for="radio-coltype-valueFunction">Expression</label>
-</fieldset>
+<div id="content-page-detail" class="page-detail">
+    <div id="singulars">
+    <table id="stbl">
+    </table>
+    <span id="bottom-singulars">&nbsp;</span>
+    </div>
+    <div id="mainwrapper">
+    <div id="main">
+    <table id="mtbl">
+    </table>
+    </div>
+    </div>
+    <div id="pane">
     <fieldset data-role="controlgroup" data-type="horizontal" class="pane-gui-element">
-        <legend>Data Type</legend>
-        <input class="radio-datatype" id="radio-datatype-text" type="radio" name="data_type" value="text" />
-        <label for="radio-datatype-text">Text</label>
-        <input class="radio-datatype" id="radio-datatype-number" type="radio" name="data_type" value="number" />
-        <label for="radio-datatype-number">Number</label>
-        <input class="radio-datatype" id="radio-datatype-boolean" type="radio" name="data_type" value="boolean" />
-        <label for="radio-datatype-boolean">Boolean</label>
+    <legend>Column Type</legend>
+        <input class="radio-coltype" id="radio-coltype-values" type="radio" name="col_type" value="values" />
+        <label for="radio-coltype-values">Values</label>
+        <input class="radio-coltype" id="radio-coltype-valueFunction" type="radio" name="col_type" value="valueFunction" />
+        <label for="radio-coltype-valueFunction">Expression</label>
     </fieldset>
-<p id="pane-edit-expression" class="pane-gui-element">
-<span>Column Expression</span> <br/>
-<input id="pane-value-function" class="pane-input"/>
-</p>
-<input id="pane-apply" data-inline="true" class="pane-button" type="button" value="Apply">
-<input id="pane-cancel" data-inline="true" class="pane-button" type="button" value="Cancel">
+        <fieldset data-role="controlgroup" data-type="horizontal" class="pane-gui-element">
+            <legend>Data Type</legend>
+            <input class="radio-datatype" id="radio-datatype-text" type="radio" name="data_type" value="text" />
+            <label for="radio-datatype-text">Text</label>
+            <input class="radio-datatype" id="radio-datatype-number" type="radio" name="data_type" value="number" />
+            <label for="radio-datatype-number">Number</label>
+            <input class="radio-datatype" id="radio-datatype-boolean" type="radio" name="data_type" value="boolean" />
+            <label for="radio-datatype-boolean">Boolean</label>
+        </fieldset>
+    <p id="pane-edit-expression" class="pane-gui-element">
+    <span>Column Expression</span> <br/>
+    <input id="pane-value-function" class="pane-input"/>
+    </p>
+    <input id="pane-apply" data-inline="true" class="pane-button" type="button" value="Apply" />
+    <input id="pane-cancel" data-inline="true" class="pane-button" type="button" value="Cancel" />
+    </div>
 </div>
 </body>
 </html>
