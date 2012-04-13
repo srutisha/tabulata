@@ -3,9 +3,17 @@ var ef;
 $(document).ready(function () {
     ef = new EngineFront();
 
-	initDetailPage();
-    loadDetailPage(block)
+    DetailPageController.init();
+
+    ef.sendEvent(FrontendMessage.loadBlocks());
+
+
+   // loadDetailPage(block)
 });
+
+function loadDetailPage(block) {
+    DetailPageController.loadBlock(block);
+}
 
 
 function EngineFront() {
@@ -23,6 +31,9 @@ function EngineFront() {
 }
 
 EngineFront.prototype.messageHandler = function (event) {
+    if (event.data.eventName == "blockDataMessage") {
+        HomePageController.load([event.data.data]);
+    }
 	if (event.data.eventName == "updateColumn") {
         DetailPageController.updateColumnEventReceived(event.data);
 	}
@@ -41,14 +52,6 @@ EngineFront.prototype.sendEvent = function (frontendMessage) {
 	this.worker.postMessage(frontendMessage);
 };
 
-
-function initDetailPage() {
-    DetailPageController.init();
-}
-
-function loadDetailPage(block) {
-    DetailPageController.loadBlock(block);
-}
 
 function InfoLine(sources) {
 	this.update = function () {

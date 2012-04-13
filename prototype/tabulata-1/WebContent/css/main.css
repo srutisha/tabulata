@@ -218,7 +218,48 @@ input[type=button] {
     display: block;
 }
 
-.page-home {
+.page-detail {
     display: none;
+}
+
+/*  HOME page styles */
+
+#content-page-home {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    top:50px;
+    background-color: #000;
+}
+
+.home-block-container .home-block-title {
+    font-size: 15pt;
+    padding-bottom: 5px;
+
+}
+
+.home-block-container {
+    margin:10px;
+    float: left;
+    width: 45%;
+    border: 2px #555;
+    border: inset 2px;
+    border-radius: 7px/5px;
+    background: #eee;
+    font-color:#333;
+    padding:5px;
+    font-size:13pt;
+}
+
+
+dt {
+    float: left;
+    clear: left;
+    width:60%;
+}
+
+.home-block-container dd {
+    float: left;
 }
 

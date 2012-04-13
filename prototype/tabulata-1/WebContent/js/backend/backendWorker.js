@@ -1,5 +1,5 @@
 
-importScripts('engine.js', 'interface/common.js', 'interface/engineMessage.js', '../lib/parser.js');
+importScripts('engine.js', 'datasource.js', 'interface/common.js', 'interface/engineMessage.js', '../lib/parser.js');
 
 var engine;
 
@@ -13,8 +13,16 @@ function errorReceiver(event) {
 
 onmessage = function(message) {
 	if (message.data.eventName == "initWithBlock") {
-		engine = new Engine (message.data.block);	
-	} else if (message.data.eventName == "columnValueChanged") {
+		engine = new Engine (message.data.block);
+	} else if (message.data.eventName == "loadBlocks") {
+        var blocks = DataSource.getBlocks();
+        blocks.forEach(function (block) {
+            engine = new Engine (block);
+            var blockData = new BlockData(block.prolog.name, engine.singularResultValues());
+            resultReceiver(EngineMessage.blockDataMessage(blockData));
+        });
+        return;
+    } else if (message.data.eventName == "columnValueChanged") {
 		var target = message.data.colRowSymbol.split("_");
 		var col = engine.ctx.columnByListAndName(target[1], target[2]);
 		col.updateValue(target[3], message.data.value);

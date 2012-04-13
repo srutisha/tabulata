@@ -1,26 +1,38 @@
 
 
+HomePageController = function () {
 
+}
 
-
-BlockDisplayControl = function (blockData) {
-    this.blockData = blockData;
+HomePageController.init = function () {
 
 };
 
-BlockDisplayControl.prototype.render = function () {
-    return $(html.div()).append(function () {
-            var ret = [
-                $(html.div(this.blockData.name)).addClass("home-block-title")
-            ];
+HomePageController.load = function (blocks) {
+    var content = blocks.map(BlockDisplayControl.render);
+    console.log(content);
+    $("#content-page-home").append(content);
+};
 
-            this.blockData.values.forEach(function(sg) {
-                ret.push(html.dt(sg.name), html.dd(sg.resultValue));
-            });
+BlockDisplayControl = function () {
 
-            return ret;
-        }
-    ).addClass("home-block-container").data("blockId", this.blockData.id);
+};
+
+BlockDisplayControl.render = function (blockData) {
+    var content =  [];
+
+    blockData.values.forEach(function(sg) {
+        content.push(html.dt(sg.name), html.dd(sg.resultValue));
+    });
+
+    var bldiv = html.div();
+
+    $(bldiv).append($(html.div(blockData.name)).addClass("home-block-title"), content);
+
+    $(bldiv).addClass("home-block-container");
+
+    return bldiv;
+
 };
 
 

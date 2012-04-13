@@ -3,10 +3,6 @@
 BlockData = function (name, values) {
     this.name = name;
     this.values = values == undefined ? [] : values;
-
-    this.addSingular = function (name, value) {
-        values.push({name: name, resultValue: value});
-    }
 };
 
 function ObjUtil() {

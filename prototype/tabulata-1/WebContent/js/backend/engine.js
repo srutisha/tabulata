@@ -20,17 +20,26 @@ function Engine(block) {
 }
 
 
+Engine.prototype.singularResultValues = function () {
+    return this.ctx.allSingulars().map(function (sg) {
+        return {name: sg.name(), resultValue: sg.value() };
+    });
+};
+
+Engine.prototype.sendSingulars = function (rr) {
+    this.ctx.allSingulars().forEach(function (sg) {
+        var em = EngineMessage.updateSingularValue(sg.name(), sg.value());
+        rr(em);
+    });
+};
+
 Engine.prototype.sendChangedData = function (rr) {
 	// for now, just send everything
 	this.ctx.valueFunctionColumns().forEach(function(col) {
 		var em = EngineMessage.updateColumnValues(col.listName(), col.name(), col.values());
 		rr(em);
 	});
-	
-	this.ctx.allSingulars().forEach(function(sg) {
-		var em = EngineMessage.updateSingularValue(sg.name(), sg.value());
-		rr(em);
-	});
+    this.sendSingulars(rr);
 };
 
 function Context() {
