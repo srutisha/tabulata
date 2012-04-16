@@ -8,7 +8,7 @@ BlockData = function (id, name, values) {
 
 function ObjUtil() {
 
-};
+}
 
 ObjUtil.isNumber = function (s) {
     return (''+s).match(/[\d.-]+/);

@@ -2,7 +2,7 @@
 
 HomePageController = function () {
 
-}
+};
 
 HomePageController.init = function () {
     $("#content-page-home").on("tap", ".home-block-container", function (event) {

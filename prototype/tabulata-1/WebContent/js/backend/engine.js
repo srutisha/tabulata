@@ -141,8 +141,7 @@ function ExpressionEvaluator(ctx) {
 	
 	this.ctx = ctx;
 	
-	this.evaluateText = function (exp, ac) {
-		if (ac == undefined) ac = AccessContext.top();
+	this.evaluateText = function (exp) {
 		var ast = listcalcParser.parse(exp);
 		return this.evaluateAst(ast);
 	};
@@ -266,7 +265,7 @@ function AccessContext() {
 	this.valueList = false;
 	
 	this.value = false; // singular or function result
-};
+}
 
 AccessContext.top = function () {
 	var ac = new AccessContext();
@@ -396,49 +395,49 @@ function Column(ctx, list, content) {
 	var self = this;
 	this.ctx = ctx;
 	this.list = list;
-	
+
 	var isData = content.values != undefined;
 	this.isFunction = content.valueFunction != undefined;
-	
+
 	var valueCache = new Array();
-	
+
 	this.listName = function () {
 		return list.name();
 	};
-	
+
 	//TODO NOT GOOD!! BAD PROGRAMMER!
 	this.getContent = function () {
 		return content;
 	};
-	
+
 	this.symbol = function () {
 		return Symbols.columnSymbol(list.name(),self.name());
 	};
-	
+
 	this.setName = function (name) {
 		content.name = name;
 	};
-	
+
 	this.name = function () {
 		return normalizeName(content.name);
 	};
-	
+
 	this.updateValue = function (idx, value) {
 		if (isData) {
 			content.values[idx] = ObjUtil.stringToObject(value);
 		}
 	};
-	
+
 	this.updateValueFunction = function (fn) {
 		content.valueFunction = fn;
 	};
-	
+
 	this.addRow = function () {
 		if (isData) {
 			content.values.push("");
 		}
 	};
-	
+
 	this.values = function () {
 		if (isData) {
 			return content.values;
@@ -447,22 +446,22 @@ function Column(ctx, list, content) {
 			return this.evaluate();
 		}
 	};
-	
+
 	this.$V_above = function (idx) {
 		if (idx == 0) return 0.0;
 		return this.$V(idx-1);
 	};
-	
+
 	this.$V = function(idx) {
 		if (valueCache[idx] != undefined) return valueCache[idx];
 		return ObjUtil.stringToObject(this.values()[idx]);
 	};
-	
+
 	this.evaluate = function () {
 		exec(ctx, content.valueFunction);
 		return valueCache;
 	};
-	
+
 	var exec = function (ctx, exp) {
 		var cee = new ColumnExpressionEvaluator(ctx, list, exp);
 		for (var i = 0; i < list.numRows(); i++) {

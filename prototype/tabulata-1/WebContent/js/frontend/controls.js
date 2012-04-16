@@ -206,7 +206,7 @@ function ListControl() {
 	this.addRow = function(button) {
 		var tr = $(button).parent().parent().get(0);
 		
-		$(tr).children().each(function(index, elem){
+		$(tr).children().each(function(index){
 			if (index == dimensions.x) {
 				// last cell
 				$(this).empty();
@@ -268,7 +268,7 @@ function ListControl() {
 	};
 
     this.getColumnDataType = function (listName, columnName) {
-        var ret;
+        var ret = undefined;
         _list.columns.forEach(function (col) {
             if (normalizeName(col.name) == columnName) {
                 ret = col.type;

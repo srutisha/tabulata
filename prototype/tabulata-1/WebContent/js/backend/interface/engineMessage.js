@@ -2,7 +2,7 @@
 function EngineMessage(eventName, appliesTo) {
 	 this.eventName = eventName;
 	 this.appliesTo = appliesTo;
-};
+}
 
 EngineMessage.updateSingularValue = function(sgName, value) {
 	var em = new EngineMessage("updateSingular", sgName);
@@ -32,11 +32,10 @@ EngineMessage.fullBlockMessage = function(block) {
 
 function FrontendMessage(eventName) {
 	this.eventName = eventName;
-};
+}
 
 FrontendMessage.loadBlocks = function () {
-    var fm = new FrontendMessage("loadBlocks");
-    return fm;
+    return new FrontendMessage("loadBlocks");
 };
 
 FrontendMessage.initWithBlockOfId = function (blockId) {
@@ -46,8 +45,7 @@ FrontendMessage.initWithBlockOfId = function (blockId) {
 };
 
 FrontendMessage.readyForBlock = function () {
-    var fm = new FrontendMessage("readyForBlock");
-    return fm;
+    return new FrontendMessage("readyForBlock");
 };
 
 FrontendMessage.initWithBlock = function (block) {

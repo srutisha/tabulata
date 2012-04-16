@@ -2,7 +2,7 @@
 //var
 block = {
 	prolog: {
-		name: 'Check List',
+		name: 'Check List'
 	},
 	singulars : [ 
 	{

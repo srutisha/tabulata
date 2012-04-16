@@ -1,7 +1,7 @@
 
 
 function EditPane () {
-};
+}
 
 EditPane.attachEvents = function () {
 	$('.radio-coltype').change(function (event) {
@@ -23,9 +23,6 @@ EditPane.attachEvents = function () {
 	
 	$("#pane-value-function").on("focus", function(event) {
 		EditPane.isEditingFunction = true;
-	});
-	$("#pane-value-function").on("focusout", function(event) {
-		//EditPane.isEditingFunction = false;
 	});
 };
 
