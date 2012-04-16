@@ -40,9 +40,7 @@ DetailPageController.loadBlock = function(block) {
     il.update();
     sc.updateOffset();
 
-    //TODO XXX PRIO-ONE This roundtrip is not necessary at all
-
-    ef.sendEvent(FrontendMessage.initWithBlock(block));
+    ef.sendEvent(FrontendMessage.readyForBlock());
 };
 
 

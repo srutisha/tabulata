@@ -45,6 +45,11 @@ FrontendMessage.initWithBlockOfId = function (blockId) {
     return fm;
 };
 
+FrontendMessage.readyForBlock = function () {
+    var fm = new FrontendMessage("readyForBlock");
+    return fm;
+};
+
 FrontendMessage.initWithBlock = function (block) {
 	var fm = new FrontendMessage("initWithBlock");
 	fm.block = block;

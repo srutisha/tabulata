@@ -54,7 +54,9 @@ onmessage = function(message) {
 		engine.ctx.columnsByList(listName).forEach(function (col) {
 			col.addRow();
 		});
-	}
+	} else if (message.data.eventName == "readyForBlock") {
+        // do nothing, just send the changed data (below)
+    }
 	// for now, do this on any message
 	engine.sendChangedData(resultReceiver);
 };
