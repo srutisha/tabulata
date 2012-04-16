@@ -298,6 +298,10 @@ function Singular(ctx, data) {
 	var self = this;
 	
 	this.exp = data.value;
+
+    this.setExp = function (exp) {
+        this.exp = exp;
+    }
 	
 	this.symbol = function () {
 		return Symbols.singularSymbol(self.name());
@@ -354,6 +358,9 @@ function List(ctx, _list) {
 	
 	this.addRow = function () {
 		list.numRows ++;
+        ctx.columnsByList(list.name()).forEach(function (col) {
+            col.addRow();
+        });
 	};
 	
 	this.$_count = this.numRows;

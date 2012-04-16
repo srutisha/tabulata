@@ -41,7 +41,7 @@ onmessage = function(message) {
 		var sgName = message.data.sgSymbol.split(/_/)[1];
 		var exp = message.data.exp;
 		var sg = engine.ctx.singularByName(sgName);
-		sg.exp = exp;
+		sg.setExp(exp);
 	} else if (message.data.eventName == "singularChanged") {
 		var oldSymbol = message.data.oldSymbol;
 		var sgNewName = message.data.newName;
@@ -51,9 +51,6 @@ onmessage = function(message) {
 		var listName = message.data.listName;
 		var list = engine.ctx.listByName(listName);
 		list.addRow();
-		engine.ctx.columnsByList(listName).forEach(function (col) {
-			col.addRow();
-		});
 	} else if (message.data.eventName == "readyForBlock") {
         // do nothing, just send the changed data (below)
     }
