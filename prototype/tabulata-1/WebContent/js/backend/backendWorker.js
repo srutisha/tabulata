@@ -29,28 +29,24 @@ onmessage = function(message) {
         return;
     } else if (message.data.eventName == "columnValueChanged") {
 		var target = message.data.colRowSymbol.split("_");
-		var col = engine.ctx.columnByListAndName(target[1], target[2]);
-		col.updateValue(target[3], message.data.value);
+        engine.changeColumnValue(target[1], target[2], target[3], message.data.value);
 	} else if (message.data.eventName == "columnValueFunctionChanged") {
-		var col = engine.ctx.columnByListAndName(message.data.listName, message.data.columnName);
-		col.updateValueFunction(message.data.value);
+		engine.changeColumnValueFunction(message.data.listName, message.data.columnName, message.data.value);
 	} else if (message.data.eventName == "columnChanged") {
-		Column.changeColumn(engine.ctx, message.data.listName, 
+		engine.changeColumn(message.data.listName,
 				message.data.oldColumnName, message.data.newColumnName, message.data.type);
 	} else if (message.data.eventName == "singularExpChanged") {
 		var sgName = message.data.sgSymbol.split(/_/)[1];
 		var exp = message.data.exp;
-		var sg = engine.ctx.singularByName(sgName);
-		sg.setExp(exp);
+        engine.changeSingularExpression(sgName, exp);
 	} else if (message.data.eventName == "singularChanged") {
 		var oldSymbol = message.data.oldSymbol;
 		var sgNewName = message.data.newName;
 		var sgExp = message.data.exp;
-		Singular.changeSingular(engine.ctx, oldSymbol, sgNewName, sgExp);
+		engine.changeSingular(oldSymbol, sgNewName, sgExp);
 	} else if (message.data.eventName == "rowAdded") {
 		var listName = message.data.listName;
-		var list = engine.ctx.listByName(listName);
-		list.addRow();
+		engine.addListRow(listName);
 	} else if (message.data.eventName == "readyForBlock") {
         // do nothing, just send the changed data (below)
     }

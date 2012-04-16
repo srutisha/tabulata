@@ -19,8 +19,35 @@ function Engine(block) {
 	//this.ctx.logMembers();
 }
 
+Engine.prototype.changeColumnValue = function (listName, columnName, idx, value) {
+    var col = this.ctx.columnByListAndName(listName, columnName);
+    col.updateValue(idx, value)
+};
 
-Engine.prototype.singularResultValues = function () {
+Engine.prototype.changeColumnValueFunction = function (listName, columnName, value) {
+    var col = this.ctx.columnByListAndName(listName, columnName);
+    col.updateValueFunction(value)
+};
+
+Engine.prototype.changeColumn = function (listName, oldColumnName, newColumnName, type) {
+    Column.changeColumn(this.ctx, listName, oldColumnName, newColumnName, type);
+};
+
+Engine.prototype.changeSingularExpression = function (sgName, newExp) {
+    var sg = this.ctx.singularByName(sgName);
+    sg.setExp(newExp);
+};
+
+Engine.prototype.changeSingular = function (oldSymbol, sgNewName, sgExp) {
+    Singular.changeSingular(this.ctx, oldSymbol, sgNewName, sgExp);
+};
+
+Engine.prototype.addListRow = function (listName) {
+    var list = this.ctx.listByName(listName);
+    list.addRow();
+};
+
+                                          Engine.prototype.singularResultValues = function () {
     return this.ctx.allSingulars().map(function (sg) {
         return {name: sg.name(), resultValue: sg.value() };
     });
