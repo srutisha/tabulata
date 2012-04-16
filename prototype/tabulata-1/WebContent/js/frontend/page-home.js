@@ -15,9 +15,18 @@ HomePageController.init = function () {
 };
 
 HomePageController.load = function (blocks) {
-    var content = blocks.map(BlockDisplayControl.render);
-    $("#content-page-home").append(content);
+    blocks.forEach(HomePageController.loadOrReload);
 };
+
+HomePageController.loadOrReload = function (blockData) {
+    var content = BlockDisplayControl.render(blockData);
+    var existing = $(".home-block-container").filter(function () { return $(this).data('id') == blockData.id; });
+    if (existing.length > 0) {
+        existing.replaceWith(content);
+    } else {
+        $("#content-page-home").append(content);
+    }
+}
 
 BlockDisplayControl = function () {
 

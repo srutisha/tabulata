@@ -26,6 +26,7 @@ DetailPageController.attachEvents = function () {
         $(".page-detail").css("display", "none");
         $("#info").html("");
         document.title = "home -- tabulata";
+        ef.sendEvent(FrontendMessage.loadBlocks());
     });
 };
 

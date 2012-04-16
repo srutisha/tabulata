@@ -38,7 +38,7 @@ onmessage = function(message) {
 	} else if (message.data.eventName == "singularExpChanged") {
 		var sgName = message.data.sgSymbol.split(/_/)[1];
 		var exp = message.data.exp;
-        engine.changeSingularExpression(sgName, exp);
+        engine.changeSingular(message.data.sgSymbol, undefined, exp);
 	} else if (message.data.eventName == "singularChanged") {
 		var oldSymbol = message.data.oldSymbol;
 		var sgNewName = message.data.newName;
@@ -50,7 +50,9 @@ onmessage = function(message) {
 	} else if (message.data.eventName == "readyForBlock") {
         // do nothing, just send the changed data (below)
     }
-	// for now, do this on any message
+
+    // for now, do this on any message
+    DataSource.saveBlock(engine.blockJson());
 	engine.sendChangedData(resultReceiver);
 };
 

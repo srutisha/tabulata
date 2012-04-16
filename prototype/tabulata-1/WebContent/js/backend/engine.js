@@ -8,7 +8,7 @@ console.log = function(msg) {
 function Engine(block) {
 	var self = this;
 	
-	this.ctx = new Context();
+	this.ctx = new Context(block);
 	
 	block.singulars.forEach(function (sgData) {
 		self.ctx.addSingular(sgData);
@@ -33,11 +33,6 @@ Engine.prototype.changeColumn = function (listName, oldColumnName, newColumnName
     Column.changeColumn(this.ctx, listName, oldColumnName, newColumnName, type);
 };
 
-Engine.prototype.changeSingularExpression = function (sgName, newExp) {
-    var sg = this.ctx.singularByName(sgName);
-    sg.setExp(newExp);
-};
-
 Engine.prototype.changeSingular = function (oldSymbol, sgNewName, sgExp) {
     Singular.changeSingular(this.ctx, oldSymbol, sgNewName, sgExp);
 };
@@ -47,7 +42,7 @@ Engine.prototype.addListRow = function (listName) {
     list.addRow();
 };
 
-                                          Engine.prototype.singularResultValues = function () {
+Engine.prototype.singularResultValues = function () {
     return this.ctx.allSingulars().map(function (sg) {
         return {name: sg.name(), resultValue: sg.value() };
     });
@@ -69,7 +64,11 @@ Engine.prototype.sendChangedData = function (rr) {
     this.sendSingulars(rr);
 };
 
-function Context() {
+Engine.prototype.blockJson = function () {
+    return this.ctx.blockJson();
+};
+
+function Context(block) {
 	var self = this;
 	var singulars = new Array();
 	var columns = new Array();
@@ -140,8 +139,8 @@ function Context() {
 	
 	this.addList = function (listData) {
 		var list = new List(self, listData);
-		listData.columns.forEach(function (col) {
-			self.addColumn(list, col);
+		listData.columns.forEach(function (colData) {
+			var col = self.addColumn(list, colData);
 		});
 		self[list.symbol()] = list;
 		lists.push(list);
@@ -151,6 +150,7 @@ function Context() {
 		var col = new Column(self, list, colData);
 		self[col.symbol()] = col;
 		columns.push(col);
+        return col;
 	};
 	
 	this.logMembers = function () {
@@ -162,6 +162,32 @@ function Context() {
 	this.evaluate = function (exp) {
 		return new ExpressionEvaluator(self).evaluateText(exp);
 	};
+
+    // -------- persistence -----------
+
+    this.blockJson = function () {
+        var jsonList = lists[0].jsonData();
+        jsonList.columns = this.columnsJson();
+        return {
+            'prolog': block.prolog,
+            'singulars': this.singularsJson(),
+            'lists': [
+                jsonList
+            ]
+        };
+    };
+
+    this.singularsJson = function () {
+        return singulars.map(function (sg) { return sg.jsonData(); });
+    };
+
+    this.listJson = function () {
+
+    };
+
+    this.columnsJson = function () {
+        return columns.map(function (col) { return col.jsonData(); });
+    }
 }
 
 function ExpressionEvaluator(ctx) {
@@ -326,9 +352,13 @@ function Singular(ctx, data) {
 	
 	this.exp = data.value;
 
+    this.jsonData = function () {
+        return {'name': data.name, 'value': this.exp};
+    };
+
     this.setExp = function (exp) {
         this.exp = exp;
-    }
+    };
 	
 	this.symbol = function () {
 		return Symbols.singularSymbol(self.name());
@@ -354,7 +384,7 @@ Singular.changeSingular = function (ctx, oldSymb, newName, exp) {
 	if (oldSymb != undefined) {
 		var oldSg = ctx[oldSymb];
 		if (exp != undefined) {
-			oldSg.exp = exp;
+			oldSg.setExp(exp);
 			return;
 		} else {
 			sgData.value = oldSg.exp;
@@ -389,6 +419,13 @@ function List(ctx, _list) {
             col.addRow();
         });
 	};
+
+    this.jsonData = function () {
+        return {
+            'name': _list.name,
+            'numRows': this.numRows()
+        };
+    };
 	
 	this.$_count = this.numRows;
 }
@@ -504,6 +541,12 @@ function Column(ctx, list, content) {
 			}
 		}
 	};
+
+    // ----------- persistence -------
+
+    this.jsonData = function () {
+        return content;
+    };
 }
 
 Column.prototype = ValueColumn.prototype;

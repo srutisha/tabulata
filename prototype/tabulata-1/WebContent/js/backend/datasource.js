@@ -10,6 +10,17 @@ DataSource.getBlockWithId = function (id) {
     }))[0];
 };
 
+DataSource.saveBlock = function (block) {
+    var id = block.prolog.id;
+    DataSource.staticData =
+        DataSource.staticData.map(function (oldBlock) {
+        if (oldBlock.prolog.id == id) {
+            return block;
+        }
+        return oldBlock;
+    });
+};
+
 DataSource.staticData = [ {
     prolog: {
         name: 'Check List',
