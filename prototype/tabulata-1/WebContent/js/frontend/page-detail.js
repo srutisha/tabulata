@@ -25,6 +25,7 @@ DetailPageController.attachEvents = function () {
         $(".page-home").css("display", "block");
         $(".page-detail").css("display", "none");
         $("#info").html("");
+        document.title = "home -- tabulata";
     });
 };
 
