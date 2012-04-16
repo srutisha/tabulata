@@ -6,7 +6,7 @@ HomePageController = function () {
 
 HomePageController.init = function () {
     $("#content-page-home").on("tap", ".home-block-container", function (event) {
-        var id = $(event.target).parents(".home-block-container").data("id");
+        var id = $(event.target).closest(".home-block-container").data("id");
 
         ef.sendEvent(FrontendMessage.initWithBlockOfId(id));
 
