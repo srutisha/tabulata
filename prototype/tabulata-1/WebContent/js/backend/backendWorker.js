@@ -35,7 +35,9 @@ onmessage = function(message) {
     } else if (message.data.eventName == "columnValueChanged") {
 		var target = message.data.colRowSymbol.split("_");
         engine.changeColumnValue(target[1], target[2], target[3], message.data.value);
-	} else if (message.data.eventName == "columnValueFunctionChanged") {
+	} else if (message.data.eventName == "prologChanged") {
+        engine.changeProlog(message.data.prolog);
+    } else if (message.data.eventName == "columnValueFunctionChanged") {
 		engine.changeColumnValueFunction(message.data.listName, message.data.columnName, message.data.value);
 	} else if (message.data.eventName == "columnChanged") {
 		engine.changeColumn(message.data.listName,

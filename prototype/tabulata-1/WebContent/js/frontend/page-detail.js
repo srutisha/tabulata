@@ -28,6 +28,11 @@ DetailPageController.attachEvents = function () {
         document.title = "home -- tabulata";
         ef.sendEvent(FrontendMessage.loadBlocks());
     });
+
+    $("#block-title").on("focusout", function () {
+        var title = $("#block-title").val();
+        ef.sendEvent(FrontendMessage.prologChanged({'name': title}));
+    });
 };
 
 DetailPageController.loadBlock = function(block) {

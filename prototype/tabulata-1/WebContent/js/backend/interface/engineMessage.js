@@ -60,6 +60,12 @@ FrontendMessage.initWithBlock = function (block) {
 	return fm;
 };
 
+FrontendMessage.prologChanged = function (prolog) {
+    var fm = new FrontendMessage("prologChanged");
+    fm.prolog = prolog;
+    return fm;
+};
+
 FrontendMessage.columnValueChanged = function (colRowSymbol, value) {
 	var fm = new FrontendMessage("columnValueChanged");
 	fm.colRowSymbol = colRowSymbol;

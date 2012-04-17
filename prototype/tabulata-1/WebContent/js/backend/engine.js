@@ -18,6 +18,9 @@ function Engine(block) {
 	
 	//this.ctx.logMembers();
 }
+Engine.prototype.changeProlog = function (prolog) {
+    this.ctx.changeProlog(prolog);
+};
 
 Engine.prototype.changeColumnValue = function (listName, columnName, idx, value) {
     var col = this.ctx.columnByListAndName(listName, columnName);
@@ -82,6 +85,10 @@ function Context(block) {
 	var singulars = new Array();
 	var columns = new Array();
 	var lists = new Array();
+
+    this.changeProlog = function (prolog) {
+        block.prolog.name = prolog.name;
+    };
 	
 	this.singularByName = function (sgName) { 
 		return singulars.filter(function (sgn) {
