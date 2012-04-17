@@ -36,8 +36,8 @@ Engine.prototype.changeColumn = function (listName, oldColumnName, newColumnName
     Column.changeColumn(this.ctx, listName, oldColumnName, newColumnName, type);
 };
 
-Engine.prototype.changeSingular = function (oldSymbol, sgNewName, sgExp) {
-    Singular.changeSingular(this.ctx, oldSymbol, sgNewName, sgExp);
+Engine.prototype.changeSingular = function (cdata) {
+    Singular.changeSingular(this.ctx, cdata);
 };
 
 Engine.prototype.addListRow = function (listName) {
@@ -368,12 +368,18 @@ function Singular(ctx, data) {
 	
 	this.exp = data.value;
 
+    this.isFavorite = data.isFavorite;
+
     this.jsonData = function () {
-        return {'name': data.name, 'value': this.exp};
+        return {'name': data.name, 'value': this.exp, 'isFavorite': this.isFavorite};
     };
 
     this.setExp = function (exp) {
         this.exp = exp;
+    };
+
+    this.setFavorite = function (isFavorite) {
+        this.isFavorite = isFavorite;
     };
 	
 	this.symbol = function () {
@@ -397,18 +403,24 @@ function Singular(ctx, data) {
 	};
 }
 
-Singular.changeSingular = function (ctx, oldSymb, newName, exp) {
+Singular.changeSingular = function (ctx, cdata) {
 
-	var sgData = {name: newName, value: exp};
+	var sgData = {name: cdata.newName, value: cdata.exp, isFavorite: cdata.isFavorite};
 
-	if (oldSymb != undefined) {
-		var oldSg = ctx[oldSymb];
-		if (exp != undefined) {
-			oldSg.setExp(exp);
+	if (cdata.oldSymbol != undefined) {
+		var oldSg = ctx[cdata.oldSymbol];
+
+        if (cdata.exp != undefined) {
+			oldSg.setExp(cdata.exp);
 			return;
-		} else {
-			sgData.value = oldSg.exp;
 		}
+
+        if (cdata.isFavorite != undefined) {
+            oldSg.setFavorite(cdata.isFavorite);
+            return;
+        }
+
+		sgData.value = oldSg.exp;
 		ctx.removeSingular(oldSg);
 	} else {
 		sgData.value = "";

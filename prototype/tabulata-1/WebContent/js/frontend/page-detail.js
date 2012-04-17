@@ -85,7 +85,20 @@ DetailPageController.attachSingularEvents = function () {
         $(event.target).val("..");
         $(event.target).data("locked", false);
 
-        ef.sendEvent(FrontendMessage.singularExpChanged(event.target.id.substring(2), exp));
+        ef.sendEvent(FrontendMessage.singularChanged(event.target.id.substring(2), undefined, exp, undefined));
+    });
+
+    $("#stbl").on("tap", /*".sg-star",*/ function (event) {
+        // the event fires on the TD, and not the span.
+        if ($(event.target).children(".sg-star").length == 0) return;
+
+        var isFavorite = $(event.target).children(".sg-starred").length == 0;
+        var sgSymbol = ($(event.target).next().children()[0].id).substring(2);
+
+        ef.sendEvent(FrontendMessage.singularChanged(sgSymbol, undefined, undefined, isFavorite));
+
+        $(event.target).children(".sg-star").toggleClass("sg-starred");
+        $(event.target).children(".sg-star").toggleClass("sg-unstarred");
     });
 
     $("#stbl").on("tap", ".inp-key", function (event) {
@@ -100,7 +113,7 @@ DetailPageController.attachSingularEvents = function () {
 
     $("#stbl").on("focusout", ".inp-key", function (event) {
         if ($(event.target).data("oldValue") != event.target.value) {
-            handleSingularNameChangedEvent(event);
+            DetailPageController.handleSingularNameChangedEvent(event);
         }
     });
 
@@ -115,6 +128,23 @@ DetailPageController.attachSingularEvents = function () {
         event.preventDefault();
     });
 };
+
+DetailPageController.handleSingularNameChangedEvent = function (event) {
+    var name = event.target.value;
+    var oldSymbol = event.target.id.substring(2);
+    var newSymbol = Symbols.singularSymbol(name);
+
+    event.target.id = SingularControl.keyId(newSymbol);
+    $("#"+SingularControl.valueId(oldSymbol)).attr("id", SingularControl.valueId(newSymbol));
+
+    // for a new singular, doesn't send an old symbol (it was only temporary in the gui)
+    if (oldSymbol.match(/\d+/)) {
+        oldSymbol = undefined;
+    }
+
+    ef.sendEvent(FrontendMessage.singularChanged(oldSymbol, name, undefined));
+};
+
 
 var ColumnValueChangeHandler = function(e, v) {
     // a lambda such that "this" will be set to ef and not the window object when passing the function as reference
@@ -236,19 +266,4 @@ c = new function () {};
 //TODO: dynamically determine
 c.KEYBOARD_HEIGHT = 340;
 
-handleSingularNameChangedEvent = function (event) {
-    var name = event.target.value;
-    var oldSymbol = event.target.id.substring(2);
-    var newSymbol = Symbols.singularSymbol(name);
-
-    event.target.id = SingularControl.keyId(newSymbol);
-    $("#"+SingularControl.valueId(oldSymbol)).attr("id", SingularControl.valueId(newSymbol));
-
-    // for a new singular, doesn't send an old symbol (it was only temporary in the gui)
-    if (oldSymbol.match(/\d+/)) {
-        oldSymbol = undefined;
-    }
-
-    ef.sendEvent(FrontendMessage.singularChanged(oldSymbol, name, undefined));
-};
 

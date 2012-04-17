@@ -40,6 +40,10 @@ html.dd = function(elem) {
     return html.crelem("dd", elem);
 };
 
+html.span = function(elem) {
+    return html.crelem("span", elem);
+};
+
 
 html.input = function (id, className, value) {
 	var e = document.createElement("input");

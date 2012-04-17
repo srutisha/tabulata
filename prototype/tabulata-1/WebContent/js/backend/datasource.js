@@ -66,7 +66,8 @@ DataSource.staticData = [ {
     },
     singulars : [ {
         name : 'Percentage Done',
-        value : 'Tasks.Task.select(Tasks.Done == {true}).count / Tasks.count'
+        value : 'Tasks.Task.select(Tasks.Done == {true}).count / Tasks.count',
+        isFavorite: true
     }, {
         name : 'Sum Intern',
         value : 'Tasks.HoursSpentIntern.sum'
@@ -90,7 +91,8 @@ DataSource.staticData = [ {
         value : '15'
     }, {
         name : 'Total',
-        value : 'Tasks.count'
+        value : 'Tasks.count',
+        isFavorite: true
     } ],
     lists: [
         {

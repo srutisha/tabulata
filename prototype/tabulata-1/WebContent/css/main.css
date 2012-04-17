@@ -90,6 +90,14 @@ input[type=button] {
 	width: 30em;
 }
 
+.sg-unstarred:before {
+    content: url("../media/star4.png");
+}
+
+.sg-starred:before {
+    content: url("../media/star-lit4.png");
+}
+
 .inp-act {
     -webkit-appearance: caret;
     padding-top:2px;

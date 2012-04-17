@@ -25,8 +25,8 @@ function SingularControl() {
         $("#mtbl tbody").css('height', (bottom - topIdx - 25 - c.KEYBOARD_HEIGHT) + "px");
 	};
 	
-	this.createRow = function (id, key, value) {
-		var tdcont = [html.td(this.createInputFieldKey(id, key)), html.td(this.createInputFieldValue(id, value))];
+	this.createRow = function (id, key, value, isFavorite) {
+		var tdcont = [html.td(this.createFavorite(isFavorite)), html.td(this.createInputFieldKey(id, key)), html.td(this.createInputFieldValue(id, value))];
 		return html.tr(tdcont);
 	};
 	
@@ -35,13 +35,20 @@ function SingularControl() {
 		$("#stbl").html("");
 		for (var i = 0; i<singulars.length; i++) {
 			$("#stbl").append(this.createRow(Symbols.singularSymbol(singulars[i].name),
-					singulars[i].name, singulars[i].value));
+					singulars[i].name, singulars[i].value, singulars[i].isFavorite));
 			this.size ++;
 		}
 		//recreate the button
 		this.build();
 		this.updateOffset();
 	};
+
+    this.createFavorite = function (isFavorite) {
+        var sp = html.span();
+        var starclass = isFavorite ? "sg-starred" : "sg-unstarred";
+        $(sp).addClass("sg-star "+starclass);
+        return sp;
+    };
 	
 	this.createInputFieldKey = function(symbol, key) {
 		if (key == undefined) key = "";

@@ -42,15 +42,8 @@ onmessage = function(message) {
 	} else if (message.data.eventName == "columnChanged") {
 		engine.changeColumn(message.data.listName,
 				message.data.oldColumnName, message.data.newColumnName, message.data.type);
-	} else if (message.data.eventName == "singularExpChanged") {
-		var sgName = message.data.sgSymbol.split(/_/)[1];
-		var exp = message.data.exp;
-        engine.changeSingular(message.data.sgSymbol, undefined, exp);
 	} else if (message.data.eventName == "singularChanged") {
-		var oldSymbol = message.data.oldSymbol;
-		var sgNewName = message.data.newName;
-		var sgExp = message.data.exp;
-		engine.changeSingular(oldSymbol, sgNewName, sgExp);
+		engine.changeSingular(message.data);
 	} else if (message.data.eventName == "rowAdded") {
 		var listName = message.data.listName;
 		engine.addListRow(listName);

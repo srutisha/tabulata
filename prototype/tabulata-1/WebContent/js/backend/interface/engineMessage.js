@@ -95,18 +95,12 @@ FrontendMessage.columnChanged = function (listName, oldColumnName, newColumnName
 	return fm;
 };
 
-FrontendMessage.singularExpChanged = function (sgSymbol, exp) {
-	var fm = new FrontendMessage("singularExpChanged");
-	fm.sgSymbol = sgSymbol;
-	fm.exp = exp;
-	return fm;
-};
-
-FrontendMessage.singularChanged = function (oldSymbol, sgNewName, sgExp) {
+FrontendMessage.singularChanged = function (oldSymbol, sgNewName, sgExp, isFavorite) {
 	var fm = new FrontendMessage("singularChanged");
 	fm.oldSymbol = oldSymbol;
 	fm.newName = sgNewName;
 	fm.exp = sgExp;
+    fm.isFavorite = isFavorite;
 	return fm;
 };
 
