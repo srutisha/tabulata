@@ -10,6 +10,10 @@ body {
 }
 
 
+.ui-body-c, .ui-body-c input, .ui-body-c select, .ui-body-c textarea, .ui-body-c button {
+    font-family: "Droid Sans", "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif !important;
+}
+
 #mtbl tbody td, #mtbl th {
     width: 103px;
     padding: 0;
@@ -240,7 +244,7 @@ input[type=button] {
 
 }
 
-.home-block-container {
+.home-block-container, #home-new-block{
     margin:10px;
     float: left;
     width: 45%;
@@ -248,11 +252,29 @@ input[type=button] {
     border: inset 2px;
     border-radius: 7px/5px;
     background: #eee;
-    font-color:#333;
+    color:#333;
     padding:5px;
     font-size:13pt;
 }
 
+#home-new-block {
+    border: 4px dashed #555;
+    background: #333;
+    color:#ddd;
+    text-shadow: 0 1px 0 #999;
+    height: 200px;
+}
+
+#home-new-block .home-new-block-plus {
+    font-size: 50px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+#home-new-block .home-new-block-text {
+    font-size: 20px;
+    text-align: center;
+}
 
 .home-block-container dt {
     float: left;

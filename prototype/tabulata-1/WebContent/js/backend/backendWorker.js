@@ -19,6 +19,11 @@ onmessage = function(message) {
         engine = new Engine (block);
         resultReceiver(EngineMessage.fullBlockMessage(block));
         return;
+    } else if (message.data.eventName == "initWithNewBlock") {
+        var block = DataSource.newBlock(message.data.blockName);
+        engine = new Engine (block);
+        resultReceiver(EngineMessage.fullBlockMessage(block));
+        return;
     } else if (message.data.eventName == "loadBlocks") {
         var blocks = DataSource.getBlocks();
         blocks.forEach(function (block) {
@@ -52,7 +57,7 @@ onmessage = function(message) {
     }
 
     // for now, do this on any message
-    DataSource.saveBlock(engine.blockJson());
+    DataSource.updateBlock(engine.blockJson());
 	engine.sendChangedData(resultReceiver);
 };
 

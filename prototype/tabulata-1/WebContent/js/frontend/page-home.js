@@ -3,6 +3,7 @@
 HomePageController = function () {
 
 };
+HomePageController.unnamedCounter = 1;
 
 HomePageController.init = function () {
     $("#content-page-home").on("tap", ".home-block-container", function (event) {
@@ -12,6 +13,12 @@ HomePageController.init = function () {
 
         event.preventDefault();
     });
+    $("#content-page-home").append(BlockDisplayControl.renderNewBlock());
+
+    $("#home-new-block").on("tap", function (event) {
+        ef.sendEvent(FrontendMessage.initWithNewBlock("Unnamed "+HomePageController.unnamedCounter));
+        HomePageController.unnamedCounter++;
+    });
 };
 
 HomePageController.load = function (blocks) {
@@ -20,11 +27,12 @@ HomePageController.load = function (blocks) {
 
 HomePageController.loadOrReload = function (blockData) {
     var content = BlockDisplayControl.render(blockData);
+    console.log(blockData.id);
     var existing = $(".home-block-container").filter(function () { return $(this).data('id') == blockData.id; });
     if (existing.length > 0) {
         existing.replaceWith(content);
     } else {
-        $("#content-page-home").append(content);
+        $("#home-new-block").before(content);
     }
 }
 
@@ -50,4 +58,15 @@ BlockDisplayControl.render = function (blockData) {
 
 };
 
+
+BlockDisplayControl.renderNewBlock = function () {
+    var bldiv = html.div();
+    bldiv.id = "home-new-block";
+
+    $(bldiv).append($(html.div("+")).addClass("home-new-block-plus"), $(html.div("New Block")).addClass("home-new-block-text"));
+
+
+    return bldiv;
+
+};
 

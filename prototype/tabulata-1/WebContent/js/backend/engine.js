@@ -44,7 +44,16 @@ Engine.prototype.addListRow = function (listName) {
 
 Engine.prototype.singularResultValues = function () {
     return this.ctx.allSingulars().map(function (sg) {
-        return {name: sg.name(), resultValue: sg.value() };
+        var sgName = sg.name();
+        var sgValue = "-empty-";
+        if (sgName == "") {
+            sgName = "-empty-";
+        }
+        try {
+            sgValue = sg.value();
+        } catch (ex) {}
+
+        return {name: sgName, resultValue: sgValue };
     });
 };
 
