@@ -1,89 +1,59 @@
 
-DONE
-
-edit singular
-add row -- to backend and frontend
-add singleton -- to backend and frontend
-use singular in column expression
-extend grammar: a-b , floating point numbers
-edit column expression
-solved issue: race condition singular update (".." will become the expression, the actual expression is lost)
--> was actually a problem with re-attaching already existing events. now us on() and selector for proper event handling, without having to reattach them.
-edit pane
-rename singular
-add column to the right of last column
-set column type (values / expression)
-use dom manipulation instead of html creation
-
-tablet usability
- - tap button optimization (remove the 300ms delay)
- - editing: let user touch-select columns or singulars
-
-
-+ data type boolean as a demonstration (the really simplest case)
-handle booleans
-
-always show header line
-
 ------------------------------------------------------------------------------------------
 
 ISSUES
 
-grammar: )_*_3 doesn't parse (whitespace after closed bracket)
+MED grammar: )_*_3 doesn't parse (whitespace after closed bracket)
 
-only use jq data() , remove plain dataset access
+LOW only use jq data() , remove plain dataset access
 
-touch-selecting: if holding longer than a bit (ie. click-event gets fired (working assumption)), then
+MED touch-selecting: if holding longer than a bit (ie. click-event gets fired (working assumption)), then
 the expression-editing field looses focus and the touched field gains the focus (bypassing the javascript
 event handlers). intercepting and cancelling focus and click events did not help so far.
 
 ------------------------------------------------------------------------------------------
 
+EXTENSION OF LISTS: 1:N
 
-PHASE 0) essential functionality --- ready for 5 minutes tablet demo
+more than 1 list per block
 
-tablet usability
- - scrolling/zooming
- - keyboard handling
+column defaults / series
+aggregation list
+
+name of list is editable
+
+EDITING OF SINGULARS
+
+starring of sgs for home page
 
 
 
-------------------------------------------------------------------------------------------
-
-PHASE 0.5) data types
-
-handle dates
-
-infer data type
-control for dates
-control for booleans
-
-------------------------------------------------------------------------------------------
-
-PHASE 1) ui chrome
-
-add column (to left/right of existing column)
+EDITING OF LIST
 
 editing: add columns/rows: count pushes, then do. show number of pushes.
 
-swipe gestures
+add column (to left/right of existing column)
 
-------------------------------------------------------------------------------------------
-
-PHASE 2) more functionality
-
-rename column
-
-infer column width
-
-more than 1 list per block
-column defaults / series (-> aggregation table?)
-aggregation list
-
-show more than 1 block
+variable column width
 
 (columns rows singulars) gui functions:
 resize 
 reorder 
 delete
 
+infer data type
+control for dates
+
+undo
+
+
+HOME
+
+delete block
+
+reorder blocks
+
+
+PERSISTENCE
+
+use backend / browser store for persistence across sessions
