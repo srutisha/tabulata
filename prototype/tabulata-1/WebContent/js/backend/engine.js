@@ -47,7 +47,7 @@ Engine.prototype.addListRow = function (listName) {
 
 Engine.prototype.singularResultValues = function () {
     return this.ctx.allSingulars().map(function (sg) {
-        var sgName = sg.name();
+        var sgName = sg.humanName();
         var sgValue = "-empty-";
         if (sgName == "") {
             sgName = "-empty-";
@@ -379,6 +379,10 @@ function Singular(ctx, data) {
 	this.symbol = function () {
 		return Symbols.singularSymbol(self.name());
 	};
+
+    this.humanName = function () {
+        return data.name;
+    };
 	
 	this.name = function () {
 		return normalizeName(data.name);
