@@ -44,7 +44,9 @@ BlockDisplayControl.render = function (blockData) {
     var content =  [];
 
     blockData.values.forEach(function(sg) {
-        content.push(html.dt(sg.name), html.dd(sg.resultValue));
+        if (sg.isFavorite) {
+            content.push(html.dt(sg.name), html.dd(sg.resultValue));
+        }
     });
 
     var bldiv = html.div();

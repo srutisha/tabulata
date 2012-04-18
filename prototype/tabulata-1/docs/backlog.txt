@@ -24,11 +24,6 @@ aggregation list
 
 name of list is editable
 
-EDITING OF SINGULARS
-
-starring of sgs for home page
-
-
 
 EDITING OF LIST
 

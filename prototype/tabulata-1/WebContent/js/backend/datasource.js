@@ -70,13 +70,16 @@ DataSource.staticData = [ {
         isFavorite: true
     }, {
         name : 'Sum Intern',
-        value : 'Tasks.HoursSpentIntern.sum'
+        value : 'Tasks.HoursSpentIntern.sum',
+        isFavorite: true
     }, {
         name : 'Sum Extern',
-        value : 'Tasks.HoursSpentExtern.sum'
+        value : 'Tasks.HoursSpentExtern.sum',
+        isFavorite: true
     }, {
         name : 'Sum Total One',
-        value : 'Tasks.HoursSpentIntern.sum + Tasks.HoursSpentExtern.sum'
+        value : 'Tasks.HoursSpentIntern.sum + Tasks.HoursSpentExtern.sum',
+        isFavorite: true
     }, {
         name : 'Sum Total Two',
         value : 'SumExtern + SumIntern'
@@ -85,7 +88,8 @@ DataSource.staticData = [ {
         value : 'Tasks.HoursSpentTotal.sum'
     }, {
         name : 'Spent On Done Total',
-        value : 'Tasks.HoursSpentTotal.select(Tasks.Done == {true}).sum'
+        value : 'Tasks.HoursSpentTotal.select(Tasks.Done == {true}).sum',
+        isFavorite: true
     }, {
         name : 'Salary Per Hour Intern',
         value : '15'
@@ -148,31 +152,37 @@ DataSource.staticData = [ {
         },
         singulars : [ {
             name : 'Percentage Done',
-            value : 'Tasks.Task.select(Tasks.Done == {true}).count / Tasks.count'
+            value : 'Tasks.Task.select(Tasks.Done == {true}).count / Tasks.count',
+            isFavorite: true
         }, {
             name : 'Sum Intern',
-            value : 'Tasks.HoursSpentIntern.sum'
+            value : 'Tasks.HoursSpentIntern.sum',
+            isFavorite: true
         }, {
             name : 'Sum Extern',
-            value : 'Tasks.HoursSpentExtern.sum'
+            value : 'Tasks.HoursSpentExtern.sum',
+            isFavorite: true
         }, {
             name : 'Sum Total One',
             value : 'Tasks.HoursSpentIntern.sum + Tasks.HoursSpentExtern.sum'
         }, {
             name : 'Sum Total Two',
-            value : 'SumExtern + SumIntern'
+            value : 'SumExtern + SumIntern',
+            isFavorite: true
         }, {
             name : 'Sum Total Three',
             value : 'Tasks.HoursSpentTotal.sum'
         }, {
             name : 'Spent On Done Total',
-            value : 'Tasks.HoursSpentTotal.select(Tasks.Done == {true}).sum'
+            value : 'Tasks.HoursSpentTotal.select(Tasks.Done == {true}).sum',
+            isFavorite: true
         }, {
             name : 'Salary Per Hour Intern',
             value : '15'
         }, {
             name : 'Total',
-            value : 'Tasks.count'
+            value : 'Tasks.count',
+            isFavorite: true
         } ],
         lists: [
             {
@@ -227,7 +237,8 @@ DataSource.staticData = [ {
         },
         singulars : [ {
             name : 'Percentage Done',
-            value : 'Tasks.Task.select(Tasks.Done == {true}).count / Tasks.count'
+            value : 'Tasks.Task.select(Tasks.Done == {true}).count / Tasks.count',
+            isFavorite: true
         }, {
             name : 'Sum Intern',
             value : 'Tasks.HoursSpentIntern.sum'
@@ -242,10 +253,12 @@ DataSource.staticData = [ {
             value : 'SumExtern + SumIntern'
         }, {
             name : 'Sum Total Three',
-            value : 'Tasks.HoursSpentTotal.sum'
+            value : 'Tasks.HoursSpentTotal.sum',
+            isFavorite: true
         }, {
             name : 'Spent On Done Total',
-            value : 'Tasks.HoursSpentTotal.select(Tasks.Done == {true}).sum'
+            value : 'Tasks.HoursSpentTotal.select(Tasks.Done == {true}).sum',
+            isFavorite: true
         }, {
             name : 'Salary Per Hour Intern',
             value : '15'

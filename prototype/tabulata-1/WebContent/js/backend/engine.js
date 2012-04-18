@@ -56,7 +56,7 @@ Engine.prototype.singularResultValues = function () {
             sgValue = sg.value();
         } catch (ex) {}
 
-        return {name: sgName, resultValue: sgValue };
+        return {name: sgName, resultValue: sgValue, isFavorite: sg.isFavorite };
     });
 };
 
