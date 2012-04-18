@@ -89,16 +89,20 @@ DetailPageController.attachSingularEvents = function () {
     });
 
     $("#stbl").on("tap", /*".sg-star",*/ function (event) {
+        var $startd = $(event.target);
+        if ($startd.hasClass("sg-star")) {
+            $startd = $startd.parent();
+        }
         // the event fires on the TD, and not the span.
-        if ($(event.target).children(".sg-star").length == 0) return;
+        if ($startd.children(".sg-star").length == 0) return;
 
-        var isFavorite = $(event.target).children(".sg-starred").length == 0;
-        var sgSymbol = ($(event.target).next().children()[0].id).substring(2);
+        var isFavorite = $startd.children(".sg-starred").length == 0;
+        var sgSymbol = ($startd.next().children()[0].id).substring(2);
 
         ef.sendEvent(FrontendMessage.singularChanged(sgSymbol, undefined, undefined, isFavorite));
 
-        $(event.target).children(".sg-star").toggleClass("sg-starred");
-        $(event.target).children(".sg-star").toggleClass("sg-unstarred");
+        $startd.children(".sg-star").toggleClass("sg-starred");
+        $startd.children(".sg-star").toggleClass("sg-unstarred");
     });
 
     $("#stbl").on("tap", ".inp-key", function (event) {
