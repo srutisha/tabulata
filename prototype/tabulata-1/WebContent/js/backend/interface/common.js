@@ -10,6 +10,14 @@ function ObjUtil() {
 
 }
 
+ObjUtil.stdFormatIfNumber = function (n) {
+    if (ObjUtil.isNumber(n)) {
+        // at most 2 places after the decimal point
+        return Math.round(n*100)/100;
+    }
+    return n;
+};
+
 ObjUtil.isNumber = function (s) {
     return (''+s).match(/[\d.-]+/);
 };

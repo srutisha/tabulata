@@ -45,7 +45,7 @@ BlockDisplayControl.render = function (blockData) {
 
     blockData.values.forEach(function(sg) {
         if (sg.isFavorite) {
-            content.push(html.dt(sg.name), html.dd(sg.resultValue));
+            content.push(html.dt(sg.name), html.dd(ObjUtil.stdFormatIfNumber(sg.resultValue)));
         }
     });
 
