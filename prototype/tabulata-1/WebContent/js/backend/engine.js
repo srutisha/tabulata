@@ -123,15 +123,14 @@ function Context(block) {
 		return columns.filter(function (column) {
 			return column.listName() == listName;
 		});
-	};	
-	
-	this.addSingular = function (sgData) {
-		var sg = new Singular(self, sgData);
-		self[sg.symbol()] = sg;
-		singulars.push(sg);
+	};
+
+    this.addSingular = function (sgData) {
+        var sg = Singular.fromData(self, sgData);
+        singulars.push(sg);
 	};
 	
-	this.removeSingular = function (sg) {
+	this.replaceSingular = function (sg, newSgData) {
 		self[sg.symbol()] = undefined;
 		var delIdx = -1;
 		for (var i=0; i<singulars.length; i++) {
@@ -139,7 +138,12 @@ function Context(block) {
 				delIdx = i;
 			}
 		}
-		singulars.splice(delIdx, 1);
+
+        if (newSgData) {
+            singulars.splice(delIdx, 1, Singular.fromData(self, newSgData));
+        } else {
+            singulars.splice(delIdx, 1);
+        }
 	};
 	
 	this.removeColumn = function (col) {
@@ -403,6 +407,12 @@ function Singular(ctx, data) {
 	};
 }
 
+Singular.fromData = function (ctx, sgData) {
+    var sg = new Singular(ctx, sgData);
+    ctx[sg.symbol()] = sg;
+    return sg;
+};
+
 Singular.changeSingular = function (ctx, cdata) {
 
 	var sgData = {name: cdata.newName, value: cdata.exp, isFavorite: cdata.isFavorite};
@@ -421,12 +431,13 @@ Singular.changeSingular = function (ctx, cdata) {
         }
 
 		sgData.value = oldSg.exp;
-		ctx.removeSingular(oldSg);
+		ctx.replaceSingular(oldSg, sgData);
 	} else {
 		sgData.value = "";
+        ctx.addSingular(sgData);
 	}
 	
-	ctx.addSingular(sgData);
+
 };
 
 function List(ctx, _list) {
