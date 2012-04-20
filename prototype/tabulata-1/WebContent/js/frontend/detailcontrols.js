@@ -78,7 +78,7 @@ TextInputControl.renderReadOnly = function (id, className, value) {
 	return elem;
 };
 
-TextInputControl.changeValueType = function (listName, columnName, type) {
+TextInputControl.changeValueType = function (listIdx, columnName, type) {
 	var newClass = '';
 	var oldClass = '';
 	var readOnly = true;
@@ -93,7 +93,7 @@ TextInputControl.changeValueType = function (listName, columnName, type) {
 	}
 	var i = 0;
 	var col;
-	while ((col=$('#'+Symbols.columnRowSymbol(listName, columnName, ""+i))).length > 0) {
+	while ((col=$('#'+Symbols.columnRowSymbol(listIdx, columnName, ""+i))).length > 0) {
 		col.removeClass(oldClass);
 		col.addClass(newClass);
 		col.val("");
@@ -171,8 +171,8 @@ DetailControlOps = function () {
 
 };
 
-DetailControlOps.replaceControlWithType = function (listName, columnName, newType) {
-    var colSymb = Symbols.columnSymbol(listName, columnName);
+DetailControlOps.replaceControlWithType = function (listIdx, columnName, newType) {
+    var colSymb = Symbols.columnSymbol(listIdx, columnName);
     var controlElem;
     var i = 0;
     var controlObject;

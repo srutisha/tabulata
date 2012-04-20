@@ -104,15 +104,11 @@ function ListControl() {
 	};
 	
 	this.build = function () {
-		$("#mtbl").append(html.tr([html.th(this.createHeaderField("")), html.th()]));
-		
-		$("#mtbl").append([html.tr([html.td(createFieldNode("", {name: "0", values: [""]}, 0, 0)), html.td(this.createAddColumnButton())]),
-				html.tr([html.td(this.createAddRowButton()), html.td()])]);
 	};
 
 	
-	var createFieldNode = function (listName, col, colNr, row) {
-		var id = Symbols.columnRowSymbol(listName, col.name, row);
+	var createFieldNode = function (col, colNr, row) {
+		var id = Symbols.columnRowSymbol(self.cn(), col.name, row);
 		var co = DetailControlFactory.getControlObject(col.type);
 		var value = "";
 		var isEditable = false;
@@ -124,15 +120,29 @@ function ListControl() {
 		
 		return html.td(co.renderToDisplay(id, self.genColumnClassName(colNr), isEditable, value));
 	};
-	
+
+    this.myIdx = -1;
+
+    var initNameMapping = function () {
+        ListControl.indexToName[ListControl.nextListIndex] = _list.name;
+        self.myIdx = ListControl.nextListIndex;
+        ListControl.nextListIndex ++;
+    };
+
+    this.cn = function () {
+        return ""+this.myIdx;
+    };
+
 	this.init = function (list) {
 		_list = list;
 		$("#mtbl").html("");
+
+        initNameMapping();
 		
 		var headers = new Array();
 		
 		list.columns.forEach(function (col, idx) {
-            var th = html.th(self.createHeaderField(list.name, col, idx));
+            var th = html.th(self.createHeaderField(col, idx));
 			headers.push(th);
 		});
 
@@ -146,7 +156,7 @@ function ListControl() {
 			var c = new Array();
 			
 			list.columns.forEach(function (col, idx) {
-				 c.push(createFieldNode(list.name, col, idx, row));
+				 c.push(createFieldNode(col, idx, row));
 			});
 			
 			if (row==0) {
@@ -173,16 +183,17 @@ function ListControl() {
 		dimensions.y = list.numRows;
 	};
 	
-	this.createHeaderField = function(listName, col, idx) {
+	this.createHeaderField = function(col, idx) {
 		var hi = document.createElement("input");
 		hi.className = 'hed-act'+self.genColumnClassName(idx);
 
 		if (col == null) {
-			hi.id = Symbols.columnRowSymbol(listName, "" + columnCounter, "H");
+			hi.id = Symbols.columnRowSymbol(self.cn(), "" + columnCounter, "H");
 			$(hi).data("name", undefined);
 		} else {
+            console.log(self.cn());
 			hi.value = col.name;
-			hi.id = Symbols.columnRowSymbol(listName, col.name, "H");
+			hi.id = Symbols.columnRowSymbol(self.cn(), col.name, "H");
 			
 			$(hi).data("name", col.name);
 			
@@ -217,7 +228,7 @@ function ListControl() {
 				// last cell
 				$(this).empty();
 			} else {
-				$(this).replaceWith(createFieldNode(_list.name, _list.columns[index], index, _list.numRows));
+				$(this).replaceWith(createFieldNode(_list.columns[index], index, _list.numRows));
 			}
 		});
 		
@@ -242,18 +253,18 @@ function ListControl() {
 		
 		var col = _list.columns[dimensions.x] = {name: ""+columnCounter, values: []};
 		
-		$(button).parent().replaceWith(createFieldNode(_list.name, col, dimensions.x, 0));
+		$(button).parent().replaceWith(createFieldNode(col, dimensions.x, 0));
 		$(tr).append(html.td(this.createAddColumnButton()));
 		
 		var hr = $(tr).parents("table").find("thead>tr");
-		var headerField = this.createHeaderField(_list.name, null, columnCounter);
+		var headerField = this.createHeaderField(null, columnCounter);
 		$(hr).children().last().append(headerField);
 		$(hr).append(html.th());
 		
 		var cr = tr;
 		for (var i=1; i<dimensions.y; i++) {
 			cr = $(cr).next();
-			$(cr).children().last().replaceWith(createFieldNode(_list.name, col, dimensions.x, i));
+			$(cr).children().last().replaceWith(createFieldNode(col, dimensions.x, i));
 			$(cr).append(html.td());
 		}
 		
@@ -267,13 +278,13 @@ function ListControl() {
 		return headerField;
 	};
 	
-	this.changeColumnType = function (listName, columnName, type) {
-        TextInputControl.changeValueType( listName, columnName, type );
+	this.changeColumnType = function (listIdx, columnName, type) {
+        TextInputControl.changeValueType( listIdx, columnName, type );
         this.changeTypeInListData(columnName, type);
-		ef.sendEvent( FrontendMessage.columnChanged( listName, columnName, columnName, type ) );
+		ef.sendEvent( FrontendMessage.columnChanged( ListControl.lname(listIdx), columnName, columnName, type ) );
 	};
 
-    this.getColumnDataType = function (listName, columnName) {
+    this.getColumnDataType = function (columnName) {
         var ret = undefined;
         _list.columns.forEach(function (col) {
             if (normalizeName(col.name) == columnName) {
@@ -283,7 +294,7 @@ function ListControl() {
         return ret;
     };
 
-    this.setColumnDataType = function (listName, columnName, newType) {
+    this.setColumnDataType = function (columnName, newType) {
         _list.columns.forEach(function (col) {
             if (normalizeName(col.name) == columnName) {
                 col.type = newType;
@@ -311,3 +322,20 @@ function ListControl() {
 		return "Dimensions: x="+dimensions.x+ ",  &nbsp; y=" + dimensions.y;
 	};
 }
+
+ListControl.lname = function listIndexToName (idx) {
+    return ListControl.indexToName[idx];
+};
+
+ListControl.idx = function nameToListIndex (name) {
+    var idx = -1;
+    ListControl.indexToName.forEach(function (v, i) {
+        if (v == name) {
+            idx = i;
+        }
+    });
+    return ""+idx;
+};
+
+ListControl.nextListIndex = 0;
+ListControl.indexToName = [];

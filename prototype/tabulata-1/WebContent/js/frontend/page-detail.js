@@ -10,7 +10,6 @@ DetailPageController.init = function () {
     sc = new SingularControl();
     sc.build();
     lc = new ListControl();
-    lc.build();
 
     il = new InfoLine([sc, lc]);
 
@@ -53,7 +52,7 @@ DetailPageController.loadBlock = function(block) {
 
 DetailPageController.updateColumnEventReceived = function (data) {
     for (var i=0; i<data.values.length; i++) {
-        var id = Symbols.columnRowSymbol(data.listName, data.columnName, i);
+        var id = Symbols.columnRowSymbol(ListControl.idx(data.listName), data.columnName, i);
         $("#"+id).val(data.values[i]);
         //$("#"+id).text(data.values[i]);
     }
@@ -213,12 +212,15 @@ DetailPageController.attachListEvents = function () {
 
 DetailPageController.handleColumnValueChangeEvent = function (id, newValue) {
     console.log("Column change: "+id+" -> "+newValue);
-    ef.sendEvent(FrontendMessage.columnValueChanged(id, newValue));
+    var symbolElems = event.target.id.split(/_/);
+    ef.sendEvent(FrontendMessage.columnValueChanged(ListControl.lname(symbolElems[1]),
+        symbolElems[2], symbolElems[3], newValue));
 };
 
 DetailPageController.handleColumnHeaderChangeEvent = function (event) {
     var idp = event.target.id.split(/_/);
-    var listName = idp[1];
+    var listIdx = idp[1];
+    var listName = ListControl.lname(listIdx);
     var oldColumnSymbol = idp[2];
     var oldColumnName = $(event.target).data("name");
     var newName = event.target.value;
@@ -234,9 +236,9 @@ DetailPageController.handleColumnHeaderChangeEvent = function (event) {
 
     $(event.target).data("name", newName);
 
-    DetailPageController.renameColumnIds(listName, oldColumnSymbol, newName);
+    DetailPageController.renameColumnIds(listIdx, oldColumnSymbol, newName);
 
-    ef.sendEvent(FrontendMessage.columnChanged(listName, oldColumnName, newName));
+    ef.sendEvent(FrontendMessage.columnChanged(listName, oldColumnName, newName, undefined));
 
     // TODO this should not be here
     if (oldColumnName == "" || oldColumnName == undefined) oldColumnName = oldColumnSymbol;
@@ -245,13 +247,13 @@ DetailPageController.handleColumnHeaderChangeEvent = function (event) {
     EditPane.updatePaneEvent(event);
 };
 
-DetailPageController.renameColumnIds = function (listName, oldColumnSymbol, newName) {
-    $("#"+Symbols.columnRowSymbol(listName, oldColumnSymbol, "H")).attr("id", Symbols.columnRowSymbol(listName, newName, "H"));
+DetailPageController.renameColumnIds = function (listIdx, oldColumnSymbol, newName) {
+    $("#"+Symbols.columnRowSymbol(listIdx, oldColumnSymbol, "H")).attr("id", Symbols.columnRowSymbol(listIdx, newName, "H"));
 
     var i = 0;
     var col;
-    while ((col = $("#"+Symbols.columnRowSymbol(listName, oldColumnSymbol, i))).length > 0) {
-        col.attr("id", Symbols.columnRowSymbol(listName, newName, i++));
+    while ((col = $("#"+Symbols.columnRowSymbol(listIdx, oldColumnSymbol, i))).length > 0) {
+        col.attr("id", Symbols.columnRowSymbol(listIdx, newName, i++));
     }
 
 };

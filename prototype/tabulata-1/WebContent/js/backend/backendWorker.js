@@ -33,8 +33,7 @@ onmessage = function(message) {
         });
         return;
     } else if (message.data.eventName == "columnValueChanged") {
-		var target = message.data.colRowSymbol.split("_");
-        engine.changeColumnValue(target[1], target[2], target[3], message.data.value);
+        engine.changeColumnValue(message.data);
 	} else if (message.data.eventName == "prologChanged") {
         engine.changeProlog(message.data.prolog);
     } else if (message.data.eventName == "columnValueFunctionChanged") {

@@ -22,9 +22,9 @@ Engine.prototype.changeProlog = function (prolog) {
     this.ctx.changeProlog(prolog);
 };
 
-Engine.prototype.changeColumnValue = function (listName, columnName, idx, value) {
-    var col = this.ctx.columnByListAndName(listName, columnName);
-    col.updateValue(idx, value)
+Engine.prototype.changeColumnValue = function (changeData) {
+    var col = this.ctx.columnByListAndName(changeData.listName, changeData.columnName);
+    col.updateValue(changeData.idx, changeData.value)
 };
 
 Engine.prototype.changeColumnValueFunction = function (listName, columnName, value) {

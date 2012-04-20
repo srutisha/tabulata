@@ -66,18 +66,20 @@ FrontendMessage.prologChanged = function (prolog) {
     return fm;
 };
 
-FrontendMessage.columnValueChanged = function (colRowSymbol, value) {
+FrontendMessage.columnValueChanged = function (listName, columnName, idx, value) {
 	var fm = new FrontendMessage("columnValueChanged");
-	fm.colRowSymbol = colRowSymbol;
-	fm.value = value;
+    fm.listName = listName;
+    fm.columnName = columnName;
+    fm.idx = idx;
+    fm.value = value;
 	return fm;
 };
 
-FrontendMessage.columnValueFunctionChanged = function (listName, columName, value) {
+FrontendMessage.columnValueFunctionChanged = function (listName, columnName, value) {
 	var fm = new FrontendMessage("columnValueFunctionChanged");
 	
 	fm.listName = listName;
-	fm.columnName = columName;
+	fm.columnName = columnName;
 	fm.value = value;
 	
 	return fm;

@@ -57,30 +57,30 @@ EditPane.savePane = function () {
 	var newType = $('#radio-coltype-values').prop("checked") ? "values" : "valueFunction";
 	
 	if (d.originalType != newType) {
-		lc.changeColumnType(d.listName, d.columnName, newType);
+		lc.changeColumnType(d.listIdx, d.columnName, newType);
 	}
 
-    EditPane.handleDataTypeChange(d.listName, d.columnName);
+    EditPane.handleDataTypeChange(d.listIdx, d.columnName);
 	
 	if (newType == "valueFunction") {
-		$("#"+Symbols.columnRowSymbol(d.listName, d.columnName, "H")).data("exp", exp);
-		ef.sendEvent(FrontendMessage.columnValueFunctionChanged(d.listName, d.columnName, exp));
+		$("#"+Symbols.columnRowSymbol(d.listIdx, d.columnName, "H")).data("exp", exp);
+		ef.sendEvent(FrontendMessage.columnValueFunctionChanged(ListControl.lname(d.listIdx), d.columnName, exp));
 	} else {
 		if (d.originalType == "valueFunction") {
-			$("#"+Symbols.columnRowSymbol(d.listName, d.columnName, "H")).removeData("exp");
-			delete $("#"+Symbols.columnRowSymbol(d.listName, d.columnName, "H"))[0].dataset["exp"];
+			$("#"+Symbols.columnRowSymbol(d.listIdx, d.columnName, "H")).removeData("exp");
+			delete $("#"+Symbols.columnRowSymbol(ListControl.lname(d.listIdx), d.columnName, "H"))[0].dataset["exp"];
 		}
 	}
 	
 };
 
-EditPane.handleDataTypeChange = function (listName, columnName) {
+EditPane.handleDataTypeChange = function (listIdx, columnName) {
     var newDataType = $('.radio-datatype:checked').val();
-    var oldDataType = lc.getColumnDataType(listName, columnName);
+    var oldDataType = lc.getColumnDataType(columnName);
     if (newDataType != oldDataType) {
-        DetailControlOps.replaceControlWithType(listName, columnName, newDataType);
+        DetailControlOps.replaceControlWithType(listIdx, columnName, newDataType);
     }
-    lc.setColumnDataType(listName, columnName, newDataType);
+    lc.setColumnDataType(columnName, newDataType);
 };
 
 
@@ -112,7 +112,7 @@ EditPane.showPaneEvent = function(event) {
 EditPane.updatePaneEvent = function(event) {
 	EditPane.lastClicked = event.target;
 	var idParts = event.target.id.split(/_/);
-	$(EditPane.editField).data("listName", idParts[1]);
+	$(EditPane.editField).data("listIdx", idParts[1]);
 	$(EditPane.editField).data("columnName", idParts[2]);
 };
 
@@ -131,13 +131,13 @@ EditPane.showPaneForHeader = function(inputElem, isValues) {
 		$('#pane-edit-expression').toggle(true);
 	}
 
-    var dataType = lc.getColumnDataType(idParts[1], idParts[2]);
+    var dataType = lc.getColumnDataType(idParts[2]);
     $('#radio-datatype-text').prop("checked", dataType == "text").checkboxradio("refresh");
     $('#radio-datatype-number').prop("checked", dataType == "number").checkboxradio("refresh");
     $('#radio-datatype-boolean').prop("checked", dataType == "boolean").checkboxradio("refresh");
 	
 	$(EditPane.editField).data("originalType", exp == undefined ? "values" : "valueFunction");
-	$(EditPane.editField).data("listName", idParts[1]);
+	$(EditPane.editField).data("listIdx", idParts[1]);
 	$(EditPane.editField).data("columnName", idParts[2]);
 	EditPane.editField.val(exp);
 	
