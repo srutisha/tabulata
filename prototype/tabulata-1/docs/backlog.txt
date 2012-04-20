@@ -17,12 +17,16 @@ MED consolidate the different change-methods and event into 1
 
 EXTENSION OF LISTS: 1:N
 
-more than 1 list per block
+name of list is editable
+
+create new list in block
+
+display lists in home screen
 
 column defaults / series
 aggregation list
 
-name of list is editable
+styling
 
 
 EDITING OF LIST
