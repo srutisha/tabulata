@@ -340,8 +340,7 @@ function ListControl() {
 	};
 
     this.changeColumnValue = function (listIdx, columnName, rowIdx, newValue) {
-        var col = this.columnWithName(columnName);
-        col.values[rowIdx] = newValue;
+        this.columnWithName(columnName).values[rowIdx] = newValue;
         ef.sendEvent(FrontendMessage.columnValueChanged(ListControl.lname(listIdx),
             columnName, rowIdx, newValue));
     };
@@ -363,36 +362,25 @@ function ListControl() {
     };
 
     this.getColumnDataType = function (columnName) {
-        var ret = undefined;
-        _list.columns.forEach(function (col) {
-            if (normalizeName(col.name) == columnName) {
-                ret = col.type;
-            }
-        });
-        return ret;
+        return this.columnWithName(columnName).type;
     };
 
     this.setColumnDataType = function (columnName, newType) {
-        _list.columns.forEach(function (col) {
-            if (normalizeName(col.name) == columnName) {
-                col.type = newType;
-            }
-        });
+        this.columnWithName(columnName).type = newType;
     };
 	
 	this.changeTypeInListData = function (columnName, type) {
-		_list.columns.forEach(function (col) {
-			if (normalizeName(col.name) == columnName) {
-				if (type == "values" ) {
-                    delete col.valueFunction;
-                    col.values = [];
-                }
-                if (type == "valueFunction") {
-                    delete col.values;
-                    col.valueFunction = [];
-                }
-			}
-		});
+        var col = this.columnWithName(columnName);
+
+        if (type == "values" ) {
+            delete col.valueFunction;
+            col.values = [];
+        }
+
+        if (type == "valueFunction") {
+            delete col.values;
+            col.valueFunction = [];
+        }
 	};
 	
 	
