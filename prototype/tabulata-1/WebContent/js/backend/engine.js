@@ -13,11 +13,12 @@ function Engine(block) {
 	block.singulars.forEach(function (sgData) {
 		self.ctx.addSingular(sgData);
 	});
-	
-	this.ctx.addList(block.lists[0]);
-	
-	//this.ctx.logMembers();
+
+    block.lists.forEach(function (listData) {
+        self.ctx.addList(listData);
+    });
 }
+
 Engine.prototype.changeProlog = function (prolog) {
     this.ctx.changeProlog(prolog);
 };
@@ -125,6 +126,12 @@ function Context(block) {
 		});
 	};
 
+    this.columnsByListObj = function (list) {
+        return columns.filter(function (column) {
+            return column.list == list;
+        });
+    };
+
     this.addSingular = function (sgData) {
         var sg = Singular.fromData(self, sgData);
         singulars.push(sg);
@@ -186,14 +193,10 @@ function Context(block) {
     // -------- persistence -----------
 
     this.blockJson = function () {
-        var jsonList = lists[0].jsonData();
-        jsonList.columns = this.columnsJson();
         return {
             'prolog': block.prolog,
             'singulars': this.singularsJson(),
-            'lists': [
-                jsonList
-            ]
+            'lists': this.listsJson()
         };
     };
 
@@ -201,13 +204,10 @@ function Context(block) {
         return singulars.map(function (sg) { return sg.jsonData(); });
     };
 
-    this.listJson = function () {
-
+    this.listsJson = function () {
+        return lists.map(function (list) { return list.jsonData(); });
     };
 
-    this.columnsJson = function () {
-        return columns.map(function (col) { return col.jsonData(); });
-    }
 }
 
 function ExpressionEvaluator(ctx) {
@@ -466,9 +466,12 @@ function List(ctx, _list) {
     this.jsonData = function () {
         return {
             'name': _list.name,
-            'numRows': this.numRows()
+            'numRows': this.numRows(),
+            'columns': ctx.columnsByListObj(self).map(function (col) { return col.jsonData(); })
         };
     };
+
+
 	
 	this.$_count = this.numRows;
 }

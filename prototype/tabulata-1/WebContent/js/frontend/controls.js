@@ -17,7 +17,11 @@ function SingularControl() {
 	
 	this.updateOffset = function () {
 		var refElem = $("#bottom-singulars");
-		var topIdx = refElem.offset().top + 12;
+		var topIdx = refElem.offset().top + 6;
+
+        $("#listselectwrapper").css('top', topIdx + "px");
+
+        topIdx += $("#listselectwrapper").height();
 		$("#mainwrapper").css('top', topIdx + "px");
 		var bottom = $(window).height();
 		$("#mainwrapper").css('height', (bottom - topIdx) + "px");
@@ -124,7 +128,7 @@ function ListControl() {
     this.myIdx = -1;
 
     var initNameMapping = function () {
-        ListControl.indexToName[ListControl.nextListIndex] = _list.name;
+        ListControl.indexToName[ListControl.nextListIndex] = normalizeName(_list.name);
         self.myIdx = ListControl.nextListIndex;
         ListControl.nextListIndex ++;
     };
@@ -191,7 +195,6 @@ function ListControl() {
 			hi.id = Symbols.columnRowSymbol(self.cn(), "" + columnCounter, "H");
 			$(hi).data("name", undefined);
 		} else {
-            console.log(self.cn());
 			hi.value = col.name;
 			hi.id = Symbols.columnRowSymbol(self.cn(), col.name, "H");
 			

@@ -308,6 +308,30 @@ DataSource.staticData = [ {
                     }
 
                 ]
+            },
+            {
+                name: 'Second List',
+                numRows: 3,
+                columns: [
+                    {
+                        name: 'Column One',
+                        values: ['Name 1', 'Name 2', 'Name 3']
+                    },
+                    {
+                        name: 'Numbers One',
+                        type: 'number',
+                        values: [5, 4, 3]
+                    },
+                    {
+                        name: 'Numbers Two',
+                        type: 'number',
+                        values: [6, 3, 2]
+                    },
+                    {
+                        name: 'Total Numbers',
+                        valueFunction: 'NumbersOne + NumbersTwo'
+                    }
+                ]
             }
         ]
     }

@@ -187,8 +187,19 @@ input[type=button] {
 	top:50px;
 	width:100%;
 	background:#000;
-	border-bottom: 2px solid #fff;
+	/*border-bottom: 2px solid #fff;*/
 	z-index:90;
+}
+
+#listselectwrapper {
+    position: fixed;
+    width: 100%;
+    background-color: #eee;
+    height:40px;
+}
+
+#listselect {
+
 }
 
 #mainwrapper {
