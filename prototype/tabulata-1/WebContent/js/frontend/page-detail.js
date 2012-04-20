@@ -4,7 +4,7 @@ function DetailPageController () {
 
 }
 
-var sc, lc, il;
+var sc, lc, il, lsc;
 
 DetailPageController.init = function () {
     sc = new SingularControl();
@@ -13,6 +13,8 @@ DetailPageController.init = function () {
 
     il = new InfoLine([sc, lc]);
 
+    lsc = new ListSelectControl();
+
     DetailPageController.attachEvents();
     EditPane.attachEvents();
 };
@@ -20,6 +22,7 @@ DetailPageController.init = function () {
 DetailPageController.attachEvents = function () {
     DetailPageController.attachSingularEvents();
     DetailPageController.attachListEvents();
+    DetailPageController.attachSelectControlEvents();
     $("#navigation-to-home").on("tap", function (event) {
         $(".page-home").css("display", "block");
         $(".page-detail").css("display", "none");
@@ -40,8 +43,10 @@ DetailPageController.loadBlock = function(block) {
 
     document.title = block.prolog.name + " -- tabulata";
     sc.init(block.singulars);
-    lc.init(block.lists[0]);
     $("#block-title").val(block.prolog.name);
+
+    lc.init(block.lists[0]);
+    lsc.init(block.lists);
 
     il.update();
     sc.updateOffset();
@@ -49,6 +54,12 @@ DetailPageController.loadBlock = function(block) {
     ef.sendEvent(FrontendMessage.readyForBlock());
 };
 
+DetailPageController.attachSelectControlEvents = function () {
+    $("#listselect").on("tap", ".listselect-inactive", function (event) {
+        lsc.selected(event.target);
+        event.preventDefault();
+    });
+};
 
 DetailPageController.updateColumnEventReceived = function (data) {
     for (var i=0; i<data.values.length; i++) {
@@ -211,10 +222,8 @@ DetailPageController.attachListEvents = function () {
 
 
 DetailPageController.handleColumnValueChangeEvent = function (id, newValue) {
-    console.log("Column change: "+id+" -> "+newValue);
     var symbolElems = event.target.id.split(/_/);
-    ef.sendEvent(FrontendMessage.columnValueChanged(ListControl.lname(symbolElems[1]),
-        symbolElems[2], symbolElems[3], newValue));
+    lc.changeColumnValue(symbolElems[1], symbolElems[2], symbolElems[3], newValue);
 };
 
 DetailPageController.handleColumnHeaderChangeEvent = function (event) {

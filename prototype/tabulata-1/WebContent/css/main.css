@@ -202,6 +202,17 @@ input[type=button] {
 
 }
 
+input.listselect-active, input.listselect-inactive {
+    width: 150px !important;
+    display: inline !important;
+    font-weight: bold;
+}
+
+input.listselect-inactive {
+    background-color: #ccc;
+}
+
+
 #mainwrapper {
 	position:fixed;
 	width:100%;
@@ -212,12 +223,12 @@ input[type=button] {
 #main {
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
-	background: #000;
+    background: #000;
     width: 100%;
 }
 
 #bottom-singulars {
-	font-size:5px;	
+    font-size:5px;
 }
 
 

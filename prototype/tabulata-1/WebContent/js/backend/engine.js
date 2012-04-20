@@ -458,7 +458,7 @@ function List(ctx, _list) {
 	
 	this.addRow = function () {
 		list.numRows ++;
-        ctx.columnsByList(list.name()).forEach(function (col) {
+        ctx.columnsByListObj(self).forEach(function (col) {
             col.addRow();
         });
 	};

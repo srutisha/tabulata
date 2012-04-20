@@ -85,6 +85,64 @@ SingularControl.keyId = function(symbol) {
 	return "k_"+symbol;
 };
 
+function ListSelectControl() {
+    var self = this;
+    var lists;
+
+    this.activeIndex = 0;
+
+    this.init = function (_lists) {
+        lists = _lists;
+        self.render(lists);
+    };
+
+    this.selected = function (targetElem) {
+        $(".listselect-active")
+            .toggleClass("listselect-inactive")
+            .toggleClass("listselect-active")
+            .attr("readonly", true);
+        $(targetElem)
+            .toggleClass("listselect-active")
+            .toggleClass("listselect-inactive")
+            .removeAttr("readonly");
+        var idx = targetElem.id.match(/\d+/);
+        lc.init(lists[idx]);
+        il.update();
+        sc.updateOffset();
+
+        ef.sendEvent(FrontendMessage.readyForBlock());
+    };
+
+    this.render = function (lists) {
+        $("#listselect").empty();
+        lists.forEach(function (list, idx) {
+            $(idx == self.activeIndex ? self.renderActive(idx, list) : self.renderToSelect(idx, list)).appendTo("#listselect");
+        });
+        $("#listselect").trigger('create');
+    };
+
+    this.renderActive = function (idx, list) {
+       return styleInput(html.input("listselect-input-"+idx, "listselect-active", list.name));
+    };
+
+    this.renderToSelect = function (idx, list) {
+        return readonly(styleInput(html.input("listselect-input-"+idx, "listselect-inactive", list.name)));
+    };
+
+    var readonly = function (inp) {
+        inp.readOnly = true;
+        return inp;
+    };
+
+    var styleInput = function (inp) {
+        inp.dataset.mini = true;
+        // TODO jqm doesn't recognize inline with input fields (stupid). it's not overridden in the css.
+        inp.dataset.inline = true;
+
+        return inp;
+    };
+}
+
 function ListControl() {
 	var self = this;
 	
@@ -247,7 +305,7 @@ function ListControl() {
 		
 		dimensions.y ++;
 		
-		ef.sendEvent(FrontendMessage.rowAdded(_list.name));
+		ef.sendEvent(FrontendMessage.rowAdded(normalizeName(_list.name)));
 		il.update();
 	};
 	
@@ -280,12 +338,29 @@ function ListControl() {
 		
 		return headerField;
 	};
-	
+
+    this.changeColumnValue = function (listIdx, columnName, rowIdx, newValue) {
+        var col = this.columnWithName(columnName);
+        col.values[rowIdx] = newValue;
+        ef.sendEvent(FrontendMessage.columnValueChanged(ListControl.lname(listIdx),
+            columnName, rowIdx, newValue));
+    };
+
 	this.changeColumnType = function (listIdx, columnName, type) {
         TextInputControl.changeValueType( listIdx, columnName, type );
         this.changeTypeInListData(columnName, type);
 		ef.sendEvent( FrontendMessage.columnChanged( ListControl.lname(listIdx), columnName, columnName, type ) );
 	};
+
+    this.columnWithName = function (columnName) {
+        var ret = undefined;
+        _list.columns.forEach(function (col) {
+            if (normalizeName(col.name) == columnName) {
+                ret = col;
+            }
+        });
+        return ret;
+    };
 
     this.getColumnDataType = function (columnName) {
         var ret = undefined;
