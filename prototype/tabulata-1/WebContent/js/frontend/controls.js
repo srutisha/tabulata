@@ -88,14 +88,13 @@ function ListControl() {
 	
 	var _list = new Array();
 	
-	var newCounter = 0;
+	var columnCounter = 0;
 	
 	this.genColumnClassName = function (idx) {
-		if (idx == undefined) idx = newCounter;
+		if (idx == undefined) idx = columnCounter;
 		return " list_col_"+idx;
 	};
-	
-	// TODO this is ugly
+
 	this.changeColumnName = function (oldName, newName) {
 		_list.columns.forEach(function(col) {
 			if (col.name == oldName) {
@@ -170,7 +169,7 @@ function ListControl() {
 		
 		$("#mtbl").append(html.tbody(allRows));
 
-		newCounter = dimensions.x = list.columns.length;
+		columnCounter = dimensions.x = list.columns.length;
 		dimensions.y = list.numRows;
 	};
 	
@@ -179,7 +178,7 @@ function ListControl() {
 		hi.className = 'hed-act'+self.genColumnClassName(idx);
 
 		if (col == null) {
-			hi.id = Symbols.columnRowSymbol(listName, "" + newCounter, "H");
+			hi.id = Symbols.columnRowSymbol(listName, "" + columnCounter, "H");
 			$(hi).data("name", undefined);
 		} else {
 			hi.value = col.name;
@@ -241,13 +240,13 @@ function ListControl() {
 	this.addColumn = function(button) {
 		var tr = $(button).parent().parent().get(0);
 		
-		var col = _list.columns[dimensions.x] = {name: ""+newCounter, values: []};
+		var col = _list.columns[dimensions.x] = {name: ""+columnCounter, values: []};
 		
 		$(button).parent().replaceWith(createFieldNode(_list.name, col, dimensions.x, 0));
 		$(tr).append(html.td(this.createAddColumnButton()));
 		
 		var hr = $(tr).parents("table").find("thead>tr");
-		var headerField = this.createHeaderField(_list.name, null, newCounter);
+		var headerField = this.createHeaderField(_list.name, null, columnCounter);
 		$(hr).children().last().append(headerField);
 		$(hr).append(html.th());
 		
@@ -261,7 +260,7 @@ function ListControl() {
 		$(cr).next().append(html.td());
 		
 		dimensions.x ++;
-		newCounter ++;
+		columnCounter ++;
 
 		il.update();
 		
