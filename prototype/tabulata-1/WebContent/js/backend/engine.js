@@ -23,6 +23,10 @@ Engine.prototype.changeProlog = function (prolog) {
     this.ctx.changeProlog(prolog);
 };
 
+Engine.prototype.changeList = function (listIndex, listData) {
+    this.ctx.updateList(listIndex, listData);
+};
+
 Engine.prototype.changeColumnValue = function (changeData) {
     var col = this.ctx.columnByListAndName(changeData.listName, changeData.columnName);
     col.updateValue(changeData.idx, changeData.value)
@@ -96,6 +100,10 @@ function Context(block) {
 			return sgn.name () == sgName;
 		})[0];
 	};
+
+    this.listByIndex = function (index) {
+        return lists[index];
+    };
 
 	this.listByName = function (listName) { 
 		return lists.filter(function (list) {
@@ -172,6 +180,22 @@ function Context(block) {
 		self[list.symbol()] = list;
 		lists.push(list);
 	};
+
+    this.updateList = function(listIndex, listData) {
+        var list = this.listByIndex(listIndex);
+
+        self[list.symbol()] = undefined;
+        this.columnsByListObj(list).forEach(function (col) {
+            self[col.symbol()] = undefined;
+        });
+
+        list.update(listData);
+
+        self[list.symbol()] = list;
+        this.columnsByListObj(list).forEach(function (col) {
+            self[col.symbol()] = col;
+        });
+    };
 	
 	this.addColumn = function (list, colData) {
 		var col = new Column(self, list, colData);
@@ -471,10 +495,13 @@ function List(ctx, _list) {
         };
     };
 
+    this.update = function (listData) {
+        list.name = listData.name;
+    };
 
-	
-	this.$_count = this.numRows;
+    this.$_count = this.numRows;
 }
+
 
 function ValueColumn(ctx, valueArray) {
 	this.ctx = ctx;

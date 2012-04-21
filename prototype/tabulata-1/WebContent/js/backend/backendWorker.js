@@ -32,6 +32,8 @@ onmessage = function(message) {
             resultReceiver(EngineMessage.blockDataMessage(blockData));
         });
         return;
+    } else if (message.data.eventName == "listChanged") {
+        engine.changeList(message.data.listIndex, message.data.listData);
     } else if (message.data.eventName == "columnValueChanged") {
         engine.changeColumnValue(message.data);
 	} else if (message.data.eventName == "prologChanged") {

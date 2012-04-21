@@ -66,6 +66,13 @@ FrontendMessage.prologChanged = function (prolog) {
     return fm;
 };
 
+FrontendMessage.listChanged = function (listIndex, listData) {
+    var fm = new FrontendMessage("listChanged");
+    fm.listIndex = listIndex;
+    fm.listData = listData;
+    return fm;
+};
+
 FrontendMessage.columnValueChanged = function (listName, columnName, idx, value) {
 	var fm = new FrontendMessage("columnValueChanged");
     fm.listName = listName;

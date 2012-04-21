@@ -96,6 +96,10 @@ function ListSelectControl() {
         self.render(lists);
     };
 
+    var idxFromElem = function (targetElem) {
+        return targetElem.id.match(/\d+/);
+    };
+
     this.selected = function (targetElem) {
         $(".listselect-active")
             .toggleClass("listselect-inactive")
@@ -105,12 +109,19 @@ function ListSelectControl() {
             .toggleClass("listselect-active")
             .toggleClass("listselect-inactive")
             .removeAttr("readonly");
-        var idx = targetElem.id.match(/\d+/);
+        var idx = idxFromElem(targetElem);
         lc.init(lists[idx]);
         il.update();
         sc.updateOffset();
 
         ef.sendEvent(FrontendMessage.readyForBlock());
+    };
+
+    this.changed = function (targetElem) {
+        var idx = idxFromElem(targetElem);
+        var name = $(targetElem).val();
+        lists[idx].name = name;
+        ef.sendEvent(FrontendMessage.listChanged(idx, {'name': name}))
     };
 
     this.render = function (lists) {

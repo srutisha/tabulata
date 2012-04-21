@@ -59,6 +59,10 @@ DetailPageController.attachSelectControlEvents = function () {
         lsc.selected(event.target);
         event.preventDefault();
     });
+
+    $("#listselect").on("focusout", ".listselect-active", function (event) {
+        lsc.changed(event.target);
+    });
 };
 
 DetailPageController.updateColumnEventReceived = function (data) {
