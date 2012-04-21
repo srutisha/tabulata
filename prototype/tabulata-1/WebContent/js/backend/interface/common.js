@@ -1,9 +1,10 @@
 
 
-BlockData = function (id, name, values) {
+BlockData = function (id, name, values, listNames) {
     this.id = id;
     this.name = name;
     this.values = values == undefined ? [] : values;
+    this.listNames = listNames;
 };
 
 function ObjUtil() {

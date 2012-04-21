@@ -269,12 +269,15 @@ input.listselect-inactive {
 
 .home-block-container .home-block-title {
     font-size: 15pt;
-    padding-bottom: 5px;
+    padding-bottom: 2px;
     text-decoration: underline;
-
 }
 
-.home-block-container, #home-new-block{
+.home-block-container .home-block-lists {
+    padding-bottom: 6px;
+}
+
+.home-block-container, #home-new-block {
     margin:10px;
     float: left;
     width: 45%;

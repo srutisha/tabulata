@@ -28,7 +28,7 @@ onmessage = function(message) {
         var blocks = DataSource.getBlocks();
         blocks.forEach(function (block) {
             engine = new Engine (block);
-            var blockData = new BlockData(block.prolog.id, block.prolog.name, engine.singularResultValues());
+            var blockData = new BlockData(block.prolog.id, block.prolog.name, engine.singularResultValues(), engine.listNames());
             resultReceiver(EngineMessage.blockDataMessage(blockData));
         });
         return;

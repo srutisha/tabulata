@@ -50,6 +50,10 @@ Engine.prototype.addListRow = function (listName) {
     list.addRow();
 };
 
+Engine.prototype.listNames = function () {
+    return this.ctx.listNames();
+};
+
 Engine.prototype.singularResultValues = function () {
     return this.ctx.allSingulars().map(function (sg) {
         var sgName = sg.humanName();
@@ -213,6 +217,10 @@ function Context(block) {
 	this.evaluate = function (exp) {
 		return new ExpressionEvaluator(self).evaluateText(exp);
 	};
+
+    this.listNames  = function () {
+        return lists.map(function (list) { return list.cname(); });
+    };
 
     // -------- persistence -----------
 
@@ -471,7 +479,11 @@ function List(ctx, _list) {
 	this.symbol = function () {
 		return Symbols.listSymbol(self.name());
 	};
-	
+
+    this.cname = function () {
+        return list.name;
+    };
+
 	this.name = function () {
 		return normalizeName(list.name);
 	};

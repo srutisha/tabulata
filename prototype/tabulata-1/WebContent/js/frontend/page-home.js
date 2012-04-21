@@ -51,7 +51,11 @@ BlockDisplayControl.render = function (blockData) {
 
     var bldiv = html.div();
 
-    $(bldiv).append($(html.div(blockData.name)).addClass("home-block-title"), content);
+    $(bldiv).append($(html.div(blockData.name)).addClass("home-block-title"),
+                    $(html.div(blockData.listNames.reduce(function (a, c) {
+                        return a + " &nbsp;&bull;&nbsp;&nbsp;" + c;
+                    }))).addClass("home-block-lists"),
+                    content);
 
     $(bldiv).addClass("home-block-container");
     $(bldiv).data("id", blockData.id);
