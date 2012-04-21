@@ -97,7 +97,7 @@ function ListSelectControl() {
     };
 
     var idxFromElem = function (targetElem) {
-        return targetElem.id.match(/\d+/);
+        return targetElem.id.match(/\d+/)[0];
     };
 
     this.selected = function (targetElem) {

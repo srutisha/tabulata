@@ -37,7 +37,7 @@ DataSource.newBlock = function (name) {
                 numRows: 1,
                 columns: [
                     {
-                        name: '',
+                        name: 'Column',
                         values: ['']
                     }
 
