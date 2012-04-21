@@ -17,8 +17,6 @@ MED consolidate the different change-methods and event into 1
 
 EXTENSION OF LISTS: 1:N
 
-name of list is editable
-
 create new list in block
 
 display lists in home screen
