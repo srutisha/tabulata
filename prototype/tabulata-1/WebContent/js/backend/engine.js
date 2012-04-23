@@ -316,9 +316,7 @@ ExpressionEvaluator.prototype.handleAccess = function (ac, data, operand) {
 			return col.symbol() + ""
 				+ this.handleNode(operand, AccessContext.column(col));
 		} else throw Error("List column not known: "+data.name);
-	} /*else if (ac.column && operand.type == "identifier" && operand.name == "above") {
-		return ac.column.symbol()+".$V_above(idx)";
-	} */else if (ac.column || ac.valueList) {
+	} else if (ac.column || ac.valueList) {
 		return this.handleNode(data, ac)+this.handleNode(operand, AccessContext.valueList());
 	} else throw Error("Access not possible here: "+data+" "+operand);
 };
