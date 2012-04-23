@@ -188,17 +188,21 @@ function Context(block) {
     this.updateList = function(listIndex, listData) {
         var list = this.listByIndex(listIndex);
 
-        self[list.symbol()] = undefined;
-        this.columnsByListObj(list).forEach(function (col) {
-            self[col.symbol()] = undefined;
-        });
+        if (list != undefined) {
+            self[list.symbol()] = undefined;
+            this.columnsByListObj(list).forEach(function (col) {
+                self[col.symbol()] = undefined;
+            });
 
-        list.update(listData);
+            list.update(listData);
 
-        self[list.symbol()] = list;
-        this.columnsByListObj(list).forEach(function (col) {
-            self[col.symbol()] = col;
-        });
+            self[list.symbol()] = list;
+            this.columnsByListObj(list).forEach(function (col) {
+                self[col.symbol()] = col;
+            });
+        } else {
+            self.addList(listData);
+        }
     };
 	
 	this.addColumn = function (list, colData) {

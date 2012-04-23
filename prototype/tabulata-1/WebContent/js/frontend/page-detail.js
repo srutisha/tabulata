@@ -63,6 +63,12 @@ DetailPageController.attachSelectControlEvents = function () {
     $("#listselect").on("focusout", ".listselect-active", function (event) {
         lsc.changed(event.target);
     });
+
+    $("#listselect").on("tap", "#listselect-new-list", function (event) {
+        lsc.createNew();
+        event.preventDefault();
+    });
+
 };
 
 DetailPageController.updateColumnEventReceived = function (data) {

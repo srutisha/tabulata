@@ -100,21 +100,58 @@ function ListSelectControl() {
         return targetElem.id.match(/\d+/)[0];
     };
 
-    this.selected = function (targetElem) {
+    var disableActive = function () {
         $(".listselect-active")
             .toggleClass("listselect-inactive")
             .toggleClass("listselect-active")
             .attr("readonly", true);
+    };
+
+    function initListControl(idx) {
+        lc.init(lists[idx]);
+        il.update();
+        sc.updateOffset();
+    }
+
+    this.selected = function (targetElem) {
+        disableActive();
         $(targetElem)
             .toggleClass("listselect-active")
             .toggleClass("listselect-inactive")
             .removeAttr("readonly");
         var idx = idxFromElem(targetElem);
-        lc.init(lists[idx]);
-        il.update();
-        sc.updateOffset();
-
+        initListControl(idx);
         ef.sendEvent(FrontendMessage.readyForBlock());
+    };
+
+    this.createNew = function () {
+        var listData = {
+            name: 'List',
+            numRows: 1,
+            columns: [
+                {
+                    name: 'Column',
+                    values: ['']
+                }
+                ]
+        };
+
+        var idx = lists.length;
+
+        lists.push(listData);
+
+        disableActive();
+        var newField = this.renderActive(idx, listData);
+
+        $("#listselect-new-list").before(newField);
+
+        $("#listselect").trigger('create');
+
+        initListControl(idx);
+
+        $(newField).focus();
+
+        ef.sendEvent(FrontendMessage.listChanged(idx, listData))
     };
 
     this.changed = function (targetElem) {
@@ -129,7 +166,22 @@ function ListSelectControl() {
         lists.forEach(function (list, idx) {
             $(idx == self.activeIndex ? self.renderActive(idx, list) : self.renderToSelect(idx, list)).appendTo("#listselect");
         });
+        $("#listselect").append(this.renderNew());
         $("#listselect").trigger('create');
+    };
+
+    this.renderNew = function () {
+        var btn = html.crelem("a", "New", "listselect-new-list");
+
+        // setting the dataset property as .dataset = {..} doesn't work.
+        btn.dataset.role = "button";
+        btn.dataset.icon= "plus";
+        btn.dataset.inline= "true";
+        btn.dataset.mini= "true";
+
+        btn.href="#";
+
+        return btn;
     };
 
     this.renderActive = function (idx, list) {
@@ -197,7 +249,7 @@ function ListControl() {
     this.myIdx = -1;
 
     var initNameMapping = function () {
-        ListControl.indexToName[ListControl.nextListIndex] = normalizeName(_list.name);
+        ListControl.indexToList[ListControl.nextListIndex] = _list;
         self.myIdx = ListControl.nextListIndex;
         ListControl.nextListIndex ++;
     };
@@ -401,13 +453,13 @@ function ListControl() {
 }
 
 ListControl.lname = function listIndexToName (idx) {
-    return ListControl.indexToName[idx];
+    return normalizeName(ListControl.indexToList[idx].name);
 };
 
 ListControl.idx = function nameToListIndex (name) {
     var idx = -1;
-    ListControl.indexToName.forEach(function (v, i) {
-        if (v == name) {
+    ListControl.indexToList.forEach(function (v, i) {
+        if (normalizeName(v.name) == name) {
             idx = i;
         }
     });
@@ -415,4 +467,4 @@ ListControl.idx = function nameToListIndex (name) {
 };
 
 ListControl.nextListIndex = 0;
-ListControl.indexToName = [];
+ListControl.indexToList = [];

@@ -11,6 +11,8 @@ MED touch-selecting: if holding longer than a bit (ie. click-event gets fired (w
 the expression-editing field looses focus and the touched field gains the focus (bypassing the javascript
 event handlers). intercepting and cancelling focus and click events did not help so far.
 
+MED as long as a column doesn't have a name, it is not visible to the backend.
+
 MED consolidate the different change-methods and event into 1
 
 ------------------------------------------------------------------------------------------
