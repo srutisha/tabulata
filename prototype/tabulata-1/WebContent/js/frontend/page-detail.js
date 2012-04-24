@@ -45,7 +45,7 @@ DetailPageController.loadBlock = function(block) {
     sc.init(block.singulars);
     $("#block-title").val(block.prolog.name);
 
-    lc.init(block.lists[0]);
+    lc.init(0, block.lists[0]);
     lsc.init(block.lists);
 
     il.update();
@@ -72,8 +72,17 @@ DetailPageController.attachSelectControlEvents = function () {
 };
 
 DetailPageController.updateColumnEventReceived = function (data) {
+    var idx = ListControl.idx(data.listName);
+    if (idx != lsc.activeIndex) {
+        return;
+    }
+
+    if (data.isAggregated) {
+        lc.makeAggregate(data.values.length);
+    }
+
     for (var i=0; i<data.values.length; i++) {
-        var id = Symbols.columnRowSymbol(ListControl.idx(data.listName), data.columnName, i);
+        var id = Symbols.columnRowSymbol(idx, data.columnName, i);
         $("#"+id).val(data.values[i]);
         //$("#"+id).text(data.values[i]);
     }

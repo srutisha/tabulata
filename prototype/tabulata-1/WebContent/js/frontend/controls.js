@@ -93,6 +93,9 @@ function ListSelectControl() {
 
     this.init = function (_lists) {
         lists = _lists;
+        this.activeIndex = 0;
+        ListControl.nextListIndex = 0;
+        ListControl.indexToList = [];
         self.render(lists);
     };
 
@@ -108,7 +111,7 @@ function ListSelectControl() {
     };
 
     function initListControl(idx) {
-        lc.init(lists[idx]);
+        lc.init(idx, lists[idx]);
         il.update();
         sc.updateOffset();
     }
@@ -119,8 +122,8 @@ function ListSelectControl() {
             .toggleClass("listselect-active")
             .toggleClass("listselect-inactive")
             .removeAttr("readonly");
-        var idx = idxFromElem(targetElem);
-        initListControl(idx);
+        this.activeIndex = idxFromElem(targetElem);
+        initListControl(this.activeIndex);
         ef.sendEvent(FrontendMessage.readyForBlock());
     };
 
@@ -204,7 +207,31 @@ function ListSelectControl() {
 
         return inp;
     };
+
+    this.listIndexToName = function (idx) {
+        return lists[idx].name;
+    };
+
+    this.nameToListIndex = function (name) {
+        var idx = -1;
+        lists.forEach(function (v, i) {
+            if (normalizeName(v.name) == name) {
+                idx = i;
+            }
+        });
+        return idx;
+    }
+
 }
+
+ListControl.lname = function listIndexToName (idx) {
+    return normalizeName(lsc.listIndexToName(idx));
+};
+
+ListControl.idx = function nameToListIndex (name) {
+    return ""+lsc.nameToListIndex(name);
+};
+
 
 function ListControl() {
 	var self = this;
@@ -248,21 +275,36 @@ function ListControl() {
 
     this.myIdx = -1;
 
-    var initNameMapping = function () {
-        ListControl.indexToList[ListControl.nextListIndex] = _list;
-        self.myIdx = ListControl.nextListIndex;
-        ListControl.nextListIndex ++;
-    };
-
     this.cn = function () {
         return ""+this.myIdx;
     };
 
-	this.init = function (list) {
+    var createRows = function (list) {
+        var allRows = [];
+
+        for (var row = 0; row < list.numRows; row++) {
+            var c = new Array();
+
+            list.columns.forEach(function (col, idx) {
+                c.push(createFieldNode(col, idx, row));
+            });
+
+            if (row == 0) {
+                c.push(html.td(self.createAddColumnButton()));
+            } else {
+                c.push(html.td());
+            }
+
+            allRows.push(html.tr(c));
+        }
+        return allRows;
+    };
+
+    this.init = function (idx, list, noAddRowButton) {
 		_list = list;
 		$("#mtbl").html("");
 
-        initNameMapping();
+        this.myIdx = idx;
 		
 		var headers = new Array();
 		
@@ -274,28 +316,16 @@ function ListControl() {
 		headers.push(html.th());
 
 		$("#mtbl").append(html.thead(html.tr(headers)));
+        var allRows = createRows(list);
+        var footer = new Array();
 
-        var allRows = [];
-		
-		for (var row=0; row<list.numRows; row++) {
-			var c = new Array();
-			
-			list.columns.forEach(function (col, idx) {
-				 c.push(createFieldNode(col, idx, row));
-			});
-			
-			if (row==0) {
-				c.push(html.td(self.createAddColumnButton()));
-			} else {
-				c.push(html.td());
-			}
-			
-			allRows.push(html.tr(c));
-		}
+        var addRowButton = self.createAddRowButton();
 
-		var footer = new Array();
-		
-		footer.push(html.td(self.createAddRowButton()));
+		if (noAddRowButton) {
+            addRowButton = "";
+        }
+
+		footer.push(html.td(addRowButton));
 		for (var col=1; col<list.columns.length+1; col++) {
 			footer.push(html.td());
 		}
@@ -307,6 +337,11 @@ function ListControl() {
 		columnCounter = dimensions.x = list.columns.length;
 		dimensions.y = list.numRows;
 	};
+
+    this.makeAggregate = function (rowSize) {
+        _list.numRows = rowSize;
+        this.init(this.myIdx, _list, true);
+    };
 	
 	this.createHeaderField = function(col, idx) {
 		var hi = document.createElement("input");
@@ -325,7 +360,6 @@ function ListControl() {
 				hi.dataset.exp = col.valueFunction;
 			}
 		}
-
 
 		return hi;
 	};
@@ -451,20 +485,3 @@ function ListControl() {
 		return "Dimensions: x="+dimensions.x+ ",  &nbsp; y=" + dimensions.y;
 	};
 }
-
-ListControl.lname = function listIndexToName (idx) {
-    return normalizeName(ListControl.indexToList[idx].name);
-};
-
-ListControl.idx = function nameToListIndex (name) {
-    var idx = -1;
-    ListControl.indexToList.forEach(function (v, i) {
-        if (normalizeName(v.name) == name) {
-            idx = i;
-        }
-    });
-    return ""+idx;
-};
-
-ListControl.nextListIndex = 0;
-ListControl.indexToList = [];

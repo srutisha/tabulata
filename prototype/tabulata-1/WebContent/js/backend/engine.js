@@ -80,6 +80,7 @@ Engine.prototype.sendChangedData = function (rr) {
 	// for now, just send everything
 	this.ctx.valueFunctionColumns().forEach(function(col) {
 		var em = EngineMessage.updateColumnValues(col.listName(), col.name(), col.values());
+        em.isAggregated = col.list.isAggregated;
 		rr(em);
 	});
     this.sendSingulars(rr);
@@ -256,22 +257,48 @@ function ExpressionEvaluator(ctx) {
 	};
 }
 
+function NT () {};
+
+NT.scalar = 1;
+NT.list = 2;
+
+function Node (exp, type) {
+    this.type = type;
+    this.exp = exp;
+};
+
+Node.c = function (exp, type) {
+    type = type || NT.scalar;
+    return new Node(exp, type);
+};
+
+Node.prototype.concat = function (b) {
+    return new Node(this.exp+b.exp, b.type);
+};
+
 function ColumnExpressionEvaluator(ctx, list, exp) {
 	this.ctx = ctx;
 	this.ast = listcalcParser.parse(exp);
-	this.compiled = this.handleNode(this.ast, AccessContext.list(list));
+	this.compiledNode = this.handleNode(this.ast, AccessContext.list(list));
 
-	eval("this.calcFn = function (idx) { with (this.ctx) { return "+this.compiled+"} }");
-	
-	this.evaluate = function (row) {
-		return this.calcFn(row);
-	};
+    if (this.compiledNode.type == NT.list) {
+        eval("this.calcFnList = function () { with (this.ctx) { return "+this.compiledNode.exp+"} }");
+        this.evaluate = function () {
+            return this.calcFnList();
+        }
+    } else {
+        eval("this.calcFn = function (idx) { with (this.ctx) { return "+this.compiledNode.exp+"} }");
+
+        this.evaluate = function (row) {
+            return this.calcFn(row);
+        };
+    }
 }
 
 ColumnExpressionEvaluator.prototype = ExpressionEvaluator.prototype;
 
 ExpressionEvaluator.prototype.evaluateAst = function (ast) {
-	var compiled = this.handleNode(ast, AccessContext.top());
+	var compiled = this.handleNode(ast, AccessContext.top()).exp;
 	with (this.ctx) {
 		// console.log(compiled);
 		return eval(compiled);
@@ -282,11 +309,11 @@ ExpressionEvaluator.prototype.evaluateAst = function (ast) {
 ExpressionEvaluator.prototype.handleNode = function (ast, ac) {
 	switch(ast.type) {
 	case "binaryFunction":
-		return "(" + this.handleNode( ast.left , ac ) + ")" 
-			+ ast.op + "("+ this.handleNode( ast.right , ac ) + ")";
+		return Node.c("(" + this.handleNode( ast.left , ac).exp + ")"
+			+ ast.op + "("+ this.handleNode( ast.right , ac).exp + ")");
 		break;
 	case "js":
-		return "(" + ast.execution + ")";
+		return Node.c("(" + ast.execution + ")");
 		break;
 	case "access":
 		return this.handleAccess(ac, ast.data, ast.operand);
@@ -296,7 +323,7 @@ ExpressionEvaluator.prototype.handleNode = function (ast, ac) {
 		break;
 	default: 
 		if (ObjUtil.isNumber(ast)) {
-			return 'ObjUtil.stringToObject('+ast+')';
+			return Node.c('ObjUtil.stringToObject('+ast+')');
 		}
 	
 		throw Error("Unknown ast node:"+ast);
@@ -304,20 +331,28 @@ ExpressionEvaluator.prototype.handleNode = function (ast, ac) {
 };
 
 ExpressionEvaluator.prototype.handleAccess = function (ac, data, operand) {
-	if (ac.top) {
+	if (ac.top || ac.list) {
 		// top-level symbol is table
 		if (this.ctx.listByName(data.name) != undefined) {
 			var list = this.ctx.listByName(data.name);
 			return this.handleNode(operand, AccessContext.list(list));
-		} else throw Error("Top-level symbol not known: "+data.name);
-	} else if (ac.list) {
+		} else {
+            if (ac.top) {
+                // when context is list, the list name is implicit, so
+                // try next to look up the name directly by the AccessContext
+                // in the next if
+                throw Error("Top-level symbol not known: "+data.name);
+            }
+        }
+	}
+    if (ac.list) {
 		if (this.ctx.columnByListAndName(ac.list.name(), data.name)) {
-			var col = this.ctx.columnByListAndName(ac.list.name(), data.name);
-			return col.symbol() + ""
-				+ this.handleNode(operand, AccessContext.column(col));
+            var col = this.ctx.columnByListAndName(ac.list.name(), data.name);
+            return Node.c(col.symbol()).concat(
+                 this.handleNode(operand, AccessContext.column(col)));
 		} else throw Error("List column not known: "+data.name);
 	} else if (ac.column || ac.valueList) {
-		return this.handleNode(data, ac)+this.handleNode(operand, AccessContext.valueList());
+		return this.handleNode(data, ac).concat(this.handleNode(operand, AccessContext.valueList()));
 	} else throw Error("Access not possible here: "+data+" "+operand);
 };
 
@@ -326,41 +361,49 @@ ExpressionEvaluator.prototype.handleIdentifier = function (ac, name, param) {
 		// top-level symbol is singular
 		if (this.ctx.singularByName(name) != undefined) {
 			var sg = this.ctx.singularByName(name);
-			return sg.symbol()+".$V()";
+			return Node.c(sg.symbol()+".$V()");
 		} else throw Error("Top-level symbol not known: "+name);
 	} else if (ac.list) {
 		if (this.ctx.columnByListAndName(ac.list.name(), name)) {
 			var col = this.ctx.columnByListAndName(ac.list.name(), name);
-			return col.symbol() +".$V(idx)";
+			return Node.c(col.symbol() +".$V(idx)");
 		} else if (this.ctx.singularByName(name) != undefined) {
 			var sg = this.ctx.singularByName(name);
-			return sg.symbol()+".$V()";
+			return Node.c(sg.symbol()+".$V()");
 		} else if (name === "count") {
-			return ac.list.symbol()+".$_count()";
+			return Node.c(ac.list.symbol()+".$_count()");
 		} else throw Error("List column not known: "+name);
 	} else if (ac.column) {
-		if (name === "sum") {
-			return ".$_sum()";
-		} if (name === "count") {
-			return ".$_count()";
-		} if (name === "above") {
-			return ".$V_above(idx)";
-		} else if (name === "select") {
-			if (param == undefined) throw Error("select needs param");
-			return this.handleSelect(ac, param[0]);
-		} else throw Error("column function not known: "+name);
+        switch (name) {
+            case "sum":
+            case "count":
+                return Node.c(".$_"+name+"()");
+            case "uniques":
+                return Node.c(".$_"+name+"()", NT.list);
+            case "above":
+                return Node.c(".$V_above(idx)");
+            case "select":
+                if (param == undefined) throw Error("select needs param");
+                return this.handleSelect(ac, param[0]);
+            default:
+                throw Error("column function not known: "+name);
+        }
 	} else if (ac.valueList) {
-		if (name === "sum") {
-			return ".$_sum()";
-		} if (name === "count") {
-			return ".$_count()";
-		} else throw Error("value list function not known: "+name);
+        switch (name) {
+            case "sum":
+            case "count":
+                return Node.c(".$_"+name+"()");
+            case "uniques":
+                return Node.c(".$_"+name+"()", NT.list);
+            default:
+                throw Error("value list function not known: "+name);
+        }
 	} else throw Error("cannot handle identifier here: "+name);
 };
 
 ExpressionEvaluator.prototype.handleSelect = function (ac, select) {
 	if (select.type != "binaryFunction")  throw new Error("select needs a bin. function");
-	return ".$_select(function(idx) { return " + this.handleNode(select, AccessContext.top()) + "; })";
+	return Node.c(".$_select(function(idx) { return " + this.handleNode(select, AccessContext.top()).exp + "; })");
 };
 
 function AccessContext() {
@@ -477,6 +520,7 @@ Singular.changeSingular = function (ctx, cdata) {
 function List(ctx, _list) {
 	var self = this;
 	var list = _list;
+    this.isAggregated = false;
 	
 	this.symbol = function () {
 		return Symbols.listSymbol(self.name());
@@ -489,6 +533,11 @@ function List(ctx, _list) {
 	this.name = function () {
 		return normalizeName(list.name);
 	};
+
+    this.makeAggregate = function (numRows) {
+        self.isAggregated = true;
+        list.numRows = numRows;
+    };
 	
 	this.numRows = function () {
 		return list.numRows;
@@ -536,6 +585,15 @@ ValueColumn.prototype.$_sum = function () {
 
 ValueColumn.prototype.$_count = function () {
 	return this.values().length;
+};
+
+ValueColumn.prototype.$_uniques = function () {
+    return this.values().reduce(function (ar, ac) {
+        if (ar.indexOf(ac) == -1) {
+            ar.push(ac);
+        }
+        return ar;
+    }, []).sort();
 };
 
 ValueColumn.prototype.$_select = function (fn) {
@@ -622,11 +680,18 @@ function Column(ctx, list, content) {
 
 	var exec = function (ctx, exp) {
 		var cee = new ColumnExpressionEvaluator(ctx, list, exp);
-		for (var i = 0; i < list.numRows(); i++) {
-			with (ctx) {
-				valueCache[i] = cee.evaluate(i);
-			}
-		}
+        if (cee.compiledNode.type == NT.list) {
+            with (ctx) {
+                valueCache = cee.evaluate();
+                list.makeAggregate(valueCache.length);
+            }
+        } else {
+            for (var i = 0; i < list.numRows(); i++) {
+                with (ctx) {
+                    valueCache[i] = cee.evaluate(i);
+                }
+            }
+        }
 	};
 
     // ----------- persistence -------

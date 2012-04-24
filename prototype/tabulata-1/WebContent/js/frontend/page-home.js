@@ -16,7 +16,7 @@ HomePageController.init = function () {
     $("#content-page-home").append(BlockDisplayControl.renderNewBlock());
 
     $("#home-new-block").on("tap", function (event) {
-        ef.sendEvent(FrontendMessage.initWithNewBlock("Unnamed "+HomePageController.unnamedCounter));
+        ef.sendEvent(FrontendMessage.initWithNewBlock("Unnamed Block "+HomePageController.unnamedCounter));
         HomePageController.unnamedCounter++;
     });
 };
