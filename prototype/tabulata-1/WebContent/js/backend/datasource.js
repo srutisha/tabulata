@@ -146,8 +146,12 @@ DataSource.staticData = [ {
             numRows: 0,
             columns: [
                 {
-                    name: 'Tasks',
+                    name: 'Task',
                     valueFunction: 'Tasks.Task.uniques'
+                },
+                {
+                    name: 'Hours Total',
+                    valueFunction: 'Tasks.HoursSpentTotal.select(Task == Tasks.Task).sum'
                 }
             ]
         }

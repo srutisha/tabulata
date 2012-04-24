@@ -339,6 +339,7 @@ function ListControl() {
 	};
 
     this.makeAggregate = function (rowSize) {
+        if (_list.numRows == rowSize) return;
         _list.numRows = rowSize;
         this.init(this.myIdx, _list, true);
     };

@@ -287,7 +287,7 @@ function ColumnExpressionEvaluator(ctx, list, exp) {
             return this.calcFnList();
         }
     } else {
-        eval("this.calcFn = function (idx) { with (this.ctx) { return "+this.compiledNode.exp+"} }");
+        eval("this.calcFn = function (idx0) { with (this.ctx) { return "+this.compiledNode.exp+"} }");
 
         this.evaluate = function (row) {
             return this.calcFn(row);
@@ -335,7 +335,7 @@ ExpressionEvaluator.prototype.handleAccess = function (ac, data, operand) {
 		// top-level symbol is table
 		if (this.ctx.listByName(data.name) != undefined) {
 			var list = this.ctx.listByName(data.name);
-			return this.handleNode(operand, AccessContext.list(list));
+			return this.handleNode(operand, AccessContext.list(list, ac));
 		} else {
             if (ac.top) {
                 // when context is list, the list name is implicit, so
@@ -349,7 +349,7 @@ ExpressionEvaluator.prototype.handleAccess = function (ac, data, operand) {
 		if (this.ctx.columnByListAndName(ac.list.name(), data.name)) {
             var col = this.ctx.columnByListAndName(ac.list.name(), data.name);
             return Node.c(col.symbol()).concat(
-                 this.handleNode(operand, AccessContext.column(col)));
+                 this.handleNode(operand, AccessContext.column(col, ac)));
 		} else throw Error("List column not known: "+data.name);
 	} else if (ac.column || ac.valueList) {
 		return this.handleNode(data, ac).concat(this.handleNode(operand, AccessContext.valueList()));
@@ -366,7 +366,8 @@ ExpressionEvaluator.prototype.handleIdentifier = function (ac, name, param) {
 	} else if (ac.list) {
 		if (this.ctx.columnByListAndName(ac.list.name(), name)) {
 			var col = this.ctx.columnByListAndName(ac.list.name(), name);
-			return Node.c(col.symbol() +".$V(idx)");
+            var idxName = ac.listIndexContext.makeIndex(ac.list);
+			return Node.c(col.symbol() +".$V("+idxName+")");
 		} else if (this.ctx.singularByName(name) != undefined) {
 			var sg = this.ctx.singularByName(name);
 			return Node.c(sg.symbol()+".$V()");
@@ -381,7 +382,7 @@ ExpressionEvaluator.prototype.handleIdentifier = function (ac, name, param) {
             case "uniques":
                 return Node.c(".$_"+name+"()", NT.list);
             case "above":
-                return Node.c(".$V_above(idx)");
+                return Node.c(".$V_above(idx0)");
             case "select":
                 if (param == undefined) throw Error("select needs param");
                 return this.handleSelect(ac, param[0]);
@@ -403,10 +404,41 @@ ExpressionEvaluator.prototype.handleIdentifier = function (ac, name, param) {
 
 ExpressionEvaluator.prototype.handleSelect = function (ac, select) {
 	if (select.type != "binaryFunction")  throw new Error("select needs a bin. function");
-	return Node.c(".$_select(function(idx) { return " + this.handleNode(select, AccessContext.top()).exp + "; })");
+    var newAc = ac.firstListContext();
+    newAc.listIndexContext.putList(ac.column.list);
+	return Node.c(".$_select(function("+newAc.listIndexContext.makeIndex(ac.column.list)+") { return " + this.handleNode(select, newAc).exp + "; })");
 };
 
-function AccessContext() {
+function ListIndexContext () {
+    var map = new Array();
+    var ci = 0;
+
+    this.putList = function (list) {
+        ci++;
+        map.push({list: list, index: ci});
+    };
+
+    this.makeIndex = function (list) {
+        var me = map.filter(function(e) {
+            return e.list == list;
+        });
+
+        if (me.length > 0) {
+            return "idx"+ me[0].index;
+        } else {
+            return "idx0";
+        }
+    };
+}
+
+
+function AccessContext(previousContext) {
+    var self = this;
+
+    this.previousContext = previousContext;
+
+    this.listIndexContext = previousContext ? previousContext.listIndexContext : new ListIndexContext();
+
 	this.top = false;
 		
 	this.list = false;
@@ -415,30 +447,53 @@ function AccessContext() {
 	this.valueList = false;
 	
 	this.value = false; // singular or function result
+
+    this.firstListContext = function () {
+        var ac = self;
+        var acl = undefined;
+        while (ac.previousContext) {
+            ac = ac.previousContext;
+            if (ac.list) {
+                acl = ac;
+            }
+        }
+        return acl;
+    };
+
+    this.previousListContext = function () {
+        if (this.previousContext) {
+            if (this.previousContext.list) {
+                return self.previousContext;
+            } else {
+                return self.previousContext.previousListContext();
+            }
+        }
+        return self;
+    };
 }
 
-AccessContext.top = function () {
-	var ac = new AccessContext();
+AccessContext.top = function (ac) {
+	var ac = new AccessContext(ac);
 	ac.top = true;
 	return ac;
 };
-AccessContext.list = function (list) {
-	var ac = new AccessContext();
+AccessContext.list = function (list, ac) {
+	var ac = new AccessContext(ac);
 	ac.list = list;
 	return ac;
 };
-AccessContext.column = function (column) {
-	var ac = new AccessContext();
+AccessContext.column = function (column, ac) {
+	var ac = new AccessContext(ac);
 	ac.column = column;
 	return ac;
 };
-AccessContext.valueList = function () {
-	var ac = new AccessContext();
+AccessContext.valueList = function (ac) {
+	var ac = new AccessContext(ac);
 	ac.valueList = true;
 	return ac;
 };
-AccessContext.value = function () {
-	var ac = new AccessContext();
+AccessContext.value = function (ac) {
+	var ac = new AccessContext(ac);
 	ac.value = true;
 	return ac;
 };

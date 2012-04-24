@@ -20,7 +20,7 @@ ObjUtil.stdFormatIfNumber = function (n) {
 };
 
 ObjUtil.isNumber = function (s) {
-    return (''+s).match(/[\d.-]+/);
+    return (''+s).match(/^[\d.-]+/);
 };
 
 ObjUtil.stringToObject = function(s) {
