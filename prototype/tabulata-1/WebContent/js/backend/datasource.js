@@ -59,7 +59,8 @@ DataSource.generateUuid = function () {
     });
 };
 
-DataSource.staticData = [ {
+DataSource.staticData = [
+    {
     prolog: {
         name: 'Todo List',
         id: 'tid-1'
@@ -164,175 +165,101 @@ DataSource.staticData = [ {
             ]
         }
     ]
-}
+    }
     ,
-
     {
         prolog: {
-            name: 'Check List 2',
+            name: 'Budget',
             id: 'tid-2'
         },
-        singulars : [ {
-            name : 'Percentage Done',
-            value : 'Tasks.Task.select(Tasks.Done == {true}).count / Tasks.count',
-            isFavorite: true
-        }, {
-            name : 'Sum Intern',
-            value : 'Tasks.HoursSpentIntern.sum',
-            isFavorite: true
-        }, {
-            name : 'Sum Extern',
-            value : 'Tasks.HoursSpentExtern.sum',
-            isFavorite: true
-        }, {
-            name : 'Sum Total One',
-            value : 'Tasks.HoursSpentIntern.sum + Tasks.HoursSpentExtern.sum'
-        }, {
-            name : 'Sum Total Two',
-            value : 'SumExtern + SumIntern',
-            isFavorite: true
-        }, {
-            name : 'Sum Total Three',
-            value : 'Tasks.HoursSpentTotal.sum'
-        }, {
-            name : 'Spent On Done Total',
-            value : 'Tasks.HoursSpentTotal.select(Tasks.Done == {true}).sum',
-            isFavorite: true
-        }, {
-            name : 'Salary Per Hour Intern',
-            value : '15'
-        }, {
-            name : 'Total',
-            value : 'Tasks.count',
-            isFavorite: true
-        } ],
+        singulars : [
+            {
+                name : 'Total Spent',
+                value : 'Transactions.Price.sum',
+                isFavorite: true
+            }
+            ,
+            {
+                name : 'Total Budgeted',
+                value : 'Budget.CategoryBudget.sum',
+                isFavorite: true
+            }
+        ],
         lists: [
             {
-                name: 'Tasks',
-                numRows: 25,
+                name: 'Control',
+                numRows: 0,
                 columns: [
                     {
-                        name: 'Task',
-                        values: ['Task 1', 'Task 2', 'Task 3', 'Task 4', 'Task 2', 'Task 3', 'Task 4', 'Task 2', 'Task 3', 'Task 4', 'Task 2', 'Task 3', 'Task 4', 'Task 2', 'Task 3', 'Task 4', 'Task 2', 'Task 3', 'Task 4', 'Task 2', 'Task 3', 'Task 4', 'Task 2', 'Task 3', 'Task 4']
+                        name: 'Category',
+                        valueFunction: 'Transactions.Category.uniques'
                     },
                     {
-                        name: 'Done',
-                        type: 'boolean',
-                        values: [true, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false]
+                        name: 'Budgeted',
+                        valueFunction: 'Budget.CategoryBudget.select(Category == Budget.Category).sum'
                     },
                     {
-                        name: 'Hours Spent Intern',
+                        name: 'Actual',
+                        valueFunction: 'Transactions.Price.select(Category == Transactions.Category).sum'
+                    },
+                    {
+                        name: 'Difference',
+                        valueFunction: 'Budgeted - Actual'
+                    }
+                ]
+            },
+            {
+                name: 'Budget',
+                numRows: 3,
+                columns: [
+                    {
+                        name: 'Category',
+                        values: [ 'Food', 'Fun', 'Car' ]
+                    },
+                    {
+                        name: 'Category Budget',
                         type: 'number',
-                        values: [5, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2]
+                        values: [20, 20, 100]
+                    }
+                ]
+            },
+            {
+                name: 'Transactions',
+                numRows: 5,
+                columns: [
+                    {
+                        name: 'Category',
+                        values: ['Food', 'Fun', 'Food', 'Car', 'Food']
                     },
                     {
-                        name: 'Salary Intern',
-                        valueFunction: 'HoursSpentIntern * SalaryPerHourIntern'
+                        name: 'Item',
+                        values: ['Dinner', 'Cinema', 'Pizza', 'Gasoline', 'Ice Cream']
                     },
                     {
-                        name: 'Hours Spent Extern',
+                        name: 'Price',
                         type: 'number',
-                        values: [6, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1]
+                        values: [25, 18, 5, 105, 3.5]
                     },
                     {
-                        name: 'Hours Spent Total',
-                        valueFunction: 'HoursSpentIntern + HoursSpentExtern'
-                    },
-                    {
-                        name: 'Sum Hours Spent',
-                        valueFunction: 'SumHoursSpent.above + HoursSpentTotal'
-                    },
-                    {
-                        name: 'Due',
-                        values: ['2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z']
+                        name: 'When',
+                        values: ['2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z' ]
                     }
 
                 ]
             }
         ]
-    },
-
+    }
+    ,
     {
         prolog: {
-            name: 'Check List 3',
+            name: 'Example Multiple Lists',
             id: 'tid-3'
         },
-        singulars : [ {
-            name : 'Percentage Done',
-            value : 'Tasks.Task.select(Tasks.Done == {true}).count / Tasks.count',
-            isFavorite: true
-        }, {
-            name : 'Sum Intern',
-            value : 'Tasks.HoursSpentIntern.sum'
-        }, {
-            name : 'Sum Extern',
-            value : 'Tasks.HoursSpentExtern.sum'
-        }, {
-            name : 'Sum Total One',
-            value : 'Tasks.HoursSpentIntern.sum + Tasks.HoursSpentExtern.sum'
-        }, {
-            name : 'Sum Total Two',
-            value : 'SumExtern + SumIntern'
-        }, {
-            name : 'Sum Total Three',
-            value : 'Tasks.HoursSpentTotal.sum',
-            isFavorite: true
-        }, {
-            name : 'Spent On Done Total',
-            value : 'Tasks.HoursSpentTotal.select(Tasks.Done == {true}).sum',
-            isFavorite: true
-        }, {
-            name : 'Salary Per Hour Intern',
-            value : '15'
-        }, {
-            name : 'Total',
-            value : 'Tasks.count'
-        } ],
+        singulars : [
+        ],
         lists: [
             {
-                name: 'Tasks',
-                numRows: 25,
-                columns: [
-                    {
-                        name: 'Task',
-                        values: ['Task 1', 'Task 2', 'Task 3', 'Task 4', 'Task 2', 'Task 3', 'Task 4', 'Task 2', 'Task 3', 'Task 4', 'Task 2', 'Task 3', 'Task 4', 'Task 2', 'Task 3', 'Task 4', 'Task 2', 'Task 3', 'Task 4', 'Task 2', 'Task 3', 'Task 4', 'Task 2', 'Task 3', 'Task 4']
-                    },
-                    {
-                        name: 'Done',
-                        type: 'boolean',
-                        values: [true, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false]
-                    },
-                    {
-                        name: 'Hours Spent Intern',
-                        type: 'number',
-                        values: [5, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2]
-                    },
-                    {
-                        name: 'Salary Intern',
-                        valueFunction: 'HoursSpentIntern * SalaryPerHourIntern'
-                    },
-                    {
-                        name: 'Hours Spent Extern',
-                        type: 'number',
-                        values: [6, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1]
-                    },
-                    {
-                        name: 'Hours Spent Total',
-                        valueFunction: 'HoursSpentIntern + HoursSpentExtern'
-                    },
-                    {
-                        name: 'Sum Hours Spent',
-                        valueFunction: 'SumHoursSpent.above + HoursSpentTotal'
-                    },
-                    {
-                        name: 'Due',
-                        values: ['2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z']
-                    }
-
-                ]
-            },
-            {
-                name: 'Second List',
+                name: 'First List',
                 numRows: 3,
                 columns: [
                     {
@@ -356,6 +283,30 @@ DataSource.staticData = [ {
                 ]
             },
             {
+                name: 'Second List',
+                numRows: 3,
+                columns: [
+                    {
+                        name: 'Column One',
+                        values: ['Name 1', 'Name 2', 'Name 3']
+                    },
+                    {
+                        name: 'Numbers One',
+                        type: 'number',
+                        values: [15, 4, 3]
+                    },
+                    {
+                        name: 'Numbers Two',
+                        type: 'number',
+                        values: [6, 3, 2]
+                    },
+                    {
+                        name: 'Total Numbers',
+                        valueFunction: 'NumbersOne + NumbersTwo'
+                    }
+                ]
+            },
+            {
                 name: 'Third List',
                 numRows: 3,
                 columns: [
@@ -366,7 +317,7 @@ DataSource.staticData = [ {
                     {
                         name: 'Numbers One',
                         type: 'number',
-                        values: [5, 4, 3]
+                        values: [25, 4, 3]
                     },
                     {
                         name: 'Numbers Two',
