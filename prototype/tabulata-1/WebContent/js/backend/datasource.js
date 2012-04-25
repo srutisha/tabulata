@@ -61,12 +61,12 @@ DataSource.generateUuid = function () {
 
 DataSource.staticData = [ {
     prolog: {
-        name: 'Check List',
+        name: 'Todo List',
         id: 'tid-1'
     },
     singulars : [ {
         name : 'Percentage Done',
-        value : 'Tasks.Task.select(Tasks.Done == {true}).count / Tasks.count',
+        value : 'Tasks.Task.select(Tasks.Done == {true}).count * 100 / Tasks.count',
         isFavorite: true
     }, {
         name : 'Sum Intern',
@@ -100,6 +100,28 @@ DataSource.staticData = [ {
     } ],
     lists: [
         {
+            name: 'Summary Of Tasks',
+            numRows: 0,
+            columns: [
+                {
+                    name: 'Task',
+                    valueFunction: 'Tasks.Task.uniques'
+                },
+                {
+                    name: 'Hours Total',
+                    valueFunction: 'Tasks.HoursSpentTotal.select(Task == Tasks.Task).sum'
+                },
+                {
+                    name: 'Hours Total Undone',
+                    valueFunction: 'Tasks.HoursSpentTotal.select(Task == Tasks.Task && Tasks.Done == {false}).sum'
+                },
+                {
+                    name: 'Hours Total Done',
+                    valueFunction: 'Tasks.HoursSpentTotal.select(Task == Tasks.Task && Tasks.Done == {true}).sum'
+                }
+            ]
+        },
+        {
             name: 'Tasks',
             numRows: 25,
             columns: [
@@ -110,7 +132,7 @@ DataSource.staticData = [ {
                 {
                     name: 'Done',
                     type: 'boolean',
-                    values: [true, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false]
+                    values: [true, true, false, true, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false]
                 },
                 {
                     name: 'Hours Spent Intern',
@@ -139,20 +161,6 @@ DataSource.staticData = [ {
                     values: ['2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2011-03-12T14:39:30Z', '2012-03-12T14:39:30Z', '2011-03-12T14:39:30Z']
                 }
 
-            ]
-        },
-        {
-            name: 'Tasks Aggregated',
-            numRows: 0,
-            columns: [
-                {
-                    name: 'Task',
-                    valueFunction: 'Tasks.Task.uniques'
-                },
-                {
-                    name: 'Hours Total',
-                    valueFunction: 'Tasks.HoursSpentTotal.select(Task == Tasks.Task).sum'
-                }
             ]
         }
     ]
