@@ -241,7 +241,7 @@ DetailPageController.attachListEvents = function () {
 
 
 DetailPageController.handleColumnValueChangeEvent = function (id, newValue) {
-    var symbolElems = event.target.id.split(/_/);
+    var symbolElems = id.split(/_/);
     lc.changeColumnValue(symbolElems[1], symbolElems[2], symbolElems[3], newValue);
 };
 
