@@ -321,7 +321,7 @@ function ListControl() {
 
         var addRowButton = self.createAddRowButton();
 
-		if (noAddRowButton) {
+		if (noAddRowButton || list.isAggregated) {
             addRowButton = "";
         }
 
@@ -339,8 +339,9 @@ function ListControl() {
 	};
 
     this.makeAggregate = function (rowSize) {
-        if (_list.numRows == rowSize) return;
+        if (_list.isAggregated && _list.numRows == rowSize) return;
         _list.numRows = rowSize;
+        _list.isAggregated = true;
         this.init(this.myIdx, _list, true);
     };
 	

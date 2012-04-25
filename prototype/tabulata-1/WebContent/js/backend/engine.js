@@ -609,6 +609,7 @@ function List(ctx, _list) {
         return {
             'name': _list.name,
             'numRows': this.numRows(),
+            'isAggregated': this.isAggregated,
             'columns': ctx.columnsByListObj(self).map(function (col) { return col.jsonData(); })
         };
     };
