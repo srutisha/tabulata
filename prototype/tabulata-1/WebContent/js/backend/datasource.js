@@ -184,6 +184,18 @@ DataSource.staticData = [
                 value : 'Budget.CategoryBudget.sum',
                 isFavorite: true
             }
+            ,
+            {
+                name : 'Number Of Transactions',
+                value : 'Transactions.count',
+                isFavorite: true
+            }
+            ,
+            {
+                name : 'Spent In Categories Over Budget',
+                value : 'Control.Actual.select(Control.Difference < 0).sum',
+                isFavorite: true
+            }
         ],
         lists: [
             {
