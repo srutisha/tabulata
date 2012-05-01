@@ -55,6 +55,15 @@ Engine.prototype.listNames = function () {
 };
 
 Engine.prototype.singularResultValues = function () {
+    // calculate the values for aggregating columns,
+    // as only calculating them will determine the contents
+    // and correct calculation of dependent columns.
+    this.ctx.valueFunctionColumns().forEach(function(col) {
+        if (col.isAggregating()) {
+            var dummy = col.values();
+        }
+    });
+
     return this.ctx.allSingulars().map(function (sg) {
         var sgName = sg.humanName();
         var sgValue = "-empty-";
@@ -733,6 +742,11 @@ function Column(ctx, list, content) {
 		exec(ctx, content.valueFunction);
 		return valueCache;
 	};
+
+    this.isAggregating = function () {
+        var cee = new ColumnExpressionEvaluator(ctx, list, content.valueFunction);
+        return cee.compiledNode.type == NT.list;
+    };
 
 	var exec = function (ctx, exp) {
 		var cee = new ColumnExpressionEvaluator(ctx, list, exp);
