@@ -192,6 +192,11 @@ DataSource.staticData = [
             }
             ,
             {
+                name : 'Tax Rate',
+                value : '0.08'
+            }
+            ,
+            {
                 name : 'Spent In Categories Over Budget',
                 value : 'Control.Actual.select(Control.Difference < 0).sum',
                 isFavorite: true
@@ -251,6 +256,14 @@ DataSource.staticData = [
                         name: 'Price',
                         type: 'number',
                         values: [25, 18, 5, 105, 3.5]
+                    },
+                    {
+                        name: 'Tax',
+                        valueFunction: 'Price * TaxRate'
+                    },
+                    {
+                        name: 'Price Sum',
+                        valueFunction: 'PriceSum.above + Price'
                     },
                     {
                         name: 'When',
