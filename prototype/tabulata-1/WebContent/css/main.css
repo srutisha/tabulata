@@ -133,7 +133,8 @@ input[type=button] {
 	font-color:black;
 	/*background:white;*/
     /*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#555), color-stop(80%,#F9F9F9), color-stop(100%,#fff));*/
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(20%,#F9F9F9), color-stop(100%,#555));
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(70%,#F9F9F9), color-stop(100%,#555));
+
 	position:fixed;
 	top:0;
 	left:0;
@@ -282,7 +283,7 @@ input.listselect-inactive {
     width: 100%;
     top:50px;
 
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(66%,#000000), color-stop(95%,#999), color-stop(100%,#ddd));
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee), color-stop(66%,#eee), color-stop(100%,#bbb));
 }
 
 .home-block-container .home-block-title {
@@ -298,20 +299,34 @@ input.listselect-inactive {
 .home-block-container, #home-new-block {
     margin:10px;
     float: left;
-    width: 45%;
-    border: 2px #555;
-    border: inset 2px;
-    border-radius: 7px/5px;
-    background: #eee;
+    width: 42%;
     color:#333;
-    padding:5px;
+    padding:10px;
     font-size:13pt;
+
+    border: 1px solid;
+    border-color: #bfbfbf #e6e6e6 #e6e6e6 #bfbfbf;
+    border-radius: 7px;
+    background: #fefefe;
+
+    -webkit-box-shadow: inset 0 0  5px 1px rgba(50,50,50,0.2),
+                              1px 1px 5px rgba(50,50,50,0.7);
+
 }
 
 #home-new-block {
-    border: 4px dashed #555;
-    background: #333;
+
+    border: 1px solid;
+    border-color: #bfbfbf #e6e6e6 #e6e6e6 #bfbfbf;
+    border-radius: 7px;
+    background: #aaa;
+
+    -webkit-box-shadow: inset 0 0  5px 1px rgba(50,50,50,0.2),
+    1px 1px 5px rgba(50,50,50,0.7);
+
     color:#ddd;
+
+
     text-shadow: 0 1px 0 #999;
     height: 200px;
 }
