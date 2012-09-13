@@ -101,11 +101,15 @@ DetailPageController.updateSingularEventReceived = function (data) {
 };
 
 DetailPageController.attachSingularEvents = function () {
-    $("#stbl").on("tap", ".inp-value", function (event) {
+    $("#stbl").on("tap, focus", ".inp-value", function (event) {
         $(event.target).data("locked", true);
         $(event.target).val(event.target.dataset.exp);
         $(event.target).removeClass("display");
-        $(event.target).focus();
+
+        if (event.type.indexOf('focus') == -1) {
+            $(event.target).focus();
+        }
+
         //event.preventDefault();
     });
 
