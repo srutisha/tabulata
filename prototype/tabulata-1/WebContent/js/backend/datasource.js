@@ -372,6 +372,7 @@ DataSource.staticData = [
                 columns: [
                     {
                         name: 'Inductive',
+                        type: 'number',
                         values: [0, 1, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0]
                     },
                     {
