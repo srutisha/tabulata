@@ -182,15 +182,15 @@ input[type=button] {
     position: fixed;
     top: 55px;
     right:10px;
-    width:400px;
-    border: 2px #555;
-    border: inset 2px;
-    border-radius: 3px/2px;
+    width:580px;
+    border: 1px solid #567;
+    border-radius: 5px;
     background: #eee;
     font-color:#333;
     padding:5px;
     font-size:11pt;
     display:none;
+    box-shadow: 0 0 5px 2px #359;
 
     z-index:105;
 }
