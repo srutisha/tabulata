@@ -107,7 +107,13 @@ input[type=button] {
     padding:2px;
     margin:1px;
     border:1px solid #ccc;
+}
 
+.inp-cal.control-type-number,
+.inp-act.control-type-number,
+.inp-value.display {
+    font-family: courier, monospace !important;
+    text-align: right;
 }
 
 .inp-cal {

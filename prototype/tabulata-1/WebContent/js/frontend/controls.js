@@ -1,20 +1,20 @@
 
 function SingularControl() {
 	this.size = 0;
-	
+
 	this.newCounter = 0;
-	
+
 	this.build = function () {
 		$("#stbl").append(html.tr([html.td(this.createAddButton()), html.td()]));
 	};
-	
+
 	this.addRow = function (button) {
 		$(button).parent().parent().before(this.createRow(this.newCounter++, "", ""));
 		this.size ++;
 		il.update();
 		this.updateOffset();
 	};
-	
+
 	this.updateOffset = function () {
 		var refElem = $("#bottom-singulars");
 		var topIdx = refElem.offset().top + 6;
@@ -28,12 +28,12 @@ function SingularControl() {
 		$("#main").css('height', (bottom - topIdx) + "px");
         $("#mtbl tbody").css('height', (bottom - topIdx - 25 - c.KEYBOARD_HEIGHT) + "px");
 	};
-	
+
 	this.createRow = function (id, key, value, isFavorite) {
 		var tdcont = [html.td(this.createFavorite(isFavorite)), html.td(this.createInputFieldKey(id, key)), html.td(this.createInputFieldValue(id, value))];
 		return html.tr(tdcont);
 	};
-	
+
 	this.init = function (singulars) {
         this.size = 0;
 		$("#stbl").html("");
@@ -53,25 +53,25 @@ function SingularControl() {
         $(sp).addClass("sg-star "+starclass);
         return sp;
     };
-	
+
 	this.createInputFieldKey = function(symbol, key) {
 		if (key == undefined) key = "";
 		return html.input(SingularControl.keyId(symbol), 'inp-key', key);
 	};
-	
+
 	this.createInputFieldValue = function(symbol, value) {
 		if (value == undefined) value = "";
-		var e = html.input (SingularControl.valueId(symbol), 'inp-value', value);
+		var e = html.input (SingularControl.valueId(symbol), 'inp-value display', value);
 		e.dataset.exp = value;
 		return e;
 	};
-	
+
 	this.createAddButton = function () {
 		var e = html.input('scAddRow', 'input-button add-button', '+');
 		e.type = 'button';
 		return e;
 	};
-	
+
 	this.infoText = function () {
 		return "Singulars: "+this.size;
 	};
@@ -235,13 +235,13 @@ ListControl.idx = function nameToListIndex (name) {
 
 function ListControl() {
 	var self = this;
-	
+
 	var dimensions = {'x': 1, 'y' : 1};
-	
+
 	var _list = new Array();
-	
+
 	var columnCounter = 0;
-	
+
 	this.genColumnClassName = function (idx) {
 		if (idx == undefined) idx = columnCounter;
 		return " list_col_"+idx;
@@ -254,22 +254,22 @@ function ListControl() {
 			}
 		});
 	};
-	
+
 	this.build = function () {
 	};
 
-	
+
 	var createFieldNode = function (col, colNr, row) {
 		var id = Symbols.columnRowSymbol(self.cn(), col.name, row);
 		var co = DetailControlFactory.getControlObject(col.type);
 		var value = "";
 		var isEditable = false;
-		
+
 		if (col.values) {
 			value = col.values[row];
 			isEditable = true;
 		}
-		
+
 		return html.td(co.renderToDisplay(id, self.genColumnClassName(colNr), isEditable, value));
 	};
 
@@ -305,9 +305,9 @@ function ListControl() {
 		$("#mtbl").html("");
 
         this.myIdx = idx;
-		
+
 		var headers = new Array();
-		
+
 		list.columns.forEach(function (col, idx) {
             var th = html.th(self.createHeaderField(col, idx));
 			headers.push(th);
@@ -331,7 +331,7 @@ function ListControl() {
 		}
 
         allRows.push(html.tr(footer));
-		
+
 		$("#mtbl").append(html.tbody(allRows));
 
 		columnCounter = dimensions.x = list.columns.length;
@@ -344,7 +344,7 @@ function ListControl() {
         _list.isAggregated = true;
         this.init(this.myIdx, _list, true);
     };
-	
+
 	this.createHeaderField = function(col, idx) {
 		var hi = document.createElement("input");
 		hi.className = 'hed-act'+self.genColumnClassName(idx);
@@ -355,9 +355,9 @@ function ListControl() {
 		} else {
 			hi.value = col.name;
 			hi.id = Symbols.columnRowSymbol(self.cn(), col.name, "H");
-			
+
 			$(hi).data("name", col.name);
-			
+
 			if (col.valueFunction) {
 				hi.dataset.exp = col.valueFunction;
 			}
@@ -365,24 +365,24 @@ function ListControl() {
 
 		return hi;
 	};
-	
+
 	this.createAddRowButton = function() {
 		return this.createAddButton("lcAddRowButton");
 	};
-	
+
 	this.createAddColumnButton = function() {
 		return this.createAddButton("lcAddColumnButton");
 	};
-	
+
 	this.createAddButton = function(id) {
 		var e = html.input(id, 'add-button', '+');
 		e.type = 'button';
 		return e;
 	};
-	
+
 	this.addRow = function(button) {
 		var tr = $(button).parent().parent().get(0);
-		
+
 		$(tr).children().each(function(index){
 			if (index == dimensions.x) {
 				// last cell
@@ -391,7 +391,7 @@ function ListControl() {
 				$(this).replaceWith(createFieldNode(_list.columns[index], index, _list.numRows));
 			}
 		});
-		
+
 		_list.numRows++;
 
 		var newrow = new Array();
@@ -401,40 +401,40 @@ function ListControl() {
 		}
 
 		$(tr).after(html.tr(newrow));
-		
+
 		dimensions.y ++;
-		
+
 		ef.sendEvent(FrontendMessage.rowAdded(normalizeName(_list.name)));
 		il.update();
 	};
-	
+
 	this.addColumn = function(button) {
 		var tr = $(button).parent().parent().get(0);
-		
+
 		var col = _list.columns[dimensions.x] = {name: ""+columnCounter, values: []};
-		
+
 		$(button).parent().replaceWith(createFieldNode(col, dimensions.x, 0));
 		$(tr).append(html.td(this.createAddColumnButton()));
-		
+
 		var hr = $(tr).parents("table").find("thead>tr");
 		var headerField = this.createHeaderField(null, columnCounter);
 		$(hr).children().last().append(headerField);
 		$(hr).append(html.th());
-		
+
 		var cr = tr;
 		for (var i=1; i<dimensions.y; i++) {
 			cr = $(cr).next();
 			$(cr).children().last().replaceWith(createFieldNode(col, dimensions.x, i));
 			$(cr).append(html.td());
 		}
-		
+
 		$(cr).next().append(html.td());
-		
+
 		dimensions.x ++;
 		columnCounter ++;
 
 		il.update();
-		
+
 		return headerField;
 	};
 
@@ -467,7 +467,7 @@ function ListControl() {
     this.setColumnDataType = function (columnName, newType) {
         this.columnWithName(columnName).type = newType;
     };
-	
+
 	this.changeTypeInListData = function (columnName, type) {
         var col = this.columnWithName(columnName);
 
@@ -481,8 +481,8 @@ function ListControl() {
             col.valueFunction = [];
         }
 	};
-	
-	
+
+
 	this.infoText = function () {
 		return "Dimensions: x="+dimensions.x+ ",  &nbsp; y=" + dimensions.y;
 	};

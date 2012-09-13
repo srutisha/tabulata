@@ -84,6 +84,9 @@ DetailPageController.updateColumnEventReceived = function (data) {
     for (var i=0; i<data.values.length; i++) {
         var id = Symbols.columnRowSymbol(idx, data.columnName, i);
         $("#"+id).val(data.values[i]);
+        if (ObjUtil.isNumber(data.values[i])) {
+            $("#"+id).addClass("control-type-number");
+        }
         //$("#"+id).text(data.values[i]);
     }
 };
@@ -101,6 +104,7 @@ DetailPageController.attachSingularEvents = function () {
     $("#stbl").on("tap", ".inp-value", function (event) {
         $(event.target).data("locked", true);
         $(event.target).val(event.target.dataset.exp);
+        $(event.target).removeClass("display");
         $(event.target).focus();
         //event.preventDefault();
     });
@@ -111,6 +115,7 @@ DetailPageController.attachSingularEvents = function () {
 
     $("#stbl").on("focusout", ".inp-value", function (event) {
         var exp = event.target.dataset.exp = $(event.target).val();
+        $(event.target).addClass("display");
         $(event.target).val("..");
         $(event.target).data("locked", false);
 
