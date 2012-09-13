@@ -160,8 +160,10 @@ function ListSelectControl() {
     this.changed = function (targetElem) {
         var idx = idxFromElem(targetElem);
         var name = $(targetElem).val();
-        lists[idx].name = name;
-        ef.sendEvent(FrontendMessage.listChanged(idx, {'name': name}))
+        if (lists[idx].name != name) {
+            lists[idx].name = name;
+            ef.sendEvent(FrontendMessage.listChanged(idx, {'name': name}))
+        }
     };
 
     this.render = function (lists) {

@@ -761,6 +761,7 @@ function Column(ctx, list, content) {
                 list.makeAggregate(valueCache.length);
             }
         } else {
+            valueCache = [];
             for (var i = 0; i < list.numRows(); i++) {
                 with (ctx) {
                     valueCache[i] = cee.evaluate(i);
