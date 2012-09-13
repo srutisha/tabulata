@@ -7,9 +7,9 @@ console.log = function(msg) {
 
 function Engine(block) {
 	var self = this;
-	
+
 	this.ctx = new Context(block);
-	
+
 	block.singulars.forEach(function (sgData) {
 		self.ctx.addSingular(sgData);
 	});
@@ -108,8 +108,8 @@ function Context(block) {
     this.changeProlog = function (prolog) {
         block.prolog.name = prolog.name;
     };
-	
-	this.singularByName = function (sgName) { 
+
+	this.singularByName = function (sgName) {
 		return singulars.filter(function (sgn) {
 			return sgn.name () == sgName;
 		})[0];
@@ -119,12 +119,12 @@ function Context(block) {
         return lists[index];
     };
 
-	this.listByName = function (listName) { 
+	this.listByName = function (listName) {
 		return lists.filter(function (list) {
 			return list.name () == listName;
 		})[0];
 	};
-	
+
 	this.valueFunctionColumns = function () {
 		return columns.filter(function (column) {
 			return column.isFunction;
@@ -134,15 +134,15 @@ function Context(block) {
 	this.allSingulars = function () {
 		return singulars;
 	};
-	
-	this.columnByListAndName = function (listName, colName) { 
+
+	this.columnByListAndName = function (listName, colName) {
 		return columns.filter(function (column) {
-			return column.listName() == listName 
+			return column.listName() == listName
 				&& column.name () == colName;
 		})[0];
 	};
 
-	this.columnsByList = function (listName) { 
+	this.columnsByList = function (listName) {
 		return columns.filter(function (column) {
 			return column.listName() == listName;
 		});
@@ -158,7 +158,7 @@ function Context(block) {
         var sg = Singular.fromData(self, sgData);
         singulars.push(sg);
 	};
-	
+
 	this.replaceSingular = function (sg, newSgData) {
 		self[sg.symbol()] = undefined;
 		var delIdx = -1;
@@ -174,7 +174,7 @@ function Context(block) {
             singulars.splice(delIdx, 1);
         }
 	};
-	
+
 	this.removeColumn = function (col) {
 		self[col.symbol()] = undefined;
 		var delIdx = -1;
@@ -185,7 +185,7 @@ function Context(block) {
 		}
 		columns.splice(delIdx, 1);
 	};
-	
+
 	this.addList = function (listData) {
 		var list = new List(self, listData);
 		listData.columns.forEach(function (colData) {
@@ -214,20 +214,20 @@ function Context(block) {
             self.addList(listData);
         }
     };
-	
+
 	this.addColumn = function (list, colData) {
 		var col = new Column(self, list, colData);
 		self[col.symbol()] = col;
 		columns.push(col);
         return col;
 	};
-	
+
 	this.logMembers = function () {
 		for (var e in this) {
 			console.log(e);
 		}
 	};
-	
+
 	this.evaluate = function (exp) {
 		return new ExpressionEvaluator(self).evaluateText(exp);
 	};
@@ -257,9 +257,9 @@ function Context(block) {
 }
 
 function ExpressionEvaluator(ctx) {
-	
+
 	this.ctx = ctx;
-	
+
 	this.evaluateText = function (exp) {
 		var ast = listcalcParser.parse(exp);
 		return this.evaluateAst(ast);
@@ -330,11 +330,11 @@ ExpressionEvaluator.prototype.handleNode = function (ast, ac) {
 	case "identifier":
 		return this.handleIdentifier(ac, ast.name, ast.param);
 		break;
-	default: 
+	default:
 		if (ObjUtil.isNumber(ast)) {
 			return Node.c('ObjUtil.stringToObject('+ast+')');
 		}
-	
+
 		throw Error("Unknown ast node:"+ast);
 	}
 };
@@ -391,6 +391,9 @@ ExpressionEvaluator.prototype.handleIdentifier = function (ac, name, param) {
             case "uniques":
                 return Node.c(".$_"+name+"()", NT.list);
             case "above":
+                if (param && ObjUtil.isNumber(param[0])) {
+                    return Node.c(".$V_above(idx0,"+param[0]+")");
+                }
                 return Node.c(".$V_above(idx0)");
             case "select":
                 if (param == undefined) throw Error("select needs param");
@@ -449,12 +452,12 @@ function AccessContext(previousContext) {
     this.listIndexContext = previousContext ? previousContext.listIndexContext : new ListIndexContext();
 
 	this.top = false;
-		
+
 	this.list = false;
 	this.column = false;
-	
+
 	this.valueList = false;
-	
+
 	this.value = false; // singular or function result
 
     this.firstListContext = function () {
@@ -510,7 +513,7 @@ AccessContext.value = function (ac) {
 
 function Singular(ctx, data) {
 	var self = this;
-	
+
 	this.exp = data.value;
 
     this.isFavorite = data.isFavorite;
@@ -526,7 +529,7 @@ function Singular(ctx, data) {
     this.setFavorite = function (isFavorite) {
         this.isFavorite = isFavorite;
     };
-	
+
 	this.symbol = function () {
 		return Symbols.singularSymbol(self.name());
 	};
@@ -534,15 +537,15 @@ function Singular(ctx, data) {
     this.humanName = function () {
         return data.name;
     };
-	
+
 	this.name = function () {
 		return normalizeName(data.name);
 	};
-	
+
 	this.value = function() {
 		return this.$V();
 	};
-	
+
 	this.$V = function() {
 		return ctx.evaluate(self.exp);
 	};
@@ -577,7 +580,7 @@ Singular.changeSingular = function (ctx, cdata) {
 		sgData.value = "";
         ctx.addSingular(sgData);
 	}
-	
+
 
 };
 
@@ -585,7 +588,7 @@ function List(ctx, _list) {
 	var self = this;
 	var list = _list;
     this.isAggregated = false;
-	
+
 	this.symbol = function () {
 		return Symbols.listSymbol(self.name());
 	};
@@ -602,11 +605,11 @@ function List(ctx, _list) {
         self.isAggregated = true;
         list.numRows = numRows;
     };
-	
+
 	this.numRows = function () {
 		return list.numRows;
 	};
-	
+
 	this.addRow = function () {
 		list.numRows ++;
         ctx.columnsByListObj(self).forEach(function (col) {
@@ -728,9 +731,11 @@ function Column(ctx, list, content) {
 		}
 	};
 
-	this.$V_above = function (idx) {
-		if (idx == 0) return 0.0;
-		return this.$V(idx-1);
+	this.$V_above = function (idx, offset) {
+        offset = offset || 1;
+        var fetchIdx = idx - offset;
+		if (fetchIdx < 0) return 0.0;
+		return this.$V(fetchIdx);
 	};
 
 	this.$V = function(idx) {
@@ -786,7 +791,7 @@ Column.changeColumn = function (ctx, listName, oldColumnName, newColumnName, typ
 		var col = ctx.columnByListAndName(listName, normalizeName(oldColumnName));
 		var content = col.getContent();
 		content.name = newColumnName;
-		
+
 		if (type != undefined) {
 			if (type == "values") {
 				content.valueFunction = undefined;
@@ -797,7 +802,7 @@ Column.changeColumn = function (ctx, listName, oldColumnName, newColumnName, typ
 				content.valueFunction = "";
 			}
 		}
-		
+
 		col.replaceWith(content);
 	}
 };

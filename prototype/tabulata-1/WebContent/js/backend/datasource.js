@@ -357,6 +357,30 @@ DataSource.staticData = [
             }
         ]
     }
-
+    ,
+    {
+        prolog: {
+            name: 'Fibonacci',
+            id: 'tid-4'
+        },
+        singulars : [
+        ],
+        lists: [
+            {
+                name: 'Fibonacci One',
+                numRows: 15,
+                columns: [
+                    {
+                        name: 'Inductive',
+                        values: [0, 1, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0]
+                    },
+                    {
+                        name: 'Calculated',
+                        valueFunction: 'Inductive + Calculated.above + Calculated.above(2)'
+                    }
+                ]
+            }
+        ]
+    }
 
 ];
