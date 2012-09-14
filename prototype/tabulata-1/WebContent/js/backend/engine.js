@@ -88,9 +88,11 @@ Engine.prototype.sendSingulars = function (rr) {
 Engine.prototype.sendChangedData = function (rr) {
 	// for now, just send everything
 	this.ctx.valueFunctionColumns().forEach(function(col) {
-		var em = EngineMessage.updateColumnValues(col.listName(), col.name(), col.values());
-        em.isAggregated = col.list.isAggregated;
-		rr(em);
+        if (col.valueFunction() != undefined && col.valueFunction().length > 0) {
+            var em = EngineMessage.updateColumnValues(col.listName(), col.name(), col.values());
+            em.isAggregated = col.list.isAggregated;
+            rr(em);
+        }
 	});
     this.sendSingulars(rr);
 };
@@ -254,6 +256,21 @@ function Context(block) {
         return lists.map(function (list) { return list.jsonData(); });
     };
 
+    //--- FNs.
+
+    this.$fn = new function () {};
+
+
+    this.$fn.$Sequence = function (zz, a) {
+        var ret = new Array();
+        if (a == undefined) {
+            a = 10;
+        }
+        for (i=0;i<a;i++) {
+            ret.push(i);
+        }
+        return new ValueColumn(self, ret);
+    }
 }
 
 function ExpressionEvaluator(ctx) {
@@ -293,7 +310,7 @@ function ColumnExpressionEvaluator(ctx, list, exp) {
     if (this.compiledNode.type == NT.list) {
         eval("this.calcFnList = function () { with (this.ctx) { return "+this.compiledNode.exp+"} }");
         this.evaluate = function () {
-            return this.calcFnList();
+            return this.calcFnList().values();
         }
     } else {
         eval("this.calcFn = function (idx0) { with (this.ctx) { return "+this.compiledNode.exp+"} }");
@@ -365,6 +382,16 @@ ExpressionEvaluator.prototype.handleAccess = function (ac, data, operand) {
 	} else throw Error("Access not possible here: "+data+" "+operand);
 };
 
+ExpressionEvaluator.prototype.numericParams = function (param) {
+    if (param == undefined || param.length == 0 ) return "";
+    return param.map(function(m) {
+        if (! ObjUtil.isNumber(m)) {
+            throw new Error("Param must be numeric: "+m);
+        }
+        return "," + m;
+    });
+};
+
 ExpressionEvaluator.prototype.handleIdentifier = function (ac, name, param) {
 	if (ac.top) {
 		// top-level symbol is singular
@@ -382,7 +409,9 @@ ExpressionEvaluator.prototype.handleIdentifier = function (ac, name, param) {
 			return Node.c(sg.symbol()+".$V()");
 		} else if (name === "count") {
 			return Node.c(ac.list.symbol()+".$_count()");
-		} else throw Error("List column not known: "+name);
+		} else if (name == "Sequence") {
+            return Node.c('$fn.$Sequence(0'+this.numericParams(param)+')', NT.list);
+        } else throw Error("List column not known: "+name);
 	} else if (ac.column) {
         switch (name) {
             case "sum":
@@ -391,10 +420,7 @@ ExpressionEvaluator.prototype.handleIdentifier = function (ac, name, param) {
             case "uniques":
                 return Node.c(".$_"+name+"()", NT.list);
             case "above":
-                if (param && ObjUtil.isNumber(param[0])) {
-                    return Node.c(".$V_above(idx0,"+param[0]+")");
-                }
-                return Node.c(".$V_above(idx0)");
+                return Node.c(".$V_above(idx0"+this.numericParams(param)+")");
             case "select":
                 if (param == undefined) throw Error("select needs param");
                 return this.handleSelect(ac, param[0]);
@@ -656,12 +682,12 @@ ValueColumn.prototype.$_count = function () {
 };
 
 ValueColumn.prototype.$_uniques = function () {
-    return this.values().reduce(function (ar, ac) {
+    return new ValueColumn(this.ctx, this.values().reduce(function (ar, ac) {
         if (ar.indexOf(ac) == -1) {
             ar.push(ac);
         }
         return ar;
-    }, []).sort();
+    }, []).sort());
 };
 
 ValueColumn.prototype.$_select = function (fn) {
@@ -688,6 +714,10 @@ function Column(ctx, list, content) {
 	this.listName = function () {
 		return list.name();
 	};
+
+    this.valueFunction = function () {
+        return content.valueFunction;
+    }
 
 	//TODO NOT GOOD!! BAD PROGRAMMER!
 	this.getContent = function () {

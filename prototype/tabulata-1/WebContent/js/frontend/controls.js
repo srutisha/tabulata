@@ -141,6 +141,8 @@ function ListSelectControl() {
 
         var idx = lists.length;
 
+        this.activeIndex = idx;
+
         lists.push(listData);
 
         disableActive();
