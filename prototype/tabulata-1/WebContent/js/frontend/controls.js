@@ -164,7 +164,7 @@ function ListSelectControl() {
         var name = $(targetElem).val();
         if (lists[idx].name != name) {
             lists[idx].name = name;
-            ef.sendEvent(FrontendMessage.listChanged(idx, {'name': name}))
+            ef.sendEvent(FrontendMessage.listChanged(idx, {'name': name}));
         }
     };
 
@@ -448,9 +448,9 @@ function ListControl() {
             columnName, rowIdx, newValue));
     };
 
-	this.changeColumnType = function (listIdx, columnName, type) {
+	this.changeColumnType = function (listIdx, columnName, type, exp) {
         TextInputControl.changeValueType( listIdx, columnName, type );
-        this.changeTypeInListData(columnName, type);
+        this.changeTypeInListData(columnName, type, exp);
 		ef.sendEvent( FrontendMessage.columnChanged( ListControl.lname(listIdx), columnName, columnName, type ) );
 	};
 
@@ -472,7 +472,7 @@ function ListControl() {
         this.columnWithName(columnName).type = newType;
     };
 
-	this.changeTypeInListData = function (columnName, type) {
+	this.changeTypeInListData = function (columnName, type, exp) {
         var col = this.columnWithName(columnName);
 
         if (type == "values" ) {
@@ -482,7 +482,7 @@ function ListControl() {
 
         if (type == "valueFunction") {
             delete col.values;
-            col.valueFunction = [];
+            col.valueFunction = exp;
         }
 	};
 

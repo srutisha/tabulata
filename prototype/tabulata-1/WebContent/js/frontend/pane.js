@@ -7,20 +7,20 @@ EditPane.attachEvents = function () {
 	$('.radio-coltype').change(function (event) {
 		$('#pane-edit-expression').toggle(event.target.id == 'radio-coltype-valueFunction');
 		//EditPane.showPaneForHeader(EditPane.lastClicked, event.target.id == 'radio-coltype-values');
-		
+
 	});
-	
+
 	$("#pane-apply").on("tap", function (event) {
 		EditPane.savePane();
 		EditPane.dismissPane();
 		event.preventDefault();
 	});
-	
+
 	$("#pane-cancel").on("tap", function (event) {
 		EditPane.dismissPane();
 		event.preventDefault();
 	});
-	
+
 	$("#pane-value-function").on("focus", function(event) {
 		EditPane.isEditingFunction = true;
 	});
@@ -55,14 +55,15 @@ EditPane.savePane = function () {
 	var d = elem.data();
 
 	var newType = $('#radio-coltype-values').prop("checked") ? "values" : "valueFunction";
-	
+
 	if (d.originalType != newType) {
-		lc.changeColumnType(d.listIdx, d.columnName, newType);
+		lc.changeColumnType(d.listIdx, d.columnName, newType, exp);
 	}
 
     EditPane.handleDataTypeChange(d.listIdx, d.columnName);
-	
+
 	if (newType == "valueFunction") {
+        $("#"+Symbols.columnRowSymbol(d.listIdx, d.columnName, "H"))[0].dataset.exp = exp;
 		$("#"+Symbols.columnRowSymbol(d.listIdx, d.columnName, "H")).data("exp", exp);
 		ef.sendEvent(FrontendMessage.columnValueFunctionChanged(ListControl.lname(d.listIdx), d.columnName, exp));
 	} else {
@@ -71,7 +72,7 @@ EditPane.savePane = function () {
 			delete $("#"+Symbols.columnRowSymbol(ListControl.lname(d.listIdx), d.columnName, "H"))[0].dataset["exp"];
 		}
 	}
-	
+
 };
 
 EditPane.handleDataTypeChange = function (listIdx, columnName) {
@@ -84,27 +85,27 @@ EditPane.handleDataTypeChange = function (listIdx, columnName) {
 };
 
 
-EditPane.dismissPane = function () {	
+EditPane.dismissPane = function () {
 	//dismiss the keyboard
 	$(document.activeElement).blur();
 
 	EditPane.isEditingFunction = false;
 	$("#pane").toggle(false);
-	
+
 	EditPane.normalColumn(EditPane.showing);
 	EditPane.showing = "";
-	
+
 	EditPane.hide();
 };
 
 
 EditPane.showPaneEvent = function(event) {
 	EditPane.lastClicked = event.target;
-	
+
 	var idParts = event.target.id.split(/_/);
 
     //TODO remove dependency on DOM for determining column type, but query the list control.
-	EditPane.showPaneForHeader(EditPane.lastClicked, 
+	EditPane.showPaneForHeader(EditPane.lastClicked,
 			$("#"+Symbols.columnRowSymbol(idParts[1], idParts[2], "H")).data("exp") == undefined);
 	event.stopImmediatePropagation();
 };
@@ -135,22 +136,22 @@ EditPane.showPaneForHeader = function(inputElem, isValues) {
     $('#radio-datatype-text').prop("checked", dataType == "text").checkboxradio("refresh");
     $('#radio-datatype-number').prop("checked", dataType == "number").checkboxradio("refresh");
     $('#radio-datatype-boolean').prop("checked", dataType == "boolean").checkboxradio("refresh");
-	
+
 	$(EditPane.editField).data("originalType", exp == undefined ? "values" : "valueFunction");
 	$(EditPane.editField).data("listIdx", idParts[1]);
 	$(EditPane.editField).data("columnName", idParts[2]);
 	EditPane.editField.val(exp);
-	
+
 	$("#pane").toggle(true);
-	
+
 	if (! isValues && idParts[3] != 'H') {
 		// take away focus when field is not editable
 		// TODO: set field to readonly
 		inputElem.blur();
 	}
-	
+
 	EditPane.highlightColumn(inputElem);
-	
+
 	EditPane.show();
 };
 
@@ -184,7 +185,7 @@ EditPane.focusEvent = function (event) {
 	if ($(event.target).closest("#pane").length>0) {
 		return;
 	}
-	
+
 	EditPane.dismissPane();
 };
 
