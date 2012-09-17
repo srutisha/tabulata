@@ -401,19 +401,24 @@ DataSource.staticData = [
     ,
     {
         prolog: {
-            name: 'Currency Conversion',
+            name: 'Currency Portfolio',
             id: 'tid-5'
         },
         singulars : [
             {
-                name : 'Base Currency',
+                name : 'Valuation Currency',
                 value : 'CHF'
+            }
+            ,
+            {
+                name : 'Total Worth',
+                value : 'Positions.AmountInBase.sum'
             }
         ],
         lists: [
             {
-                name: 'My Positions',
-                numRows: 3,
+                name: 'Positions',
+                numRows: 4,
                 columns: [
                     {
                         name: 'Currency',
@@ -422,30 +427,30 @@ DataSource.staticData = [
                     {
                         name: 'Amount',
                         type: 'number',
-                        values: [150, 100500.55, 489.41, 100.34]
+                        values: [150, 100000, 500, 200]
                     },
                     {
-                        name: 'In Base',
-                        valueFunction: 'Amount * ExchangeRate.LocalRate.selectFirst(Currency == ExchangeRate.Currency)'
+                        name: 'Amount In Base',
+                        valueFunction: 'Amount * ExchangeRate.CrossRate.selectFirst(Currency == ExchangeRate.Currency)'
                     }
                 ]
             }
             ,
             {
                 name: 'Exchange Rate',
-                numRows: 3,
+                numRows: 4,
                 columns: [
                     {
                         name: 'Currency',
-                        values: ['CHF', 'EUR', 'HKD']
+                        values: ['USD', 'CHF', 'EUR', 'HKD']
                     },
                     {
                         name: 'Rate',
-                        values: [0.9, 1.21, 7]
+                        values: [1, 0.93, 0.76, 7.75]
                     },
                     {
-                        name: 'Local Rate',
-                        valueFunction: 'Rate.selectFirst(Currency == BaseCurrency)'
+                        name: 'Cross Rate',
+                        valueFunction: 'Rate.selectFirst(Currency == ValuationCurrency)/Rate'
                     }
                 ]
             }

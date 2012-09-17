@@ -5,6 +5,7 @@ console.log = function(msg) {
 	postLog("engine.js: "+msg);
 };
 
+
 function Engine(block) {
 	var self = this;
 
@@ -307,6 +308,7 @@ function ColumnExpressionEvaluator(ctx, list, exp) {
 	this.ctx = ctx;
 	this.ast = listcalcParser.parse(exp);
 	this.compiledNode = this.handleNode(this.ast, AccessContext.list(list));
+    console.log(this.compiledNode.exp);
     if (this.compiledNode.type == NT.list) {
         eval("this.calcFnList = function () { with (this.ctx) { return "+this.compiledNode.exp+"} }");
         this.evaluate = function () {
@@ -314,8 +316,8 @@ function ColumnExpressionEvaluator(ctx, list, exp) {
         }
     } else {
         eval("this.calcFn = function (idx0) { with (this.ctx) { return "+this.compiledNode.exp+"} }");
-
         this.evaluate = function (row) {
+
             return this.calcFn(row);
         };
     }
@@ -326,7 +328,6 @@ ColumnExpressionEvaluator.prototype = ExpressionEvaluator.prototype;
 ExpressionEvaluator.prototype.evaluateAst = function (ast) {
 	var compiled = this.handleNode(ast, AccessContext.top()).exp;
 	with (this.ctx) {
-		 console.log(compiled);
 		return eval(compiled);
 	}
 };
@@ -456,8 +457,12 @@ ExpressionEvaluator.prototype.handleIf = function(ac, cond, trueNodeExp, falseNo
 ExpressionEvaluator.prototype.handleSelect = function (name, ac, select) {
 	if (select.type != "binaryFunction")  throw new Error(name + " needs a bin. function as parameter");
     var newAc = ac.firstListContext();
+
+    // TODO XXX "newAc" isn't really new, so state is changed where it shouldn't ->fix.
     newAc.listIndexContext.putList(ac.column.list);
-	return Node.c(".$_"+name+"(function("+newAc.listIndexContext.makeIndex(ac.column.list)+") { return " + this.handleNode(select, newAc).exp + "; })");
+	var ret =  Node.c(".$_"+name+"(function("+newAc.listIndexContext.makeIndex(ac.column.list)+") { return " + this.handleNode(select, newAc).exp + "; })");
+    newAc.listIndexContext.removeList();
+    return ret;
 };
 
 function ListIndexContext () {
@@ -468,6 +473,11 @@ function ListIndexContext () {
         ci++;
         map.push({list: list, index: ci});
     };
+
+    this.removeList = function () {
+        ci--;
+        map.pop();
+    }
 
     this.makeIndex = function (list) {
         var me = map.filter(function(e) {
