@@ -15,19 +15,16 @@ MED as long as a column doesn't have a name, it is not visible to the backend.
 
 MED consolidate the different change-methods and event into 1
 
+MED refactor frontend code to not use column/list/singular name as it makes the code more complicated
+    than necessary.
+
+MED "Sequence * 3" should probably work as a list expression
+
+MED If in singulars ?
+
+
+
 ------------------------------------------------------------------------------------------
-
-EXTENSION OF LISTS: 1:N
-
-create new list in block
-
-display lists in home screen
-
-column defaults / series
-aggregation list
-
-styling
-
 
 EDITING OF LIST
 
@@ -38,8 +35,8 @@ add column (to left/right of existing column)
 variable column width
 
 (columns rows singulars) gui functions:
-resize 
-reorder 
+resize
+reorder
 delete
 
 infer data type
