@@ -271,6 +271,7 @@ function Context(block) {
         }
         return new ValueColumn(self, ret);
     }
+
 }
 
 function ExpressionEvaluator(ctx) {
@@ -306,7 +307,6 @@ function ColumnExpressionEvaluator(ctx, list, exp) {
 	this.ctx = ctx;
 	this.ast = listcalcParser.parse(exp);
 	this.compiledNode = this.handleNode(this.ast, AccessContext.list(list));
-
     if (this.compiledNode.type == NT.list) {
         eval("this.calcFnList = function () { with (this.ctx) { return "+this.compiledNode.exp+"} }");
         this.evaluate = function () {
@@ -411,6 +411,8 @@ ExpressionEvaluator.prototype.handleIdentifier = function (ac, name, param) {
 			return Node.c(ac.list.symbol()+".$_count()");
 		} else if (name == "Sequence") {
             return Node.c('$fn.$Sequence(0'+this.numericParams(param)+')', NT.list);
+        } else if (name == "If") {
+            return this.handleIf(ac, param[0], param[1], param[2]);
         } else throw Error("List column not known: "+name);
 	} else if (ac.column) {
         switch (name) {
@@ -439,6 +441,16 @@ ExpressionEvaluator.prototype.handleIdentifier = function (ac, name, param) {
         }
 	} else throw Error("cannot handle identifier here: "+name);
 };
+
+ExpressionEvaluator.prototype.handleIf = function(ac, cond, trueNodeExp, falseNodeExp) {
+    var trueNode = this.handleNode(trueNodeExp, ac);
+    var falseNode = this.handleNode(falseNodeExp, ac);
+
+    return Node.c(' ('+this.handleNode(cond, ac).exp
+            +') ? ( '+trueNode.exp
+            +') : ( '+falseNode.exp
+            +')', trueNode.type);
+}
 
 ExpressionEvaluator.prototype.handleSelect = function (ac, select) {
 	if (select.type != "binaryFunction")  throw new Error("select needs a bin. function");

@@ -381,6 +381,21 @@ DataSource.staticData = [
                     }
                 ]
             }
+            ,
+            {
+                name: 'Fibonacci Two',
+                numRows: 15,
+                columns: [
+                    {
+                        name: 'Index',
+                        valueFunction: 'Sequence(15)'
+                    },
+                    {
+                        name: 'Calculated',
+                        valueFunction: 'If(Index==0, 0, If(Index==1, 1, Calculated.above + Calculated.above(2)))'
+                    }
+                ]
+            }
         ]
     }
 
