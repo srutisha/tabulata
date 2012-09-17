@@ -326,7 +326,7 @@ ColumnExpressionEvaluator.prototype = ExpressionEvaluator.prototype;
 ExpressionEvaluator.prototype.evaluateAst = function (ast) {
 	var compiled = this.handleNode(ast, AccessContext.top()).exp;
 	with (this.ctx) {
-		// console.log(compiled);
+		 console.log(compiled);
 		return eval(compiled);
 	}
 };
@@ -398,7 +398,7 @@ ExpressionEvaluator.prototype.handleIdentifier = function (ac, name, param) {
 		if (this.ctx.singularByName(name) != undefined) {
 			var sg = this.ctx.singularByName(name);
 			return Node.c(sg.symbol()+".$V()");
-		} else throw Error("Top-level symbol not known: "+name);
+		} else return Node.c("'"+name+"'"); //throw Error("Top-level symbol not known: "+name);
 	} else if (ac.list) {
 		if (this.ctx.columnByListAndName(ac.list.name(), name)) {
 			var col = this.ctx.columnByListAndName(ac.list.name(), name);
@@ -424,8 +424,9 @@ ExpressionEvaluator.prototype.handleIdentifier = function (ac, name, param) {
             case "above":
                 return Node.c(".$V_above(idx0"+this.numericParams(param)+")");
             case "select":
-                if (param == undefined) throw Error("select needs param");
-                return this.handleSelect(ac, param[0]);
+            case "selectFirst":
+                if (param == undefined) throw Error(name + " needs param");
+                return this.handleSelect(name, ac, param[0]);
             default:
                 throw Error("column function not known: "+name);
         }
@@ -452,11 +453,11 @@ ExpressionEvaluator.prototype.handleIf = function(ac, cond, trueNodeExp, falseNo
             +')', trueNode.type);
 }
 
-ExpressionEvaluator.prototype.handleSelect = function (ac, select) {
-	if (select.type != "binaryFunction")  throw new Error("select needs a bin. function");
+ExpressionEvaluator.prototype.handleSelect = function (name, ac, select) {
+	if (select.type != "binaryFunction")  throw new Error(name + " needs a bin. function as parameter");
     var newAc = ac.firstListContext();
     newAc.listIndexContext.putList(ac.column.list);
-	return Node.c(".$_select(function("+newAc.listIndexContext.makeIndex(ac.column.list)+") { return " + this.handleNode(select, newAc).exp + "; })");
+	return Node.c(".$_"+name+"(function("+newAc.listIndexContext.makeIndex(ac.column.list)+") { return " + this.handleNode(select, newAc).exp + "; })");
 };
 
 function ListIndexContext () {
@@ -710,6 +711,16 @@ ValueColumn.prototype.$_select = function (fn) {
 		}
 	}
 	return new ValueColumn(this.ctx, ret);
+};
+
+ValueColumn.prototype.$_selectFirst = function (fn) {
+    var ret = new Array();
+    for (var i=0; i<this.values().length; i++) {
+        if (fn(i)) {
+            return this.values()[i];
+        }
+    }
+    return undefined;
 };
 
 

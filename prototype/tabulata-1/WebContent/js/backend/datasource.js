@@ -398,5 +398,75 @@ DataSource.staticData = [
             }
         ]
     }
+    ,
+    {
+        prolog: {
+            name: 'Currency Conversion',
+            id: 'tid-5'
+        },
+        singulars : [
+            {
+                name : 'Base Currency',
+                value : 'CHF'
+            }
+        ],
+        lists: [
+            {
+                name: 'My Positions',
+                numRows: 3,
+                columns: [
+                    {
+                        name: 'Currency',
+                        values: ['CHF', 'USD', 'EUR', 'HKD']
+                    },
+                    {
+                        name: 'Amount',
+                        type: 'number',
+                        values: [150, 100500.55, 489.41, 100.34]
+                    },
+                    {
+                        name: 'In Base',
+                        valueFunction: 'Amount * ExchangeRate.LocalRate.selectFirst(Currency == ExchangeRate.Currency)'
+                    }
+                ]
+            }
+            ,
+            {
+                name: 'Exchange Rate',
+                numRows: 3,
+                columns: [
+                    {
+                        name: 'Currency',
+                        values: ['CHF', 'EUR', 'HKD']
+                    },
+                    {
+                        name: 'Rate',
+                        values: [0.9, 1.21, 7]
+                    },
+                    {
+                        name: 'Local Rate',
+                        valueFunction: 'Rate.selectFirst(Currency == BaseCurrency)'
+                    }
+                ]
+            }
+            /*
+            ,
+            {
+                name: 'Exchange Rate',
+                type: 'webservice',
+                url: 'http://openexchangerates.org/api/latest.json?app_id=76e31cf78b46494986f8f5ec65ed381c',
+                columns: [
+                    {
+                        name: 'Currency',
+                        valueFunction: 'data.rates.keys'
+                    },
+                    {
+                        name: 'Rate',
+                        valueFunction: 'date.rates[Currency]'
+                    }
+                ]
+            }*/
+        ]
+    }
 
 ];
