@@ -41,9 +41,9 @@ multiplicative
 primary
   = __ nb:number __ { return nb; }
   / path
-  / __ "{" js:(!"}" .)* "}" 
+  / __ "{" js:(!"}" .)* "}"
       { return {
-          type: "js", 
+          type: "js",
           execution: js.map(function(a){return a[1]}).join("")
         };
       }
@@ -58,11 +58,11 @@ path =  f:function p:pathEx ? {
 	};
 }
 
-pathEx = __ "." p:path 
+pathEx = __ "." p:path
     {return p;}
 
 function =
-   __ id:identifier __ pa:paramList ? 
+   __ id:identifier __ pa:paramList ?
    {
      if (pa === "") return { type: "identifier", name: id };
      return { type: "identifier", name: id, param:pa };
@@ -73,7 +73,7 @@ paramList
 { return p; }
 
 params
- = ps:bool __ pa:( __ "," __ bool ) * 
+ = ps:bool __ pa:( __ "," __ bool ) *
    {  if (pa === "") return [ps];
       var px = pa.map(function(a){return a[3]});
       px.unshift(ps);

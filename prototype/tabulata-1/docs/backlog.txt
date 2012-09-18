@@ -3,8 +3,6 @@
 
 ISSUES
 
-MED grammar: )_*_3 doesn't parse (whitespace after closed bracket)
-
 LOW only use jq data() , remove plain dataset access
 
 MED touch-selecting: if holding longer than a bit (ie. click-event gets fired (working assumption)), then
