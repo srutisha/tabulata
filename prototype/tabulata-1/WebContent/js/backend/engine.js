@@ -9,7 +9,7 @@ console.log = function(msg) {
 function Engine(block) {
 	var self = this;
 
-	this.ctx = new Context(block);
+	this.ctx = new Context(self, block);
 
 	block.singulars.forEach(function (sgData) {
 		self.ctx.addSingular(sgData);
@@ -18,6 +18,11 @@ function Engine(block) {
     block.lists.forEach(function (listData) {
         self.ctx.addList(listData);
     });
+
+    if (block.includes)
+        block.includes.forEach(function (includeData) {
+            self.ctx.addInclude(includeData);
+        });
 }
 
 Engine.prototype.changeProlog = function (prolog) {
@@ -59,11 +64,13 @@ Engine.prototype.singularResultValues = function () {
     // calculate the values for aggregating columns,
     // as only calculating them will determine the contents
     // and correct calculation of dependent columns.
+    this.ctx.noAsync = true;
     this.ctx.valueFunctionColumns().forEach(function(col) {
         if (col.isAggregating()) {
             var dummy = col.values();
         }
     });
+    this.ctx.noAsync = false;
 
     return this.ctx.allSingulars().map(function (sg) {
         var sgName = sg.humanName();
@@ -102,11 +109,15 @@ Engine.prototype.blockJson = function () {
     return this.ctx.blockJson();
 };
 
-function Context(block) {
+function Context(engine, block) {
 	var self = this;
 	var singulars = new Array();
 	var columns = new Array();
 	var lists = new Array();
+    var includes = new Array();
+    var eng = engine;
+
+    this.noAsync = false;
 
     this.changeProlog = function (prolog) {
         block.prolog.name = prolog.name;
@@ -161,6 +172,20 @@ function Context(block) {
         var sg = Singular.fromData(self, sgData);
         singulars.push(sg);
 	};
+
+    this.addInclude = function (includeData) {
+        var inc = Include.fromData(self, includeData, function () {
+            eng.sendChangedData(resultReceiver);
+            //console.log(inc.jsonData());
+        });
+        includes.push(inc);
+    };
+
+    this.includeByName = function (includeName) {
+        return includes.filter(function (inc) {
+            return inc.name == includeName;
+        })[0];
+    };
 
 	this.replaceSingular = function (sg, newSgData) {
 		self[sg.symbol()] = undefined;
@@ -363,7 +388,9 @@ ExpressionEvaluator.prototype.handleAccess = function (ac, data, operand) {
 		if (this.ctx.listByName(data.name) != undefined) {
 			var list = this.ctx.listByName(data.name);
 			return this.handleNode(operand, AccessContext.list(list, ac));
-		} else {
+		} if (this.ctx.includeByName(data.name)) {
+            return this.handleInclude(ac, data, operand);
+        } else {
             if (ac.top) {
                 // when context is list, the list name is implicit, so
                 // try next to look up the name directly by the AccessContext
@@ -381,6 +408,39 @@ ExpressionEvaluator.prototype.handleAccess = function (ac, data, operand) {
 	} else if (ac.column || ac.valueList) {
 		return this.handleNode(data, ac).concat(this.handleNode(operand, AccessContext.valueList()));
 	} else throw Error("Access not possible here: "+data+" "+operand);
+};
+
+ExpressionEvaluator.prototype.handleInclude = function (ac, data, operand) {
+    var inc = this.ctx.includeByName(data.name);
+    var path = inc.symbol()+'.jsonData()';
+    var self = this;
+
+    while (operand.type == 'access') {
+        path += '.' + operand.data.name;
+        operand = operand.operand;
+    }
+
+    if (operand.type != 'identifier') {
+        throw new Error("JSON include must end in identifier");
+    } else {
+        path += '.' + operand.name;
+    }
+
+    var prefix = '('+inc.symbol()+'.jsonReady()?';
+
+    if (operand.param) {
+        if (operand.param.type && operand.param.type == 'indexed') {
+            if (operand.param.name == '') {
+                return Node.c(prefix+'new ValueColumn(ctx, Object.keys('+path+'))'+':new ValueColumn(ctx,[]))', NT.list);
+            } else {
+                return Node.c(prefix+path+"["+this.handleIdentifier(ac, operand.param.name).exp+"]"+':0)');
+            }
+        } else {
+            throw new Error("no parameter list allowed in JSON access")
+        }
+    }
+
+
 };
 
 ExpressionEvaluator.prototype.numericParams = function (param) {
@@ -560,6 +620,49 @@ AccessContext.value = function (ac) {
 };
 
 
+Include = function (ctx, data, completeFn) {
+    var self = this;
+
+    var jsonDataHolder;
+    var called = false;
+
+
+    this.name = normalizeName(data.name);
+    this.url = data.url;
+
+    this.jsonReady = function () {
+        this.jsonData();
+        return jsonDataHolder != undefined;
+    };
+
+    this.jsonData = function() {
+        if (ctx.noAsync) return undefined;
+        if (!called && jsonDataHolder == undefined) {
+            called = true;
+            $.ajax.get({
+                url: this.url,
+                dataType: 'json',
+                success: function(jsonObj) {
+                    jsonDataHolder = jsonObj;
+                    completeFn();
+                }
+            });
+        }
+        return jsonDataHolder;
+    };
+
+
+    this.symbol = function () {
+        return Symbols.includeSymbol(self.name);
+    };
+};
+
+Include.fromData = function fromData(ctx, data, completeFn) {
+    var inc = new Include(ctx, data, completeFn);
+    ctx[inc.symbol()] = inc;
+    return inc;
+};
+
 function Singular(ctx, data) {
 	var self = this;
 
@@ -725,9 +828,10 @@ ValueColumn.prototype.$_select = function (fn) {
 
 ValueColumn.prototype.$_selectFirst = function (fn) {
     var ret = new Array();
-    for (var i=0; i<this.values().length; i++) {
+    var vals = this.values();
+    for (var i=0; i<vals.length; i++) {
         if (fn(i)) {
-            return this.values()[i];
+            return vals[i];
         }
     }
     return undefined;
@@ -743,6 +847,8 @@ function Column(ctx, list, content) {
 	this.isFunction = content.valueFunction != undefined;
 
 	var valueCache = new Array();
+
+    var cee;
 
 	this.listName = function () {
 		return list.name();
@@ -776,6 +882,8 @@ function Column(ctx, list, content) {
 	};
 
 	this.updateValueFunction = function (fn) {
+        cee = undefined;
+        valueCache = [];
 		content.valueFunction = fn;
 	};
 
@@ -807,17 +915,24 @@ function Column(ctx, list, content) {
 	};
 
 	this.evaluate = function () {
-		exec(ctx, content.valueFunction);
+        if (valueCache.length == 0)
+    		exec();
 		return valueCache;
 	};
 
     this.isAggregating = function () {
-        var cee = new ColumnExpressionEvaluator(ctx, list, content.valueFunction);
-        return cee.compiledNode.type == NT.list;
+        return getCee().compiledNode.type == NT.list;
     };
 
-	var exec = function (ctx, exp) {
-		var cee = new ColumnExpressionEvaluator(ctx, list, exp);
+    var getCee = function () {
+        if (cee == undefined) {
+            cee = new ColumnExpressionEvaluator(ctx, list, content.valueFunction);
+        }
+        return cee;
+    }
+
+	var exec = function () {
+		var cee = getCee();
         if (cee.compiledNode.type == NT.list) {
             with (ctx) {
                 valueCache = cee.evaluate();

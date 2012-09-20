@@ -70,7 +70,9 @@ function =
 
 paramList
  = "(" __ p: params __ ")"
-{ return p; }
+       { return p; }
+   / "[" __ id: identifier ? __ "]"
+       { return { type: "indexed", name: id }; }
 
 params
  = ps:bool __ pa:( __ "," __ bool ) *

@@ -404,6 +404,12 @@ DataSource.staticData = [
             name: 'Currency Portfolio',
             id: 'tid-5'
         },
+        includes : [
+            {
+                name : "Open Rates",
+                url : "http://openexchangerates.org/api/latest.json?app_id=76e31cf78b46494986f8f5ec65ed381c"
+            }
+        ],
         singulars : [
             {
                 name : 'Valuation Currency',
@@ -412,7 +418,8 @@ DataSource.staticData = [
             ,
             {
                 name : 'Total Worth',
-                value : 'Positions.AmountInBase.sum'
+                value : 'Positions.AmountInBase.sum',
+                isFavorite: true
             }
         ],
         lists: [
@@ -438,39 +445,21 @@ DataSource.staticData = [
             ,
             {
                 name: 'Exchange Rate',
-                numRows: 4,
                 columns: [
                     {
                         name: 'Currency',
-                        values: ['USD', 'CHF', 'EUR', 'HKD']
+                        valueFunction: 'OpenRates.rates[]'
                     },
                     {
                         name: 'Rate',
-                        values: [1, 0.93, 0.76, 7.75]
+                        valueFunction: 'OpenRates.rates[Currency]'
                     },
                     {
                         name: 'Cross Rate',
-                        valueFunction: 'Rate.selectFirst(Currency == ValuationCurrency)/Rate'
+                        valueFunction: 'Rate.selectFirst(Currency == ValuationCurrency) / Rate'
                     }
                 ]
             }
-            /*
-            ,
-            {
-                name: 'Exchange Rate',
-                type: 'webservice',
-                url: 'http://openexchangerates.org/api/latest.json?app_id=76e31cf78b46494986f8f5ec65ed381c',
-                columns: [
-                    {
-                        name: 'Currency',
-                        valueFunction: 'data.rates.keys'
-                    },
-                    {
-                        name: 'Rate',
-                        valueFunction: 'date.rates[Currency]'
-                    }
-                ]
-            }*/
         ]
     }
 

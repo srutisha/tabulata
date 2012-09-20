@@ -60,6 +60,10 @@ Symbols.singularSymbol = function (n) {
 	return "s_"+normalizeName(n);
 };
 
+Symbols.includeSymbol = function (n) {
+    return "i_"+normalizeName(n);
+}
+
 Symbols.listSymbol = function (n) {
 	return "l_"+normalizeName(n);
 };

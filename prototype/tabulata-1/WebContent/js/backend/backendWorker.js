@@ -1,5 +1,5 @@
 
-importScripts('engine.js', 'datasource.js', 'interface/common.js', 'interface/engineMessage.js', '../lib/parser.js');
+importScripts('engine.js', 'datasource.js', 'interface/common.js', 'interface/engineMessage.js', '../lib/parser.js', '../lib/pollen-0.1.91.js');
 
 var engine;
 
