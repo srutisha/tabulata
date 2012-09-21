@@ -32,7 +32,7 @@ function EngineFront() {
 }
 
 EngineFront.prototype.messageHandler = function (event) {
-//    console.log(event.data);
+    console.log(event.data);
     if (event.data.eventName == "blockDataMessage") {
         HomePageController.load([event.data.data]);
     }

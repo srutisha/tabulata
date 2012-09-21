@@ -65,11 +65,7 @@ Engine.prototype.singularResultValues = function () {
     // as only calculating them will determine the contents
     // and correct calculation of dependent columns.
     this.ctx.noAsync = true;
-    this.ctx.valueFunctionColumns().forEach(function(col) {
-        if (col.isAggregating()) {
-            var dummy = col.values();
-        }
-    });
+    this.calculateAggregatingValueColumns();
     this.ctx.noAsync = false;
 
     return this.ctx.allSingulars().map(function (sg) {
@@ -83,6 +79,14 @@ Engine.prototype.singularResultValues = function () {
         } catch (ex) {}
 
         return {name: sgName, resultValue: sgValue, isFavorite: sg.isFavorite };
+    });
+};
+
+Engine.prototype.calculateAggregatingValueColumns = function() {
+    this.ctx.valueFunctionColumns().forEach(function(col) {
+        if (col.isAggregating()) {
+            var dummy = col.values();
+        }
     });
 };
 
@@ -103,6 +107,12 @@ Engine.prototype.sendChangedData = function (rr) {
         }
 	});
     this.sendSingulars(rr);
+};
+
+Engine.prototype.invalidateNanColumns = function () {
+    this.ctx.valueFunctionColumns().forEach(function(col) {
+        col.invalidateWhenNan();
+    });
 };
 
 Engine.prototype.blockJson = function () {
@@ -175,6 +185,9 @@ function Context(engine, block) {
 
     this.addInclude = function (includeData) {
         var inc = Include.fromData(self, includeData, function () {
+            eng.invalidateNanColumns();
+            eng.calculateAggregatingValueColumns();
+            eng.invalidateNanColumns();
             eng.sendChangedData(resultReceiver);
             //console.log(inc.jsonData());
         });
@@ -849,6 +862,12 @@ function Column(ctx, list, content) {
 	var valueCache = new Array();
 
     var cee;
+
+    this.invalidateWhenNan = function () {
+        if (valueCache.every(function (v) { return isNaN(v); })) {
+            valueCache = [];
+        }
+    };
 
 	this.listName = function () {
 		return list.name();
