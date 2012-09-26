@@ -35,12 +35,14 @@ Engine.prototype.changeList = function (listIndex, listData) {
 
 Engine.prototype.changeColumnValue = function (changeData) {
     var col = this.ctx.columnByListAndName(changeData.listName, changeData.columnName);
-    col.updateValue(changeData.idx, changeData.value)
+    col.updateValue(changeData.idx, changeData.value);
+    this.invalidateValueColumns();
 };
 
 Engine.prototype.changeColumnValueFunction = function (listName, columnName, value) {
     var col = this.ctx.columnByListAndName(listName, columnName);
-    col.updateValueFunction(value)
+    col.updateValueFunction(value);
+    this.invalidateValueColumns();
 };
 
 Engine.prototype.changeColumn = function (listName, oldColumnName, newColumnName, type) {
@@ -49,6 +51,7 @@ Engine.prototype.changeColumn = function (listName, oldColumnName, newColumnName
 
 Engine.prototype.changeSingular = function (cdata) {
     Singular.changeSingular(this.ctx, cdata);
+    this.invalidateValueColumns();
 };
 
 Engine.prototype.addListRow = function (listName) {
@@ -112,6 +115,12 @@ Engine.prototype.sendChangedData = function (rr) {
 Engine.prototype.invalidateNanColumns = function () {
     this.ctx.valueFunctionColumns().forEach(function(col) {
         col.invalidateWhenNan();
+    });
+};
+
+Engine.prototype.invalidateValueColumns = function () {
+    this.ctx.valueFunctionColumns().forEach(function(col) {
+        col.invalidateCache();
     });
 };
 
@@ -865,7 +874,7 @@ function Column(ctx, list, content) {
 
     this.invalidateWhenNan = function () {
         if (valueCache.every(function (v) { return isNaN(v); })) {
-            valueCache = [];
+            this.invalidateCache();
         }
     };
 
@@ -909,8 +918,14 @@ function Column(ctx, list, content) {
 	this.addRow = function () {
 		if (isData) {
 			content.values.push("");
-		}
+		} else {
+           this.invalidateCache();
+        }
 	};
+
+    this.invalidateCache = function() {
+        valueCache = [];
+    };
 
 	this.values = function () {
 		if (isData) {
