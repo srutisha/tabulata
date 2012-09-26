@@ -291,9 +291,14 @@ function Context(engine, block) {
     this.blockJson = function () {
         return {
             'prolog': block.prolog,
+            'includes': this.includesJson(),
             'singulars': this.singularsJson(),
             'lists': this.listsJson()
         };
+    };
+
+    this.includesJson = function () {
+        return includes.map(function (inc) { return inc.persistenceJsonData(); });
     };
 
     this.singularsJson = function () {
@@ -673,6 +678,10 @@ Include = function (ctx, data, completeFn) {
         return jsonDataHolder;
     };
 
+
+    this.persistenceJsonData = function () {
+        return data;
+    };
 
     this.symbol = function () {
         return Symbols.includeSymbol(self.name);
