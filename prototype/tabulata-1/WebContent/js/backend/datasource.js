@@ -360,47 +360,6 @@ DataSource.staticData = [
     ,
     {
         prolog: {
-            name: 'Fibonacci',
-            id: 'tid-4'
-        },
-        singulars : [
-        ],
-        lists: [
-            {
-                name: 'Fibonacci One',
-                numRows: 15,
-                columns: [
-                    {
-                        name: 'Inductive',
-                        type: 'number',
-                        values: [0, 1, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0]
-                    },
-                    {
-                        name: 'Calculated',
-                        valueFunction: 'Inductive + Calculated.above + Calculated.above(2)'
-                    }
-                ]
-            }
-            ,
-            {
-                name: 'Fibonacci Two',
-                numRows: 15,
-                columns: [
-                    {
-                        name: 'Index',
-                        valueFunction: 'Sequence(15)'
-                    },
-                    {
-                        name: 'Calculated',
-                        valueFunction: 'If(Index==0, 0, If(Index==1, 1, Calculated.above + Calculated.above(2)))'
-                    }
-                ]
-            }
-        ]
-    }
-    ,
-    {
-        prolog: {
             name: 'Currency Portfolio',
             id: 'tid-5'
         },
@@ -458,6 +417,47 @@ DataSource.staticData = [
                     {
                         name: 'Cross Rate',
                         valueFunction: 'Rate.selectFirst(Currency == ValuationCurrency) / Rate'
+                    }
+                ]
+            }
+        ]
+    }
+    ,
+    {
+        prolog: {
+            name: 'Fibonacci',
+            id: 'tid-4'
+        },
+        singulars : [
+        ],
+        lists: [
+            {
+                name: 'Fibonacci One',
+                numRows: 15,
+                columns: [
+                    {
+                        name: 'Inductive',
+                        type: 'number',
+                        values: [0, 1, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0]
+                    },
+                    {
+                        name: 'Calculated',
+                        valueFunction: 'Inductive + Calculated.above + Calculated.above(2)'
+                    }
+                ]
+            }
+            ,
+            {
+                name: 'Fibonacci Two',
+                numRows: 15,
+                columns: [
+                    {
+                        name: 'Index',
+                        valueFunction: 'Sequence(15)'
+                    },
+                    {
+                        name: 'Calculated',
+                        valueFunction: 'If(Index==0, 0, If(Index==1, 1, Calculated.above + Calculated.above(2)))'
                     }
                 ]
             }

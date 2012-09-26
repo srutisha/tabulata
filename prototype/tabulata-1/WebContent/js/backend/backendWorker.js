@@ -27,9 +27,8 @@ onmessage = function(message) {
     } else if (message.data.eventName == "loadBlocks") {
         var blocks = DataSource.getBlocks();
         blocks.forEach(function (block) {
-            engine = new Engine (block);
-            var blockData = new BlockData(block.prolog.id, block.prolog.name, engine.singularResultValues(), engine.listNames());
-            resultReceiver(EngineMessage.blockDataMessage(blockData));
+            var e = new Engine (block);
+            e.sendSummaryBlockData();
         });
         return;
     } else if (message.data.eventName == "listChanged") {

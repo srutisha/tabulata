@@ -9,7 +9,11 @@ console.log = function(msg) {
 function Engine(block) {
 	var self = this;
 
+    this.block = block;
+
 	this.ctx = new Context(self, block);
+
+    this.isSummaryMode = false;
 
 	block.singulars.forEach(function (sgData) {
 		self.ctx.addSingular(sgData);
@@ -71,9 +75,7 @@ Engine.prototype.singularResultValues = function () {
     // calculate the values for aggregating columns,
     // as only calculating them will determine the contents
     // and correct calculation of dependent columns.
-    this.ctx.noAsync = true;
     this.calculateAggregatingValueColumns();
-    this.ctx.noAsync = false;
 
     return this.ctx.allSingulars().map(function (sg) {
         var sgName = sg.humanName();
@@ -105,6 +107,7 @@ Engine.prototype.sendSingulars = function (rr) {
 };
 
 Engine.prototype.sendChangedData = function (rr) {
+    this.calculateAggregatingValueColumns();
 	// for now, just send everything
 	this.ctx.valueFunctionColumns().forEach(function(col) {
         if (col.valueFunction() != undefined && col.valueFunction().length > 0) {
@@ -132,14 +135,23 @@ Engine.prototype.blockJson = function () {
     return this.ctx.blockJson();
 };
 
+Engine.prototype.sendSummaryBlockData = function () {
+    this.isSummaryMode = true;
+    var blockData = new BlockData(this.block.prolog.id, this.block.prolog.name, this.singularResultValues(), this.listNames());
+    resultReceiver(EngineMessage.blockDataMessage(blockData));
+};
+
 Engine.prototype.refetchFunction = function() {
     var self = this;
     return function () {
         self.invalidateNanColumns();
         self.calculateAggregatingValueColumns();
         self.invalidateNanColumns();
-        self.sendChangedData(resultReceiver);
-        //console.log(inc.jsonData());
+        if (self.isSummaryMode) {
+            self.sendSummaryBlockData();
+        } else {
+            self.sendChangedData(resultReceiver);
+        }
     };
 };
 
@@ -150,8 +162,6 @@ function Context(engine, block) {
 	var lists = new Array();
     var includes = new Array();
     var eng = engine;
-
-    this.noAsync = false;
 
     this.changeProlog = function (prolog) {
         block.prolog.name = prolog.name;
@@ -343,7 +353,7 @@ function Context(engine, block) {
         if (a == undefined) {
             a = 10;
         }
-        for (i=0;i<a;i++) {
+        for (var i=0;i<a;i++) {
             ret.push(i);
         }
         return new ValueColumn(self, ret);
@@ -698,7 +708,6 @@ Include = function (ctx, data, completeFn) {
     };
 
     this.jsonData = function() {
-        if (ctx.noAsync) return undefined;
         if (!called && jsonDataHolder == undefined) {
             called = true;
             $.ajax.get({
@@ -836,12 +845,15 @@ function List(ctx, _list) {
 	};
 
     this.jsonData = function () {
-        return {
-            'name': _list.name,
-            'numRows': this.numRows(),
-            'isAggregated': this.isAggregated,
-            'columns': ctx.columnsByListObj(self).map(function (col) { return col.jsonData(); })
-        };
+        var cols = ctx.columnsByListObj(self).map(function (col) { return col.jsonData(); });
+        return this.isAggregated ? {
+                'name': _list.name,
+                'columns': cols
+            } : {
+                'name': _list.name,
+                'numRows': this.numRows(),
+                'columns': cols
+            };
     };
 
     this.update = function (listData) {
