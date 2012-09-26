@@ -27,7 +27,6 @@ HomePageController.load = function (blocks) {
 
 HomePageController.loadOrReload = function (blockData) {
     var content = BlockDisplayControl.render(blockData);
-    console.log(blockData.id);
     var existing = $(".home-block-container").filter(function () { return $(this).data('id') == blockData.id; });
     if (existing.length > 0) {
         existing.replaceWith(content);
