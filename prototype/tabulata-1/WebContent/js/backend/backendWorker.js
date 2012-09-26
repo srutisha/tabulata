@@ -48,7 +48,9 @@ onmessage = function(message) {
 	} else if (message.data.eventName == "rowAdded") {
 		var listName = message.data.listName;
 		engine.addListRow(listName);
-	} else if (message.data.eventName == "readyForBlock") {
+	} else if (message.data.eventName == "includeChanged") {
+        engine.changeInclude(message.data);
+    } else if (message.data.eventName == "readyForBlock") {
         // do nothing, just send the changed data (below)
     }
 

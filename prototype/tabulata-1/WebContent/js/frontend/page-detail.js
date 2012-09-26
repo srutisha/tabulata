@@ -4,7 +4,7 @@ function DetailPageController () {
 
 }
 
-var sc, lc, il, lsc;
+var sc, lc, il, lsc, incc;
 
 DetailPageController.init = function () {
     sc = new SingularControl();
@@ -14,6 +14,8 @@ DetailPageController.init = function () {
     il = new InfoLine([sc, lc]);
 
     lsc = new ListSelectControl();
+
+    incc = new IncludesControl();
 
     DetailPageController.attachEvents();
     EditPane.attachEvents();
@@ -35,6 +37,11 @@ DetailPageController.attachEvents = function () {
         var title = $("#block-title").val();
         ef.sendEvent(FrontendMessage.prologChanged({'name': title}));
     });
+
+    $("#open-includes").on("tap", function (event) {
+        $('#includes').toggle();
+        $("#open-includes").toggleClass('open');
+    });
 };
 
 DetailPageController.loadBlock = function(block) {
@@ -47,6 +54,8 @@ DetailPageController.loadBlock = function(block) {
 
     lc.init(0, block.lists[0]);
     lsc.init(block.lists);
+
+    incc.init(block.includes);
 
     il.update();
     sc.updateOffset();

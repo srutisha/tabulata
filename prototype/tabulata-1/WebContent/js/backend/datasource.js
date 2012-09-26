@@ -407,7 +407,8 @@ DataSource.staticData = [
         includes : [
             {
                 name : "Open Rates",
-                url : "http://openexchangerates.org/api/latest.json?app_id=76e31cf78b46494986f8f5ec65ed381c"
+/*                url : "http://openexchangerates.org/api/latest.json?app_id=76e31cf78b46494986f8f5ec65ed381c" */
+                url : "http://localhost/tabulata/test-json/exchangeRates.json"
             }
         ],
         singulars : [

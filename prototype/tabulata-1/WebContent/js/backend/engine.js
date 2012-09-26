@@ -29,6 +29,10 @@ Engine.prototype.changeProlog = function (prolog) {
     this.ctx.changeProlog(prolog);
 };
 
+Engine.prototype.changeInclude = function (include) {
+    this.ctx.changeInclude(include);
+}
+
 Engine.prototype.changeList = function (listIndex, listData) {
     this.ctx.updateList(listIndex, listData);
 };
@@ -128,6 +132,17 @@ Engine.prototype.blockJson = function () {
     return this.ctx.blockJson();
 };
 
+Engine.prototype.refetchFunction = function() {
+    var self = this;
+    return function () {
+        self.invalidateNanColumns();
+        self.calculateAggregatingValueColumns();
+        self.invalidateNanColumns();
+        self.sendChangedData(resultReceiver);
+        //console.log(inc.jsonData());
+    };
+};
+
 function Context(engine, block) {
 	var self = this;
 	var singulars = new Array();
@@ -140,6 +155,21 @@ function Context(engine, block) {
 
     this.changeProlog = function (prolog) {
         block.prolog.name = prolog.name;
+    };
+
+    this.changeInclude = function (newInclude) {
+        if (includes[newInclude.index] == undefined) {
+            this.addInclude(newInclude);
+            return;
+        }
+
+        var currentInclude = includes[newInclude.index];
+
+        currentInclude.setName(newInclude.name);
+
+        if (currentInclude.url != newInclude.url && newInclude.url.length > 0) {
+            currentInclude.setUrl(newInclude.url);
+        }
     };
 
 	this.singularByName = function (sgName) {
@@ -193,13 +223,7 @@ function Context(engine, block) {
 	};
 
     this.addInclude = function (includeData) {
-        var inc = Include.fromData(self, includeData, function () {
-            eng.invalidateNanColumns();
-            eng.calculateAggregatingValueColumns();
-            eng.invalidateNanColumns();
-            eng.sendChangedData(resultReceiver);
-            //console.log(inc.jsonData());
-        });
+        var inc = Include.fromData(self, includeData, eng.refetchFunction());
         includes.push(inc);
     };
 
@@ -654,8 +678,19 @@ Include = function (ctx, data, completeFn) {
     var called = false;
 
 
-    this.name = normalizeName(data.name);
+    this.setName = function(name) {
+        this.name = normalizeName(name);
+    };
+
+    this.setName(data.name);
+
     this.url = data.url;
+
+    this.setUrl = function (url) {
+        this.url = url;
+        jsonDataHolder = undefined;
+        called = false;
+    };
 
     this.jsonReady = function () {
         this.jsonData();

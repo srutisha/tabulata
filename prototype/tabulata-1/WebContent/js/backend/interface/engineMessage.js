@@ -84,23 +84,23 @@ FrontendMessage.columnValueChanged = function (listName, columnName, idx, value)
 
 FrontendMessage.columnValueFunctionChanged = function (listName, columnName, value) {
 	var fm = new FrontendMessage("columnValueFunctionChanged");
-	
+
 	fm.listName = listName;
 	fm.columnName = columnName;
 	fm.value = value;
-	
+
 	return fm;
 };
 
 FrontendMessage.columnChanged = function (listName, oldColumnName, newColumnName, type) {
 	var fm = new FrontendMessage("columnChanged");
-	
+
 	fm.listName = listName;
 	fm.oldColumnName = oldColumnName;
 	fm.newColumnName = newColumnName;
-	
+
 	fm.type = type;
-	
+
 	return fm;
 };
 
@@ -119,4 +119,10 @@ FrontendMessage.rowAdded = function (listName) {
 	return fm;
 };
 
-
+FrontendMessage.includeChanged = function (index, name, url) {
+    var fm = new FrontendMessage("includeChanged");
+    fm.index = index;
+    fm.name = name;
+    fm.url = url;
+    return fm;
+};

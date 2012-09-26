@@ -22,6 +22,7 @@
 <script src="js/backend/interface/engineMessage.js"></script>
 <script src="js/backend/interface/common.js"></script>
 <script src="js/frontend/pane.js"></script>
+<script src="js/frontend/includes.js"></script>
 <script src="js/frontend/detailcontrols.js"></script>
 <script src="js/frontend/page-detail.js"></script>
 <script src="js/frontend/page-home.js"></script>
@@ -43,6 +44,7 @@
 <div id="detailheader" class="page-detail">
     <a id="navigation-to-home" href="#" data-role="button" data-icon="back" data-inline="true" data-mini="true">Home</a>
     <input id="block-title" data-inline="true"/>
+    <a id="open-includes" href="#" data-role="button" data-icon="gear" data-inline="true" data-mini="true">Includes</a>
 </div>
 <div id="info">tabulata. Hello.</div>
 </div>
@@ -65,7 +67,7 @@
     </table>
     </div>
     </div>
-    <div id="pane">
+    <div id="pane" class="detail-popup">
     <fieldset data-role="controlgroup" data-type="horizontal" class="pane-gui-element">
     <legend>Column Type</legend>
         <input class="radio-coltype" id="radio-coltype-values" type="radio" name="col_type" value="values" />
@@ -88,6 +90,10 @@
     </p>
     <input id="pane-apply" data-inline="true" class="pane-button" type="button" value="Apply" />
     <input id="pane-cancel" data-inline="true" class="pane-button" type="button" value="Cancel" />
+    </div>
+    <div id="includes" class="detail-popup"><h2>Includes</h2>
+        <div id="includes-list"></div>
+        <div id="includes-add"><a id="add-button" href="#" data-role="button" data-icon="gear" data-inline="true" data-mini="true">Add</a></div>
     </div>
 </div>
 </body>

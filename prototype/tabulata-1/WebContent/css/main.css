@@ -183,16 +183,18 @@ input[type=button] {
     top: 55px;
     right:10px;
     width:580px;
+    display:none;
+    z-index:105;
+}
+
+.detail-popup {
     border: 1px solid #567;
     border-radius: 5px;
     background: #eee;
     font-color:#333;
-    padding:5px;
+    padding:10px;
     font-size:11pt;
-    display:none;
     box-shadow: 0 0 5px 2px #359;
-
-    z-index:105;
 }
 
 #singulars {
@@ -386,3 +388,35 @@ input.listselect-inactive {
     -webkit-margin-start: 0px;
 }
 
+#includes {
+    position: fixed;
+    top: 55px;
+    left:150px;
+    width:580px;
+    display: none;
+    z-index:105;
+}
+
+#includes h2 {
+    margin: 0;
+}
+
+#includes input {
+    font-size: 10pt;
+    border: 1px solid #CCC;
+    border-radius: 2px;
+    margin:2px;
+    padding:4px;
+}
+
+#includes input.inc-name {
+    width: 150px;
+}
+
+#includes input.inc-url {
+    width: 400px;
+}
+
+#open-includes.open {
+    background-image: -webkit-linear-gradient(#ccc,#ddd);
+}
