@@ -1,11 +1,4 @@
 
-var console = function () {};
-
-console.log = function(msg) {
-	postLog("engine.js: "+msg);
-};
-
-
 function Engine(block) {
 	var self = this;
 
@@ -710,14 +703,20 @@ Include = function (ctx, data, completeFn) {
     this.jsonData = function() {
         if (!called && jsonDataHolder == undefined) {
             called = true;
-            $.ajax.get({
+            var ajaxCall = {
                 url: this.url,
                 dataType: 'json',
                 success: function(jsonObj) {
                     jsonDataHolder = jsonObj;
                     completeFn();
                 }
-            });
+            };
+
+            if ($.ajax.get != undefined) {
+                $.ajax.get(ajaxCall);
+            } else  {
+                $.ajax(ajaxCall);
+            }
         }
         return jsonDataHolder;
     };
@@ -770,11 +769,14 @@ function Singular(ctx, data) {
 	};
 
 	this.value = function() {
-		return this.$V();
+		return ctx.evaluate(self.exp);
 	};
 
 	this.$V = function() {
-		return ctx.evaluate(self.exp);
+        if (this.valueCache == undefined) {
+            this.valueCache = this.value();
+        }
+		return this.valueCache;
 	};
 }
 
@@ -905,7 +907,6 @@ ValueColumn.prototype.$_select = function (fn) {
 };
 
 ValueColumn.prototype.$_selectFirst = function (fn) {
-    var ret = new Array();
     var vals = this.values();
     for (var i=0; i<vals.length; i++) {
         if (fn(i)) {
@@ -914,7 +915,6 @@ ValueColumn.prototype.$_selectFirst = function (fn) {
     }
     return undefined;
 };
-
 
 function Column(ctx, list, content) {
 	var self = this;

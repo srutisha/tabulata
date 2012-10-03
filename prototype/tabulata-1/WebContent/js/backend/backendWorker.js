@@ -1,17 +1,44 @@
 
-importScripts('engine.js', 'datasource.js', 'interface/common.js', 'interface/engineMessage.js', '../lib/parser.js', '../lib/pollen-0.1.91.js');
+var isWebWorker = typeof(importScripts)!=="undefined";
+
+var includes = ['engine.js', 'datasource.js', 'interface/common.js', 'interface/engineMessage.js', '../lib/parser.js'];
+if (isWebWorker) {
+    includes.forEach(function(i) {
+        importScripts(i);
+    });
+    importScripts('../lib/pollen-0.1.91.js');
+
+    console = function () {};
+
+    console.log = function(msg) {
+        postLog("engine.js: "+msg);
+    };
+
+} else {
+    includes.forEach(function(i) {
+        $.ajax({
+            url: 'js/backend/'+i,
+            dataType: 'script',
+            async: false
+        });
+    });
+}
 
 var engine;
 
 function resultReceiver(event) {
-	postMessage(event);
+    if (isWebWorker) {
+	    postMessage(event);
+    } else {
+        __MW.workerPostedMessage(event);
+    }
 }
 
 function errorReceiver(event) {
   throw event.data;
 }
 
-onmessage = function(message) {
+var onmessageFunction = function(message) {
 	if (message.data.eventName == "initWithBlock") {
 		engine = new Engine (message.data.block);
 	} else if (message.data.eventName == "initWithBlockOfId") {
@@ -60,5 +87,18 @@ onmessage = function(message) {
 
 
 postLog = function (msg) {
-	postMessage({eventName:"log", msg:msg})	;
+    if (isWebWorker) {
+    	postMessage({eventName:"log", msg:msg})	;
+    } else {
+        console.log("worker:");
+        console.log(msg);
+    }
 };
+
+console.log("here");
+
+if (isWebWorker) {
+    onmessage = onmessageFunction;
+} else {
+    __MW.workerMessageHandler = onmessageFunction;
+}

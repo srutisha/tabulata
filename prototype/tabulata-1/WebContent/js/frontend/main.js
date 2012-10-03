@@ -19,9 +19,10 @@ function loadDetailPage(block) {
 
 function EngineFront() {
 	var self = this;
-	this.worker = new Worker("js/backend/backendWorker.js");
+	//this.worker = new MockWorker("js/backend/backendWorker.js");
+    this.worker = new Worker("js/backend/backendWorker.js");
 
-	this.worker.onmessage = function(event) {
+    this.worker.onmessage = function(event) {
 		self.messageHandler(event);
 	};
 
@@ -29,6 +30,29 @@ function EngineFront() {
 		console.log("Worker error: " + error.message + " in "+error.filename+":"+error.lineno+"\n");
 		throw error;
 	};
+}
+
+var MockWorker = function (workerUrl) {
+
+    __MW = this;
+
+    $.ajax({
+        url: workerUrl,
+        dataType: 'script',
+        async: false/*,
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown);
+        }*/
+    });
+
+    this.workerPostedMessage = function (event) {
+        var message = {data: event};
+        this.onmessage(message);
+    };
+
+    this.postMessage = function(event) {
+        this.workerMessageHandler({data: event});
+    };
 }
 
 EngineFront.prototype.messageHandler = function (event) {
