@@ -749,6 +749,7 @@ function Singular(ctx, data) {
     };
 
     this.setExp = function (exp) {
+        delete this.valueCache;
         this.exp = exp;
     };
 
