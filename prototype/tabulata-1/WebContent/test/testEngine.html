@@ -50,7 +50,7 @@ test("Invoking function on list", function () {
 	equal(ctx.evaluate("Tasks.count"), 4);
 });
 
-test("Arithmic result ", function () {
+test("Arithmetic result ", function () {
 	equal(ctx.evaluate("Tasks.Task.select(Tasks.Done == {true}).count / Tasks.count"), 0.5);
 });
 
