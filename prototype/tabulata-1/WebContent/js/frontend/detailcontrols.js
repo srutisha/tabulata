@@ -31,7 +31,7 @@ DetailControlFactory_.prototype.getControlObjectByClass = function (classNames) 
         return BooleanControl;
     }
     if (classNames.indexOf("control-type-number")!=-1) {
-        return BooleanControl;
+        return NumberInputControl;
     }
     return undefined;
 };
@@ -74,7 +74,7 @@ TextInputControl.renderToDisplayWithTypeClass = function (id, className, isValue
 TextInputControl.renderReadOnly = function (id, className, value) {
 	var elem = TextInputControl.createInputField(id, className, value);
 	elem.readOnly = true;
-	
+
 	return elem;
 };
 
@@ -82,12 +82,12 @@ TextInputControl.changeValueType = function (listIdx, columnName, type) {
 	var newClass = '';
 	var oldClass = '';
 	var readOnly = true;
-	if (type == "valueFunction") { 
+	if (type == "valueFunction") {
 		newClass = 'inp-cal';
-		oldClass = 'inp-act'; 
+		oldClass = 'inp-act';
 	}
 	if (type == "values") {
-		newClass = 'inp-act'; 
+		newClass = 'inp-act';
 		oldClass = 'inp-cal';
 		readOnly = false;
 	}
@@ -103,7 +103,7 @@ TextInputControl.changeValueType = function (listIdx, columnName, type) {
 };
 
 
-NumberInputControl = new TextInputControl();
+NumberInputControl = jQuery.extend({}, TextInputControl);
 NumberInputControl.constructor = function () {
     this.name = "NumberInputControl";
 };
