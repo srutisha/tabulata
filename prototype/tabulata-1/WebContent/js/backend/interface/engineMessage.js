@@ -92,14 +92,14 @@ FrontendMessage.columnValueFunctionChanged = function (listName, columnName, val
 	return fm;
 };
 
-FrontendMessage.columnChanged = function (listName, oldColumnName, newColumnName, type) {
+FrontendMessage.columnChanged = function (listName, oldColumnName, newColumnName, type, valueFunction) {
 	var fm = new FrontendMessage("columnChanged");
 
 	fm.listName = listName;
 	fm.oldColumnName = oldColumnName;
 	fm.newColumnName = newColumnName;
-
 	fm.type = type;
+    fm.valueFunction = valueFunction;
 
 	return fm;
 };

@@ -46,8 +46,8 @@ Engine.prototype.changeColumnValueFunction = function (listName, columnName, val
     this.invalidateValueColumns();
 };
 
-Engine.prototype.changeColumn = function (listName, oldColumnName, newColumnName, type) {
-    Column.changeColumn(this.ctx, listName, oldColumnName, newColumnName, type);
+Engine.prototype.changeColumn = function (listName, oldColumnName, newColumnName, type, valueFunction) {
+    Column.changeColumn(this.ctx, listName, oldColumnName, newColumnName, type, valueFunction);
 };
 
 Engine.prototype.changeSingular = function (cdata) {
@@ -254,14 +254,26 @@ function Context(engine, block) {
 
 	this.removeColumn = function (col) {
 		self[col.symbol()] = undefined;
-		var delIdx = -1;
-		for (var i=0; i<columns.length; i++) {
-			if (columns[i] === col) {
-				delIdx = i;
-			}
-		}
-		columns.splice(delIdx, 1);
+		columns.splice(this.columnToIndex(col), 1);
 	};
+
+    this.columnToIndex = function (col) {
+        var idx = -1;
+        for (var i=0; i<columns.length; i++) {
+            if (columns[i] === col) {
+                idx = i;
+            }
+        }
+        return idx;
+    };
+
+    this.replaceColumn = function(list, oldCol, newColData) {
+        self[oldCol.symbol()] = undefined;
+        var idx = this.columnToIndex(oldCol);
+        var nc = new Column(self, list, newColData);
+        self[nc.symbol()] = nc;
+        columns[idx] = nc;
+    };
 
 	this.addList = function (listData) {
 		var list = new List(self, listData);
@@ -1049,14 +1061,13 @@ function Column(ctx, list, content) {
 Column.prototype = ValueColumn.prototype;
 
 Column.prototype.replaceWith = function (newColData) {
-	this.ctx.removeColumn(this);
-	this.ctx.addColumn(this.list, newColData);
+    this.ctx.replaceColumn(this.list, this, newColData);
 };
 
-Column.changeColumn = function (ctx, listName, oldColumnName, newColumnName, type) {
+Column.changeColumn = function (ctx, listName, oldColumnName, newColumnName, type, valueFunction) {
 	if (oldColumnName == undefined) {
 		// new column
-		ctx.addColumn(ctx.listByName(listName), Column.createColumnData(newColumnName, type));
+		ctx.addColumn(ctx.listByName(listName), Column.createColumnData(newColumnName, type, valueFunction));
 	} else {
 		var col = ctx.columnByListAndName(listName, normalizeName(oldColumnName));
 		var content = col.getContent();
@@ -1069,7 +1080,7 @@ Column.changeColumn = function (ctx, listName, oldColumnName, newColumnName, typ
 			}
 			if (type == "valueFunction") {
 				content.values = undefined;
-				content.valueFunction = "";
+				content.valueFunction = valueFunction;
 			}
 		}
 
@@ -1077,9 +1088,9 @@ Column.changeColumn = function (ctx, listName, oldColumnName, newColumnName, typ
 	}
 };
 
-Column.createColumnData = function (name, type) {
+Column.createColumnData = function (name, type, valueFunction) {
 	if (type == "valueFunction") {
-		return {name: name, valueFunction: ""};
+		return {name: name, valueFunction: valueFunction};
 	} else {
 		// default should be values
 		return {name: name, values: []};

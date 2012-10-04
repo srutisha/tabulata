@@ -451,7 +451,7 @@ function ListControl() {
 	this.changeColumnType = function (listIdx, columnName, type, exp) {
         TextInputControl.changeValueType( listIdx, columnName, type );
         this.changeTypeInListData(columnName, type, exp);
-		ef.sendEvent( FrontendMessage.columnChanged( ListControl.lname(listIdx), columnName, columnName, type ) );
+		ef.sendEvent( FrontendMessage.columnChanged( ListControl.lname(listIdx), columnName, columnName, type, exp ) );
 	};
 
     this.columnWithName = function (columnName) {

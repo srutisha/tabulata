@@ -68,7 +68,7 @@ var onmessageFunction = function(message) {
 		engine.changeColumnValueFunction(message.data.listName, message.data.columnName, message.data.value);
 	} else if (message.data.eventName == "columnChanged") {
 		engine.changeColumn(message.data.listName,
-				message.data.oldColumnName, message.data.newColumnName, message.data.type);
+				message.data.oldColumnName, message.data.newColumnName, message.data.type,  message.data.valueFunction);
 	} else if (message.data.eventName == "singularChanged") {
 		engine.changeSingular(message.data);
 	} else if (message.data.eventName == "rowAdded") {
