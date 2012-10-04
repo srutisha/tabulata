@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<!--script type="text/javascript" src="https://getfirebug.com/firebug-lite.js#startOpened=true"></script-->
+<link href='http://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="apple-mobile-web-app-capable"
+      content="yes" />
+<meta name="viewport"
+    content="initial-scale = 1.0, user-scalable=no, width=device-width" />
+<link rel="apple-touch-icon"
+      href="images/apple-touch-icon.png" />
+<title>tabulata Tester 1</title>
+<link rel="stylesheet" type="text/css"  href="stylesheets/main.css" />
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.css" />
+
+<script src="javascripts/lib/jquery-1.7.1.js"></script>
+
+<script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js"></script>
+
+<script src="javascripts/backend/interface/engineMessage.js"></script>
+<script src="javascripts/backend/interface/common.js"></script>
+<script src="javascripts/frontend/pane.js"></script>
+<script src="javascripts/frontend/includes.js"></script>
+<script src="javascripts/frontend/detailcontrols.js"></script>
+<script src="javascripts/frontend/page-detail.js"></script>
+<script src="javascripts/frontend/page-home.js"></script>
+<script src="javascripts/frontend/controls.js"></script>
+<script src="javascripts/frontend/util.js"></script>
+<script src="javascripts/frontend/main.js"></script>
+
+</head>
+<script>
+ function BlockMove(event) {
+  // Tell Safari not to move the window.
+  event.preventDefault() ;
+  return false;
+ }
+</script>
+<body>
+</body><div id="headerbar">
+<div id="title" class="page-home">tabulata</div>
+<div id="detailheader" class="page-detail">
+    <a id="navigation-to-home" href="#" data-role="button" data-icon="back" data-inline="true" data-mini="true">Home</a>
+    <input id="block-title" data-inline="true"/>
+    <a id="open-includes" href="#" data-role="button" data-icon="gear" data-inline="true" data-mini="true">Includes</a>
+</div>
+<div id="info">tabulata. Hello.</div>
+</div>
+<div id="content-page-home" class="page-home">
+</div>
+<div id="content-page-detail" class="page-detail">
+    <div id="singulars"><div id="singulars-inner">
+    <table id="stbl">
+    </table>
+    </div>
+    <span id="bottom-singulars">&nbsp;</span>
+    </div>
+    <div id="listselectwrapper">
+        <div id="listselect">
+        </div>
+    </div>
+    <div id="mainwrapper">
+    <div id="main">
+    <table id="mtbl">
+    </table>
+    </div>
+    </div>
+    <div id="pane" class="detail-popup">
+    <fieldset data-role="controlgroup" data-type="horizontal" class="pane-gui-element">
+    <legend>Column Type</legend>
+        <input class="radio-coltype" id="radio-coltype-values" type="radio" name="col_type" value="values" />
+        <label for="radio-coltype-values">Values</label>
+        <input class="radio-coltype" id="radio-coltype-valueFunction" type="radio" name="col_type" value="valueFunction" />
+        <label for="radio-coltype-valueFunction">Expression</label>
+    </fieldset>
+        <fieldset data-role="controlgroup" data-type="horizontal" class="pane-gui-element">
+            <legend>Data Type</legend>
+            <input class="radio-datatype" id="radio-datatype-text" type="radio" name="data_type" value="text" />
+            <label for="radio-datatype-text">Text</label>
+            <input class="radio-datatype" id="radio-datatype-number" type="radio" name="data_type" value="number" />
+            <label for="radio-datatype-number">Number</label>
+            <input class="radio-datatype" id="radio-datatype-boolean" type="radio" name="data_type" value="boolean" />
+            <label for="radio-datatype-boolean">Boolean</label>
+        </fieldset>
+    <p id="pane-edit-expression" class="pane-gui-element">
+    <span>Column Expression</span> <br/>
+    <input id="pane-value-function" class="pane-input"/>
+    </p>
+    <input id="pane-apply" data-inline="true" class="pane-button" type="button" value="Apply" />
+    <input id="pane-cancel" data-inline="true" class="pane-button" type="button" value="Cancel" />
+    </div>
+    <div id="includes" class="detail-popup"><h2>Includes</h2>
+        <div id="includes-list"></div>
+        <div id="includes-add"><a id="add-button" href="#" data-role="button" data-icon="gear" data-inline="true" data-mini="true">Add</a></div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <script src="../../../public/javascripts/lib/jquery-1.7.1.js"></script>
+  <link rel="stylesheet" href="qunit.css" type="text/css" media="screen" />
+<script type="text/javascript" src="qunit.js"></script>
+
+<script src="../../../public/javascripts/data/example1.lc.js"></script>
+<script type="text/javascript" src="../../../public/javascripts/backend/interface/common.js"></script>
+<script src="../../../public/javascripts/lib/parser.js"></script>
+<script src="../../../public/javascripts/backend/engine.js"></script>
+
+  <script>
+  $(document).ready(function(){
+
+module("normalizeName");
+
+test("Basics", function () {
+	equal(normalizeName("Aaa Bbb Ccc"), "AaaBbbCcc");
+	equal(normalizeName("Aaa"), "Aaa");
+});
+
+var engine = new Engine(block);
+ctx = engine.ctx;
+
+module("Calculation Column");
+
+test("Using .above", function () {
+	deepEqual(ctx["c_Tasks_SumHoursSpent"].values(), [11, 18, 23, 26]);
+});
+
+test("Sum of two columns", function () {
+	deepEqual(ctx["c_Tasks_HoursSpentTotal"].values(), [11, 7, 5, 3]);
+});
+
+module("Calculation Singular");
+
+test("Sum of column", function () {
+	equal(ctx.evaluate("Tasks.HoursSpentIntern.sum"), 14);
+});
+
+test("Using Select, Sum of column", function () {
+	equal(ctx.evaluate("Tasks.HoursSpentTotal.select(Tasks.Done == {true}).sum"), 18);
+	equal(ctx.evaluate("Tasks.HoursSpentIntern.select(Tasks.Done == {true}).sum"), 9);
+});
+
+
+test("Invoking function on list", function () {
+	equal(ctx.evaluate("Tasks.count"), 4);
+});
+
+test("Arithmetic result ", function () {
+	equal(ctx.evaluate("Tasks.Task.select(Tasks.Done == {true}).count / Tasks.count"), 0.5);
+});
+
+test("Referencing other singulars ", function () {
+	equal(ctx.evaluate("SumExtern + SumIntern"), 26);
+});
+
+console.log(new ColumnExpressionEvaluator(ctx, ctx["l_Tasks"], "HoursSpentIntern + HoursSpentExtern").calcFn)
+
+  });
+  </script>
+
+</head>
+<body>
+  <h1 id="qunit-header">ListCalc Engine</h1>
+ <h2 id="qunit-banner"></h2>
+ <div id="qunit-testrunner-toolbar"></div>
+ <h2 id="qunit-userAgent"></h2>
+ <ol id="qunit-tests"></ol>
+ <div id="qunit-fixture">test markup, will be hidden</div>
+</body>
+</html>
