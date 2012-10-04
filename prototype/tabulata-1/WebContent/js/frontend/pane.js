@@ -60,13 +60,12 @@ EditPane.savePane = function () {
 		lc.changeColumnType(d.listIdx, d.columnName, newType, exp);
 	}
 
-    EditPane.handleDataTypeChange(d.listIdx, d.columnName);
-
 	if (newType == "valueFunction") {
-        $("#"+Symbols.columnRowSymbol(d.listIdx, d.columnName, "H"))[0].dataset.exp = exp;
 		$("#"+Symbols.columnRowSymbol(d.listIdx, d.columnName, "H")).data("exp", exp);
+        lc.setColumnExp(d.columnName, exp);
 		ef.sendEvent(FrontendMessage.columnValueFunctionChanged(ListControl.lname(d.listIdx), d.columnName, exp));
 	} else {
+        EditPane.handleDataTypeChange(d.listIdx, d.columnName);
 		if (d.originalType == "valueFunction") {
 			$("#"+Symbols.columnRowSymbol(d.listIdx, d.columnName, "H")).removeData("exp");
 			delete $("#"+Symbols.columnRowSymbol(ListControl.lname(d.listIdx), d.columnName, "H"))[0].dataset["exp"];
@@ -121,6 +120,7 @@ EditPane.showPaneForHeader = function(inputElem, isValues) {
 	EditPane.editField = $("#pane-value-function");
 	var idParts = inputElem.id.split(/_/);
 	var exp = $("#"+Symbols.columnRowSymbol(idParts[1], idParts[2], "H")).data("exp");
+
 	if (isValues) {
 		// it's a values column
 		$('#radio-coltype-values').prop("checked", true).checkboxradio("refresh");

@@ -472,6 +472,10 @@ function ListControl() {
         this.columnWithName(columnName).type = newType;
     };
 
+    this.setColumnExp = function (columnName, exp) {
+        this.columnWithName(columnName).valueFunction = exp;
+    };
+
 	this.changeTypeInListData = function (columnName, type, exp) {
         var col = this.columnWithName(columnName);
 
