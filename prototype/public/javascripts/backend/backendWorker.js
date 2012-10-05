@@ -42,9 +42,10 @@ var onmessageFunction = function(message) {
 	if (message.data.eventName == "initWithBlock") {
 		engine = new Engine (message.data.block);
 	} else if (message.data.eventName == "initWithBlockOfId") {
-        var block = DataSource.getBlockWithId(message.data.blockId);
-        engine = new Engine (block);
-        resultReceiver(EngineMessage.fullBlockMessage(block));
+        DataSource.onBlockWithId(message.data.blockId, function (block) {
+            engine = new Engine (block);
+            resultReceiver(EngineMessage.fullBlockMessage(block));
+        });
         return;
     } else if (message.data.eventName == "initWithNewBlock") {
         var block = DataSource.newBlock(message.data.blockName);
@@ -52,8 +53,7 @@ var onmessageFunction = function(message) {
         resultReceiver(EngineMessage.fullBlockMessage(block));
         return;
     } else if (message.data.eventName == "loadBlocks") {
-        var blocks = DataSource.getBlocks();
-        blocks.forEach(function (block) {
+        DataSource.getBlocks(function (block) {
             var e = new Engine (block);
             e.sendSummaryBlockData();
         });

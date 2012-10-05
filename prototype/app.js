@@ -8,7 +8,8 @@ var express = require('express')
       , user = require('./routes/user')
       , http = require('http')
       , path = require('path')
-      , redis = require("redis");
+      , redis = require("redis")
+      , tabulataData = require("tabulata-data");
 //      , uuid = require("uuid");
 
 var app = express();
@@ -37,7 +38,68 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
-app.get('/users', user.list);
+
+
+app.get('/user/:user', function (req, res) {
+    var user = req.params.user;
+    db.smembers(dbnUserBlock(user), function (err, members) {
+        if (members != null && members.length > 0) {
+            res.json({'blocks' : members});
+        } else {
+            res.send(404);
+        }
+    });
+});
+
+app.all("/block/*", function(req, res, next){
+    console.log("here");
+    if (req.query.user) {
+        req.user = req.query.user;
+        next();
+    } else {
+        res.send(400, 'need user param');
+        return;
+    }
+});
+
+// http://localhost:3000/block/5a4206e9-68b7-4582-ad37-81baa40afa20?name=My%20Expenses
+app.put('/block/:uuid', function (req, res) {
+    var uuid = req.params.uuid;
+    db.get(dbnBlock(uuid), function (err, blockData) {
+        if (err) return next(err);
+        var block;
+        if (blockData == null) {
+            if (req.query.name == undefined) {
+                res.send(400, 'need name param to create block');
+                return next();
+            }
+            block = tabulataData.emptyBlock(uuid,req.query.name);
+        } else {
+           block = req.body;
+        }
+        db.sadd(dbnUserBlock(req.user), uuid, function (err, dbr) {
+            db.set(dbnBlock(uuid), JSON.stringify(block), function (err, dbr) {
+                if (err) return next(err);
+                res.json(block);
+            });
+        });
+    });
+});
+
+app.get('/block/:uuid', function (req, res) {
+    var uuid = req.params.uuid;
+    db.get(dbnBlock(uuid), function (erro, strBlock) {
+        if (strBlock != null) {
+            var block = JSON.parse(strBlock);
+            res.json(block);
+        } else {
+            res.send(404);
+        }
+    });
+});
+
+var dbnBlock = function (uuid) { return 'block:'+uuid };
+var dbnUserBlock = function (user) { return 'user:'+user+":blocks"; };
 
 app.get('/rd', function(req, res){
     db.incr("counter", function (err, dbr) {
