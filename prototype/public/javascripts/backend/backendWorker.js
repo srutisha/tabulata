@@ -48,9 +48,10 @@ var onmessageFunction = function(message) {
         });
         return;
     } else if (message.data.eventName == "initWithNewBlock") {
-        var block = DataSource.newBlock(message.data.blockName);
-        engine = new Engine (block);
-        resultReceiver(EngineMessage.fullBlockMessage(block));
+        DataSource.newBlock(message.data.blockName, function (block) {
+            engine = new Engine (block);
+            resultReceiver(EngineMessage.fullBlockMessage(block));
+        });
         return;
     } else if (message.data.eventName == "loadBlocks") {
         DataSource.getBlocks(function (block) {

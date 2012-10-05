@@ -31,34 +31,15 @@ DataSource.updateBlock = function (block) {
         });
 };
 
-DataSource.newBlock = function (name) {
-    var block = {
-        prolog: {
-            'name': name,
-            'id': DataSource.generateUuid()
-        },
-        singulars : [ {
-            name : 'Singular',
-            value : 'List.Column.sum'
-        } ],
-        lists: [
-            {
-                name: 'List',
-                numRows: 1,
-                columns: [
-                    {
-                        name: 'Column',
-                        values: ['']
-                    }
-
-                ]
-            }
-        ]
-    };
-
-    DataSource.staticData.push(block);
-
-    return block;
+DataSource.newBlock = function (name, blockWork) {
+    var uuid = DataSource.generateUuid();
+    $.ajax('/block/'+uuid+"?user="+user+"&name="+name,
+        {
+            type: 'PUT',
+            data: ""
+        }).done(function(block) {
+            blockWork(block);
+        });
 };
 
 //http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
