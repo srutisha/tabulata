@@ -17,7 +17,7 @@ if (isWebWorker) {
 } else {
     includes.forEach(function(i) {
         $.ajax({
-            url: 'javascripts/backend/'+i,
+            url: '/javascripts/backend/'+i,
             dataType: 'script',
             async: false
         });
@@ -39,6 +39,7 @@ function errorReceiver(event) {
 }
 
 var onmessageFunction = function(message) {
+    DataSource.user = message.data.user;
 	if (message.data.eventName == "initWithBlock") {
 		engine = new Engine (message.data.block);
 	} else if (message.data.eventName == "initWithBlockOfId") {

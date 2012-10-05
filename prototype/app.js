@@ -9,7 +9,8 @@ var express = require('express')
       , http = require('http')
       , path = require('path')
       , redis = require("redis")
-      , tabulataData = require("tabulata-data");
+      , tabulataData = require("tabulata-data")
+      , async = require("async");
 //      , uuid = require("uuid");
 
 var app = express();
@@ -37,8 +38,18 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
+app.get('/', function(req, res){
+    var newUser = tabulataData.generateUuid();
+    async.forEachSeries(tabulataData.exampleBlocks,
+        function(block, next) {
+            putBlockForUser(newUser, block.prolog.id, block, next);
+        }, function (err) {
+            res.redirect('/table/'+newUser);
+        }
+    );
+});
 
+app.get('/table/:user', routes.index);
 
 app.get('/user/:user', function (req, res) {
     var user = req.params.user;
@@ -62,11 +73,16 @@ app.all("/block/*", function(req, res, next){
     }
 });
 
+function putBlockForUser(user, uuid, block, next) {
+    db.sadd(dbnUserBlock(user), uuid, function (err, dbr) {
+        db.set(dbnBlock(uuid), JSON.stringify(block), next);
+    });
+}
+
 // http://localhost:3000/block/5a4206e9-68b7-4582-ad37-81baa40afa20?name=My%20Expenses
 app.put('/block/:uuid', function (req, res) {
     var uuid = req.params.uuid;
     db.get(dbnBlock(uuid), function (err, blockData) {
-        if (err) return next(err);
         var block;
         if (blockData == null) {
             if (req.query.name == undefined) {
@@ -77,11 +93,9 @@ app.put('/block/:uuid', function (req, res) {
         } else {
            block = req.body;
         }
-        db.sadd(dbnUserBlock(req.user), uuid, function (err, dbr) {
-            db.set(dbnBlock(uuid), JSON.stringify(block), function (err, dbr) {
-                if (err) return next(err);
-                res.json(block);
-            });
+
+        putBlockForUser(req.user, uuid, block, function () {
+            res.json(block);
         });
     });
 });

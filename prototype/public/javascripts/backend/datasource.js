@@ -1,13 +1,13 @@
 var DataSource = function () {};
 
-var user = 1;
+DataSource.user = 1;
 
 var ajaxFailer = function(jqx, status) {
     throw Error(status);
 };
 
 DataSource.getBlocks = function (blockWork) {
-    $.ajax('/user/'+user)
+    $.ajax('/user/'+DataSource.user)
         .done(function(blockReply) {
             blockReply.blocks.forEach(function (blockUuid) {
                 DataSource.onBlockWithId(blockUuid, blockWork);
@@ -16,7 +16,7 @@ DataSource.getBlocks = function (blockWork) {
 };
 
 DataSource.onBlockWithId = function (blockUuid, blockWork) {
-    $.ajax('/block/'+blockUuid+"?user="+user)
+    $.ajax('/block/'+blockUuid+"?user="+DataSource.user)
         .done(function(block) {
             blockWork(block);
         }).fail(ajaxFailer);
@@ -24,7 +24,7 @@ DataSource.onBlockWithId = function (blockUuid, blockWork) {
 
 DataSource.updateBlock = function (block) {
     var blockUuid = block.prolog.id;
-    $.ajax('/block/'+blockUuid+"?user="+user,
+    $.ajax('/block/'+blockUuid+"?user="+DataSource.user,
         {
             type: 'PUT',
             data: block
@@ -33,7 +33,7 @@ DataSource.updateBlock = function (block) {
 
 DataSource.newBlock = function (name, blockWork) {
     var uuid = DataSource.generateUuid();
-    $.ajax('/block/'+uuid+"?user="+user+"&name="+name,
+    $.ajax('/block/'+uuid+"?user="+DataSource.user+"&name="+name,
         {
             type: 'PUT',
             data: ""

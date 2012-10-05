@@ -1,4 +1,5 @@
 var ef;
+var user;
 
 $(document).ready(function () {
     ef = new EngineFront();
@@ -6,8 +7,9 @@ $(document).ready(function () {
     DetailPageController.init();
     HomePageController.init();
 
-    ef.sendEvent(FrontendMessage.loadBlocks());
+    user = /([\w-]+)$/.exec(window.location.pathname)[1];
 
+    ef.sendEvent(FrontendMessage.loadBlocks());
 
    // loadDetailPage(block)
 });
@@ -19,8 +21,8 @@ function loadDetailPage(block) {
 
 function EngineFront() {
 	var self = this;
-	this.worker = new MockWorker("javascripts/backend/backendWorker.js");
-    //this.worker = new Worker("javascripts/backend/backendWorker.js");
+	this.worker = new MockWorker("/javascripts/backend/backendWorker.js");
+    //this.worker = new Worker("/javascripts/backend/backendWorker.js");
 
     this.worker.onmessage = function(event) {
 		self.messageHandler(event);
@@ -78,6 +80,7 @@ EngineFront.prototype.messageHandler = function (event) {
 EngineFront.prototype.sendEvent = function (frontendMessage) {
 	console.log("Sending message .. ");
 	console.log(frontendMessage);
+    frontendMessage.user = user;
 	this.worker.postMessage(frontendMessage);
 };
 
