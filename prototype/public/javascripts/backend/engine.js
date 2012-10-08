@@ -694,6 +694,7 @@ Include = function (ctx, data, completeFn) {
 
     this.setName = function(name) {
         this.name = normalizeName(name);
+        this.originalName = name;
     };
 
     this.setName(data.name);
@@ -734,7 +735,7 @@ Include = function (ctx, data, completeFn) {
 
 
     this.persistenceJsonData = function () {
-        return data;
+        return {name: this.originalName, url: this.url};
     };
 
     this.symbol = function () {
