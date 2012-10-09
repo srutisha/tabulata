@@ -1,15 +1,21 @@
 {
   "name": "tabulata-prototype",
-  "version": "0.0.1",
+  "version": "0.0.1-4",
   "private": true,
   "scripts": {
-    "start": "node app"
+    "start": "./app.js"
   },
   "dependencies": {
     "express": "3.0.0rc4",
     "ejs": "*",
     "stylus": "*",
     "underscore": "*",
-    "uuid": "*"
+    "redis": "0.8.x",
+    "nconf": "*",
+    "async": "*"
+  },
+  "subdomain": "tabulata",
+  "engines": {
+    "node": "0.8.x"
   }
 }

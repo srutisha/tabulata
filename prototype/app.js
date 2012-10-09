@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 
 /**
  * Module dependencies.
@@ -9,13 +10,26 @@ var express = require('express')
       , http = require('http')
       , path = require('path')
       , redis = require("redis")
-      , tabulataData = require("tabulata-data")
-      , async = require("async");
-//      , uuid = require("uuid");
+      , tabulataData = require("./data/index")
+      , async = require("async")
+      , nconf = require('nconf');
 
 var app = express();
 
-var db = redis.createClient();
+nconf.file({ file: './config/config.json' });
+
+var port = nconf.get('database:port'),
+    host = nconf.get('database:host'),
+    pass = nconf.get('database:password');
+
+var db = redis.createClient(port, host);
+
+db.auth(pass, function (err) {
+    if (err) {
+        throw err;
+    }
+});
+
 
 db.on("error", function (err) {
     console.log("Error " + err);

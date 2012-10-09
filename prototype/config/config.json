@@ -1,0 +1,15 @@
+{
+    "name": "tabulata",
+    "port": 3000,
+    "host": "0.0.0.0",
+    "database": {
+        "port": 9752,
+        "host": "herring.redistogo.com",
+        "password": "5d827cb5265af9668322d6369df9404c"
+    },
+    "_database": {
+    "port": 6379,
+    "host": "localhost",
+    "password": ""
+    }
+}
