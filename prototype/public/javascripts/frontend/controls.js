@@ -37,6 +37,7 @@ function SingularControl() {
 	this.init = function (singulars) {
         this.size = 0;
 		$("#stbl").html("");
+        singulars = singulars || [];
 		for (var i = 0; i<singulars.length; i++) {
 			$("#stbl").append(this.createRow(Symbols.singularSymbol(singulars[i].name),
 					singulars[i].name, singulars[i].value, singulars[i].isFavorite));

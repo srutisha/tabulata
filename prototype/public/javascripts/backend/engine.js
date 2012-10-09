@@ -8,9 +8,10 @@ function Engine(block) {
 
     this.isSummaryMode = false;
 
-	block.singulars.forEach(function (sgData) {
-		self.ctx.addSingular(sgData);
-	});
+    if (block.singulars)
+        block.singulars.forEach(function (sgData) {
+            self.ctx.addSingular(sgData);
+        });
 
     block.lists.forEach(function (listData) {
         self.ctx.addList(listData);
@@ -130,7 +131,7 @@ Engine.prototype.blockJson = function () {
 
 Engine.prototype.sendSummaryBlockData = function () {
     this.isSummaryMode = true;
-    var blockData = new BlockData(this.block.prolog.id, this.block.prolog.name, this.singularResultValues(), this.listNames());
+    var blockData = new BlockData(this.block.prolog, this.singularResultValues(), this.listNames());
     resultReceiver(EngineMessage.blockDataMessage(blockData));
 };
 

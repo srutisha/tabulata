@@ -1,8 +1,7 @@
 
 
-BlockData = function (id, name, values, listNames) {
-    this.id = id;
-    this.name = name;
+BlockData = function (prolog, values, listNames) {
+    this.prolog = prolog;
     this.values = values == undefined ? [] : values;
     this.listNames = listNames;
 };

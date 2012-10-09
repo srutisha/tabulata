@@ -40,9 +40,11 @@ app.configure('development', function(){
 
 app.get('/', function(req, res){
     var newUser = tabulataData.generateUuid();
+    var score = new Date().getTime();
     async.forEachSeries(tabulataData.exampleBlocks,
         function(block, next) {
-            putBlockForUser(newUser, block.prolog.id, block, next);
+            score ++;
+            putBlockForUser(newUser, block.prolog.id, block, score, next);
         }, function (err) {
             res.redirect('/table/'+newUser);
         }
@@ -53,7 +55,7 @@ app.get('/table/:user', routes.index);
 
 app.get('/user/:user', function (req, res) {
     var user = req.params.user;
-    db.smembers(dbnUserBlock(user), function (err, members) {
+    db.zrevrange(dbnUserBlock(user), 0, -1, function (err, members) {
         if (members != null && members.length > 0) {
             res.json({'blocks' : members});
         } else {
@@ -63,7 +65,6 @@ app.get('/user/:user', function (req, res) {
 });
 
 app.all("/block/*", function(req, res, next){
-    console.log("here");
     if (req.query.user) {
         req.user = req.query.user;
         next();
@@ -73,8 +74,10 @@ app.all("/block/*", function(req, res, next){
     }
 });
 
-function putBlockForUser(user, uuid, block, next) {
-    db.sadd(dbnUserBlock(user), uuid, function (err, dbr) {
+function putBlockForUser(user, uuid, block, score, next) {
+    score = score || new Date().getTime();
+    block.prolog.updated = score;
+    db.zadd(dbnUserBlock(user),  score , uuid, function (err, dbr) {
         db.set(dbnBlock(uuid), JSON.stringify(block), next);
     });
 }
@@ -94,7 +97,7 @@ app.put('/block/:uuid', function (req, res) {
            block = req.body;
         }
 
-        putBlockForUser(req.user, uuid, block, function () {
+        putBlockForUser(req.user, uuid, block, null, function () {
             res.json(block);
         });
     });

@@ -27,9 +27,21 @@ HomePageController.load = function (blocks) {
 
 HomePageController.loadOrReload = function (blockData) {
     var content = BlockDisplayControl.render(blockData);
-    var existing = $(".home-block-container").filter(function () { return $(this).data('id') == blockData.id; });
+    var existing = $(".home-block-container").filter(function () { return $(this).data('id') == blockData.prolog.id; });
     if (existing.length > 0) {
-        existing.replaceWith(content);
+        existing.remove();
+    }
+
+    var insertElem;
+
+    $(".home-block-container").each(function (idx, elem) {
+        if (insertElem  == undefined && $(elem).data('updated') < blockData.prolog.updated) {
+            insertElem = elem;
+        }
+    });
+
+    if (insertElem) {
+        $(insertElem).before(content);
     } else {
         $("#home-new-block").before(content);
     }
@@ -50,15 +62,15 @@ BlockDisplayControl.render = function (blockData) {
 
     var bldiv = html.div();
 
-    $(bldiv).append($(html.div(blockData.name)).addClass("home-block-title"),
+    $(bldiv).append($(html.div(blockData.prolog.name)).addClass("home-block-title"),
                     $(html.div(blockData.listNames.join(" &nbsp;&bull;&nbsp;&nbsp;"))).addClass("home-block-lists"),
                     content);
 
     $(bldiv).addClass("home-block-container");
-    $(bldiv).data("id", blockData.id);
+    $(bldiv).data("id", blockData.prolog.id);
+    $(bldiv).data("updated", blockData.prolog.updated);
 
     return bldiv;
-
 };
 
 
