@@ -18,9 +18,13 @@ var app = express();
 
 nconf.file({ file: './config/config.json' });
 
-var port = nconf.get('database:port'),
-    host = nconf.get('database:host'),
-    pass = nconf.get('database:password');
+var dbKey = process.env.NODE_ENV || "local";
+
+console.log("have db-key: "+dbKey);
+
+var port = nconf.get('database-'+dbKey+':port'),
+    host = nconf.get('database-'+dbKey+':host'),
+    pass = nconf.get('database-'+dbKey+':password');
 
 var db = redis.createClient(port, host);
 
