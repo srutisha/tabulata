@@ -15,6 +15,13 @@ DataSource.getBlocks = function (blockWork) {
          }).fail(ajaxFailer);
 };
 
+DataSource.deleteBlock = function (blockId) {
+    $.ajax('/block/'+blockId+"?user="+DataSource.user,
+        {
+            type: 'DELETE'
+        });
+};
+
 DataSource.onBlockWithId = function (blockUuid, blockWork) {
     $.ajax('/block/'+blockUuid+"?user="+DataSource.user)
         .done(function(block) {

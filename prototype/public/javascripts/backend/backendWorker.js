@@ -60,6 +60,9 @@ var onmessageFunction = function(message) {
             e.sendSummaryBlockData();
         });
         return;
+    } else if (message.data.eventName == "deleteBlock") {
+        DataSource.deleteBlock(message.data.blockId);
+        return;
     } else if (message.data.eventName == "listChanged") {
         engine.changeList(message.data.listIndex, message.data.listData);
     } else if (message.data.eventName == "columnValueChanged") {

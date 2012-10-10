@@ -117,6 +117,15 @@ app.put('/block/:uuid', function (req, res) {
     });
 });
 
+app.delete('/block/:uuid', function (req, res) {
+    var uuid = req.params.uuid;
+    db.del(dbnBlock(uuid), function() {
+        db.zrem(dbnUserBlock(req.user), uuid, function () {
+            res.send(200);
+        });
+    })
+});
+
 app.get('/block/:uuid', function (req, res) {
     var uuid = req.params.uuid;
     db.get(dbnBlock(uuid), function (erro, strBlock) {
@@ -131,24 +140,6 @@ app.get('/block/:uuid', function (req, res) {
 
 var dbnBlock = function (uuid) { return 'block:'+uuid };
 var dbnUserBlock = function (user) { return 'user:'+user+":blocks"; };
-
-app.get('/rd', function(req, res){
-    db.incr("counter", function (err, dbr) {
-        db.lpush(["values", dbr], function (err, dbr) {
-            db.lrange("values", 0, -1, function (err, dbr) {
-                res.send("brouhaha: "+dbr.join(","));
-            })
-        })
-    });
-});
-
-
-app.get('/rs', function(req, res){
-    db.set("counter", 0,  function (err, dbr) {
-        res.send("counter reset.");
-    });
-});
-
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

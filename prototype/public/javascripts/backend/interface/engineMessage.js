@@ -38,6 +38,12 @@ FrontendMessage.loadBlocks = function () {
     return new FrontendMessage("loadBlocks");
 };
 
+FrontendMessage.deleteBlock = function (blockId) {
+    var fm = new FrontendMessage("deleteBlock");
+    fm.blockId = blockId;
+    return fm;
+};
+
 FrontendMessage.initWithBlockOfId = function (blockId) {
     var fm = new FrontendMessage("initWithBlockOfId");
     fm.blockId = blockId;

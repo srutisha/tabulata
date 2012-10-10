@@ -5,14 +5,34 @@ HomePageController = function () {
 };
 HomePageController.unnamedCounter = 1;
 
+HomePageController.blockId = function (eventTarget) {
+    return HomePageController.containingBlock(eventTarget).data("id");
+};
+
+HomePageController.containingBlock = function (eventTarget) {
+    return $(eventTarget).closest(".home-block-container");
+}
+
 HomePageController.init = function () {
     $("#content-page-home").on("tap", ".home-block-container", function (event) {
-        var id = $(event.target).closest(".home-block-container").data("id");
+        var id = HomePageController.blockId(event.target);
 
         ef.sendEvent(FrontendMessage.initWithBlockOfId(id));
 
         event.preventDefault();
     });
+
+    $("#content-page-home").on("tap", ".home-block-delete", function (event) {
+        var id = HomePageController.blockId(event.target);
+
+        if (confirm("Really delete block?")) {
+            HomePageController.containingBlock(event.target).remove();
+            ef.sendEvent(FrontendMessage.deleteBlock(id));
+        }
+
+        return false;
+    });
+
     $("#content-page-home").append(BlockDisplayControl.renderNewBlock());
 
     $("#home-new-block").on("tap", function (event) {
@@ -62,7 +82,8 @@ BlockDisplayControl.render = function (blockData) {
 
     var bldiv = html.div();
 
-    $(bldiv).append($(html.div(blockData.prolog.name)).addClass("home-block-title"),
+    $(bldiv).append($(html.div('&times;')).addClass("home-block-delete"),
+                    $(html.div(blockData.prolog.name)).addClass("home-block-title"),
                     $(html.div(blockData.listNames.join(" &nbsp;&bull;&nbsp;&nbsp;"))).addClass("home-block-lists"),
                     content);
 

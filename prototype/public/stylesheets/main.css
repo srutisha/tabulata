@@ -325,6 +325,21 @@ input.listselect-inactive {
     text-decoration: underline;
 }
 
+.home-block-container .home-block-delete {
+    font-size: 25px;
+    float: right;
+    margin: -10px -10px;
+    padding: 0px 6px 0px 6px;
+    border: dotted black;
+    border-width: 0 0 1px 1px;
+    border-top-right-radius: 7px;
+}
+
+.home-block-container .home-block-delete:hover {
+    background: -webkit-gradient(linear, right top, left bottom, color-stop(0%,#fff), color-stop(100%,#bbb));
+    cursor: pointer;
+}
+
 .home-block-container .home-block-lists {
     padding-bottom: 6px;
 }
