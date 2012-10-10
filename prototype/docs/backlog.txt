@@ -20,9 +20,9 @@ MED "Sequence * 3" should probably work as a list expression
 
 MED If in singulars ?
 
-MED Default rounding
+LOW in engine, use precise number library for calculations, number handling
 
-MED in engine, use precise number library for calculations, number handling
+MED persist table-data-type
 
 ------------------------------------------------------------------------------------------
 
@@ -43,12 +43,4 @@ infer data type
 control for dates
 
 undo
-
-
-HOME
-
-delete block
-
-reorder blocks
-
 
