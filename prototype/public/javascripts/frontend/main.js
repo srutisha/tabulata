@@ -48,7 +48,7 @@ var MockWorker = function (workerUrl) {
     });
 
     this.workerPostedMessage = function (event) {
-        var message = {data: event};
+        var message = {data: jQuery.extend(true, {}, event)};
         this.onmessage(message);
     };
 
