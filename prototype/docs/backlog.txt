@@ -22,6 +22,8 @@ MED If in singulars ?
 
 MED Default rounding
 
+MED in engine, use precise number library for calculations, number handling
+
 ------------------------------------------------------------------------------------------
 
 EDITING OF LIST
@@ -50,6 +52,3 @@ delete block
 reorder blocks
 
 
-PERSISTENCE
-
-use backend / browser store for persistence across sessions

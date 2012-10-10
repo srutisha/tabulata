@@ -90,13 +90,30 @@ DetailPageController.updateColumnEventReceived = function (data) {
         lc.makeAggregate(data.values.length);
     }
 
-    for (var i=0; i<data.values.length; i++) {
+    var isNumericColumn = _.every(data.values, ObjUtil.isNumber);
+    var numberOfAfterComma;
+    var values = data.values;
+
+    if (isNumericColumn) {
+        values = _.map(values, function (value) {
+            return Math.round(value*10000)/10000; // chop off stray decimal places
+        });
+        numberOfAfterComma = _.reduce(values, function (memo, value) {
+            var decimalIndex = (""+value).indexOf('.');
+            if (decimalIndex < 0) return memo;
+            var numberOfPlaces = (""+value).length - decimalIndex - 1;
+            return Math.max(memo, Math.min(4, numberOfPlaces));
+        }, 0);
+    }
+
+    for (var i=0; i<values.length; i++) {
         var id = Symbols.columnRowSymbol(idx, data.columnName, i);
-        $("#"+id).val(data.values[i]);
-        if (ObjUtil.isNumber(data.values[i])) {
+        var value = values[i];
+        if (isNumericColumn) {
             $("#"+id).addClass("control-type-number");
+            value = value.toFixed(numberOfAfterComma);
         }
-        //$("#"+id).text(data.values[i]);
+        $("#"+id).val(value);
     }
 };
 
