@@ -362,6 +362,26 @@ input.listselect-inactive {
 
 }
 
+.home-block-container:hover {
+    cursor: pointer;
+    background: -webkit-gradient(linear, right top, left bottom, color-stop(0%,#fff), color-stop(100%,#ccc));
+}
+
+.home-block-container:active {
+    cursor: pointer;
+    background: -webkit-gradient(linear, right top, left bottom, color-stop(0%,#fff), color-stop(40%,#ccc), color-stop(100%,#ccc));
+}
+
+#home-new-block:hover {
+    cursor: pointer;
+    background: -webkit-gradient(linear, right top, left bottom, color-stop(0%,#999), color-stop(100%,#aaa));
+}
+
+#home-new-block:active {
+    cursor: pointer;
+    background: -webkit-gradient(linear, right top, left bottom, color-stop(0%,#999), color-stop(40%,#999), color-stop(100%,#aaa));
+}
+
 #home-new-block {
 
     border: 1px solid;

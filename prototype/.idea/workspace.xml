@@ -3,11 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4b3eff57-cb2b-4246-9719-f4ea477661a4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/backend/backendWorker.js" afterPath="$PROJECT_DIR$/public/javascripts/backend/backendWorker.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/backend/datasource.js" afterPath="$PROJECT_DIR$/public/javascripts/backend/datasource.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/backend/interface/engineMessage.js" afterPath="$PROJECT_DIR$/public/javascripts/backend/interface/engineMessage.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/frontend/page-home.js" afterPath="$PROJECT_DIR$/public/javascripts/frontend/page-home.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/stylesheets/main.css" afterPath="$PROJECT_DIR$/public/stylesheets/main.css" />
     </list>
     <ignored path="nodejs.iws" />
@@ -102,10 +97,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="page-home.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="page-home.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/page-home.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="21" selection-start="968" selection-end="968" vertical-scroll-proportion="0.66563946">
+            <state line="32" column="21" selection-start="968" selection-end="968" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -147,10 +142,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.css" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="main.css" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/stylesheets/main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="327" column="0" selection-start="5945" selection-end="5985" vertical-scroll-proportion="-4.076923">
+            <state line="381" column="105" selection-start="7460" selection-end="7460" vertical-scroll-proportion="0.49836066">
               <folding />
             </state>
           </provider>
@@ -182,12 +177,12 @@
         <option value="$PROJECT_DIR$/views/index.ejs" />
         <option value="$PROJECT_DIR$/docs/backlog.txt" />
         <option value="$PROJECT_DIR$/public/javascripts/frontend/page-detail.js" />
-        <option value="$PROJECT_DIR$/public/stylesheets/main.css" />
         <option value="$PROJECT_DIR$/public/javascripts/backend/interface/engineMessage.js" />
         <option value="$PROJECT_DIR$/public/javascripts/backend/datasource.js" />
         <option value="$PROJECT_DIR$/public/javascripts/backend/backendWorker.js" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/public/javascripts/frontend/page-home.js" />
+        <option value="$PROJECT_DIR$/public/stylesheets/main.css" />
       </list>
     </option>
   </component>
@@ -616,7 +611,11 @@
       <created>1349862455183</created>
       <updated>1349862455183</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="delete blocks">
+      <created>1349872421702</created>
+      <updated>1349872421702</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -682,7 +681,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="align numeric computed values at the decimal point, show as many fractions as necessary" />
+    <option name="LAST_COMMIT_MESSAGE" value="delete blocks" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -703,6 +702,7 @@
     <MESSAGE value="deterministing order of blocks on home page (ordered by last access)" />
     <MESSAGE value="nodejitsu deployment" />
     <MESSAGE value="align numeric computed values at the decimal point, show as many fractions as necessary" />
+    <MESSAGE value="delete blocks" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -773,13 +773,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="327" column="0" selection-start="5945" selection-end="5985" vertical-scroll-proportion="-4.076923">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/backend/interface/engineMessage.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="41" column="45" selection-start="1019" selection-end="1030" vertical-scroll-proportion="0.0">
@@ -817,7 +810,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/page-home.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="21" selection-start="968" selection-end="968" vertical-scroll-proportion="0.66563946">
+        <state line="32" column="21" selection-start="968" selection-end="968" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/stylesheets/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="381" column="105" selection-start="7460" selection-end="7460" vertical-scroll-proportion="0.49836066">
           <folding />
         </state>
       </provider>
