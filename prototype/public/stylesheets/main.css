@@ -133,6 +133,10 @@ input[type=button] {
     background: #ebb;
 }
 
+.inp-act.shown-in-pane {
+    background: #eeeeff
+}
+
 .shown-in-pane {
     background: #eee;
 }
