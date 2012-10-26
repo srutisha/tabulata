@@ -47,13 +47,17 @@ var MockWorker = function (workerUrl) {
         }*/
     });
 
+    var createMessage = function (event) {
+        return {data: jQuery.extend(true, {}, event)};
+    };
+
     this.workerPostedMessage = function (event) {
-        var message = {data: jQuery.extend(true, {}, event)};
-        this.onmessage(message);
+        this.onmessage(createMessage(event));
     };
 
     this.postMessage = function(event) {
-        this.workerMessageHandler({data: event});
+        var message = {data: jQuery.extend(true, {}, event)};
+        this.workerMessageHandler(createMessage(event));
     };
 }
 
