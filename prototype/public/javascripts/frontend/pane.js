@@ -80,7 +80,7 @@ EditPane.handleDataTypeChange = function (listIdx, columnName) {
     if (newDataType != oldDataType) {
         DetailControlOps.replaceControlWithDataType(listIdx, columnName, newDataType);
     }
-    lc.setColumnDataType(columnName, newDataType);
+    lc.setColumnDataType(listIdx, columnName, newDataType);
 };
 
 

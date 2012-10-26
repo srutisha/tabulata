@@ -469,8 +469,10 @@ function ListControl() {
         return this.columnWithName(columnName).dataType;
     };
 
-    this.setColumnDataType = function (columnName, newType) {
+    this.setColumnDataType = function (listIdx, columnName, newType) {
         this.columnWithName(columnName).dataType = newType;
+        ef.sendEvent(FrontendMessage.columnValueChanged(ListControl.lname(listIdx),
+            columnName, null, null, newType));
     };
 
     this.setColumnExp = function (columnName, exp) {

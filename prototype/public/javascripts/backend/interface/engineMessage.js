@@ -79,12 +79,13 @@ FrontendMessage.listChanged = function (listIndex, listData) {
     return fm;
 };
 
-FrontendMessage.columnValueChanged = function (listName, columnName, idx, value) {
+FrontendMessage.columnValueChanged = function (listName, columnName, idx, value, dataType) {
 	var fm = new FrontendMessage("columnValueChanged");
     fm.listName = listName;
     fm.columnName = columnName;
     fm.idx = idx;
     fm.value = value;
+    fm.dataType = dataType;
 	return fm;
 };
 

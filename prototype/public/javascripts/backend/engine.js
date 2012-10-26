@@ -37,8 +37,12 @@ Engine.prototype.changeList = function (listIndex, listData) {
 
 Engine.prototype.changeColumnValue = function (changeData) {
     var col = this.ctx.columnByListAndName(changeData.listName, changeData.columnName);
-    col.updateValue(changeData.idx, changeData.value);
-    this.invalidateValueColumns();
+    if (changeData.dataType) {
+        col.setDataType(changeData.dataType);
+    } else {
+        col.updateValue(changeData.idx, changeData.value);
+        this.invalidateValueColumns();
+    }
 };
 
 Engine.prototype.changeColumnValueFunction = function (listName, columnName, value) {
@@ -968,6 +972,10 @@ function Column(ctx, list, content) {
 	this.setName = function (name) {
 		content.name = name;
 	};
+
+    this.setDataType = function (dataType) {
+        content.dataType = dataType;
+    };
 
 	this.name = function () {
 		return normalizeName(content.name);

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4b3eff57-cb2b-4246-9719-f4ea477661a4" name="Default" comment="mockworker should avoid shared objects between engine and frontend">
+    <list default="true" id="4b3eff57-cb2b-4246-9719-f4ea477661a4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/backend/engine.js" afterPath="$PROJECT_DIR$/public/javascripts/backend/engine.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/backend/interface/engineMessage.js" afterPath="$PROJECT_DIR$/public/javascripts/backend/interface/engineMessage.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/frontend/controls.js" afterPath="$PROJECT_DIR$/public/javascripts/frontend/controls.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/frontend/main.js" afterPath="$PROJECT_DIR$/public/javascripts/frontend/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/frontend/pane.js" afterPath="$PROJECT_DIR$/public/javascripts/frontend/pane.js" />
     </list>
     <ignored path="nodejs.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -61,10 +65,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="main.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="6" selection-start="1163" selection-end="1163" vertical-scroll-proportion="0.45714286">
+            <state line="57" column="40" selection-start="1309" selection-end="1309" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -73,16 +77,16 @@
       <file leaf-file-name="backendWorker.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/backend/backendWorker.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="66" column="21" selection-start="1956" selection-end="1956" vertical-scroll-proportion="0.0">
+            <state line="68" column="26" selection-start="2100" selection-end="2100" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="engine.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="engine.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/javascripts/backend/engine.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="278" column="9" selection-start="7576" selection-end="7576" vertical-scroll-proportion="0.0">
+            <state line="40" column="12" selection-start="996" selection-end="996" vertical-scroll-proportion="0.3323741">
               <folding />
             </state>
           </provider>
@@ -118,16 +122,7 @@
       <file leaf-file-name="pane.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/pane.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="134" column="31" selection-start="4271" selection-end="4271" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="page-detail.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/page-detail.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="11" selection-start="1499" selection-end="1499" vertical-scroll-proportion="0.0">
+            <state line="82" column="11" selection-start="2605" selection-end="2605" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -136,7 +131,16 @@
       <file leaf-file-name="controls.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/controls.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="467" column="18" selection-start="12152" selection-end="12152" vertical-scroll-proportion="0.0">
+            <state line="471" column="48" selection-start="12300" selection-end="12300" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="engineMessage.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/javascripts/backend/interface/engineMessage.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="87" column="26" selection-start="2237" selection-end="2237" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -167,9 +171,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/public/javascripts/lib/underscore-1.4.2.js" />
-        <option value="$PROJECT_DIR$/views/index.ejs" />
-        <option value="$PROJECT_DIR$/public/javascripts/backend/interface/engineMessage.js" />
         <option value="$PROJECT_DIR$/public/javascripts/backend/backendWorker.js" />
         <option value="$PROJECT_DIR$/public/javascripts/frontend/page-home.js" />
         <option value="$PROJECT_DIR$/public/stylesheets/main.css" />
@@ -179,10 +180,13 @@
         <option value="$PROJECT_DIR$/docs/backlog.txt" />
         <option value="$PROJECT_DIR$/public/javascripts/frontend/page-detail.js" />
         <option value="$PROJECT_DIR$/data/index.js" />
-        <option value="$PROJECT_DIR$/public/javascripts/frontend/controls.js" />
         <option value="$PROJECT_DIR$/public/javascripts/frontend/detailcontrols.js" />
         <option value="$PROJECT_DIR$/public/javascripts/backend/datasource.js" />
         <option value="$PROJECT_DIR$/public/javascripts/frontend/main.js" />
+        <option value="$PROJECT_DIR$/public/javascripts/backend/engine.js" />
+        <option value="$PROJECT_DIR$/public/javascripts/frontend/pane.js" />
+        <option value="$PROJECT_DIR$/public/javascripts/frontend/controls.js" />
+        <option value="$PROJECT_DIR$/public/javascripts/backend/interface/engineMessage.js" />
       </list>
     </option>
   </component>
@@ -517,6 +521,9 @@
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value="ALPHA_COMPARATOR" />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="4b3eff57-cb2b-4246-9719-f4ea477661a4" name="Default" comment="" />
@@ -587,7 +594,11 @@
       <created>1351273677119</created>
       <updated>1351273677119</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="don't duplicate values when creating new list">
+      <created>1351274299620</created>
+      <updated>1351274299620</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -597,18 +608,18 @@
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296582" sideWeight="0.49776357" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296582" sideWeight="0.49517685" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18963616" sideWeight="0.49003217" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25137818" sideWeight="0.50032157" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18963616" sideWeight="0.5054662" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18456592" sideWeight="0.2646086" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24758843" sideWeight="0.7486218" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18456592" sideWeight="0.5380375" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -653,7 +664,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix problem with changed value type" />
+    <option name="LAST_COMMIT_MESSAGE" value="don't duplicate values when creating new list" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -682,6 +693,7 @@
     <MESSAGE value="type -&gt; datatype" />
     <MESSAGE value="type -&gt; dataType" />
     <MESSAGE value="fix problem with changed value type" />
+    <MESSAGE value="don't duplicate values when creating new list" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -691,11 +703,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/config/config.schema">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/express/node_modules/connect/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="23" selection-start="98" selection-end="98" vertical-scroll-proportion="0.082822084">
@@ -738,27 +745,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/page-detail.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="11" selection-start="1499" selection-end="1499" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/pane.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="134" column="31" selection-start="4271" selection-end="4271" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/controls.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="467" column="18" selection-start="12152" selection-end="12152" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="114" column="28" selection-start="3147" selection-end="3147" vertical-scroll-proportion="0.0">
@@ -773,20 +759,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/backend/engine.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="278" column="9" selection-start="7576" selection-end="7576" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/backend/backendWorker.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="21" selection-start="1956" selection-end="1956" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/detailcontrols.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="189" column="0" selection-start="5472" selection-end="5472" vertical-scroll-proportion="0.0">
@@ -796,7 +768,49 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="6" selection-start="1163" selection-end="1163" vertical-scroll-proportion="0.45714286">
+        <state line="57" column="40" selection-start="1309" selection-end="1309" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/page-detail.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="11" selection-start="1499" selection-end="1499" vertical-scroll-proportion="-6.9785275">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/backend/backendWorker.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="68" column="26" selection-start="2100" selection-end="2100" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/pane.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="82" column="11" selection-start="2605" selection-end="2605" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/controls.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="471" column="48" selection-start="12300" selection-end="12300" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/backend/interface/engineMessage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="87" column="26" selection-start="2237" selection-end="2237" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/backend/engine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="12" selection-start="996" selection-end="996" vertical-scroll-proportion="0.3323741">
           <folding />
         </state>
       </provider>
