@@ -110,12 +110,12 @@ exports.exampleBlocks = [
                         },
                         {
                             name: 'Done',
-                            type: 'boolean',
+                            dataType: 'boolean',
                             values: [true, true, false, true, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false, true, false, false]
                         },
                         {
                             name: 'Hours Spent Intern',
-                            type: 'number',
+                            dataType: 'number',
                             values: [5, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2, 4, 3, 2]
                         },
                         {
@@ -124,7 +124,7 @@ exports.exampleBlocks = [
                         },
                         {
                             name: 'Hours Spent Extern',
-                            type: 'number',
+                            dataType: 'number',
                             values: [6, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1]
                         },
                         {
@@ -213,7 +213,7 @@ exports.exampleBlocks = [
                         },
                         {
                             name: 'Category Budget',
-                            type: 'number',
+                            dataType: 'number',
                             values: [20, 20, 100]
                         }
                     ]
@@ -232,7 +232,7 @@ exports.exampleBlocks = [
                         },
                         {
                             name: 'Price',
-                            type: 'number',
+                            dataType: 'number',
                             values: [25, 18, 5, 105, 3.5]
                         },
                         {
@@ -271,12 +271,12 @@ exports.exampleBlocks = [
                         },
                         {
                             name: 'Numbers One',
-                            type: 'number',
+                            dataType: 'number',
                             values: [5, 4, 3]
                         },
                         {
                             name: 'Numbers Two',
-                            type: 'number',
+                            dataType: 'number',
                             values: [6, 3, 2]
                         },
                         {
@@ -295,12 +295,12 @@ exports.exampleBlocks = [
                         },
                         {
                             name: 'Numbers One',
-                            type: 'number',
+                            dataType: 'number',
                             values: [15, 4, 3]
                         },
                         {
                             name: 'Numbers Two',
-                            type: 'number',
+                            dataType: 'number',
                             values: [6, 3, 2]
                         },
                         {
@@ -319,12 +319,12 @@ exports.exampleBlocks = [
                         },
                         {
                             name: 'Numbers One',
-                            type: 'number',
+                            dataType: 'number',
                             values: [25, 4, 3]
                         },
                         {
                             name: 'Numbers Two',
-                            type: 'number',
+                            dataType: 'number',
                             values: [6, 3, 2]
                         },
                         {
@@ -371,7 +371,7 @@ exports.exampleBlocks = [
                         },
                         {
                             name: 'Amount',
-                            type: 'number',
+                            dataType: 'number',
                             values: [150, 100000, 500, 200]
                         },
                         {
@@ -415,7 +415,7 @@ exports.exampleBlocks = [
                     columns: [
                         {
                             name: 'Inductive',
-                            type: 'number',
+                            dataType: 'number',
                             values: [0, 1, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0]
                         },
                         {

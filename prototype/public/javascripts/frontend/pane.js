@@ -78,7 +78,7 @@ EditPane.handleDataTypeChange = function (listIdx, columnName) {
     var newDataType = $('.radio-datatype:checked').val();
     var oldDataType = lc.getColumnDataType(columnName);
     if (newDataType != oldDataType) {
-        DetailControlOps.replaceControlWithType(listIdx, columnName, newDataType);
+        DetailControlOps.replaceControlWithDataType(listIdx, columnName, newDataType);
     }
     lc.setColumnDataType(columnName, newDataType);
 };

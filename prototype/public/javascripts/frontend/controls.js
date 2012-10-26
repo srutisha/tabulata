@@ -266,7 +266,7 @@ function ListControl() {
 
 	var createFieldNode = function (col, colNr, row) {
 		var id = Symbols.columnRowSymbol(self.cn(), col.name, row);
-		var co = DetailControlFactory.getControlObject(col.type);
+		var co = DetailControlFactory.getControlObject(col.dataType);
 		var value = "";
 		var isEditable = false;
 
@@ -466,7 +466,7 @@ function ListControl() {
     };
 
     this.getColumnDataType = function (columnName) {
-        return this.columnWithName(columnName).type;
+        return this.columnWithName(columnName).dataType;
     };
 
     this.setColumnDataType = function (columnName, newType) {

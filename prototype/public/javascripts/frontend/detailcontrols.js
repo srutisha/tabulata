@@ -110,7 +110,7 @@ NumberInputControl.constructor = function () {
 
 NumberInputControl.renderToDisplay = function (id, className, isValue, value) {
     var ctrl = TextInputControl.renderToDisplayWithTypeClass(id, "control-type-number "+className, isValue, value);
-    ctrl.type = "number";
+    ctrl.dataType = "number";
     return ctrl;
 };
 
@@ -171,7 +171,7 @@ DetailControlOps = function () {
 
 };
 
-DetailControlOps.replaceControlWithType = function (listIdx, columnName, newType) {
+DetailControlOps.replaceControlWithDataType = function (listIdx, columnName, newType) {
     var colSymb = Symbols.columnSymbol(listIdx, columnName);
     var controlElem;
     var i = 0;
