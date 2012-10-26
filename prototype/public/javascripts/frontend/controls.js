@@ -470,7 +470,7 @@ function ListControl() {
     };
 
     this.setColumnDataType = function (columnName, newType) {
-        this.columnWithName(columnName).type = newType;
+        this.columnWithName(columnName).dataType = newType;
     };
 
     this.setColumnExp = function (columnName, exp) {
