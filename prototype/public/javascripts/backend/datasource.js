@@ -34,7 +34,8 @@ DataSource.updateBlock = function (block) {
     $.ajax('/block/'+blockUuid+"?user="+DataSource.user,
         {
             type: 'PUT',
-            data: block
+            data: JSON.stringify( block ),
+            contentType: "application/json; charset=utf-8"
         });
 };
 

@@ -15,8 +15,8 @@ DetailControlFactory_ = function () {
 };
 
 
-DetailControlFactory_.prototype.getControlObject = function (type) {
-    switch (type) {
+DetailControlFactory_.prototype.getControlObject = function (dataType) {
+    switch (dataType) {
         case "boolean": return BooleanControl;
         case "number": return NumberInputControl;
     }
@@ -171,7 +171,7 @@ DetailControlOps = function () {
 
 };
 
-DetailControlOps.replaceControlWithDataType = function (listIdx, columnName, newType) {
+DetailControlOps.replaceControlWithDataType = function (listIdx, columnName, newDataType) {
     var colSymb = Symbols.columnSymbol(listIdx, columnName);
     var controlElem;
     var i = 0;
@@ -182,7 +182,7 @@ DetailControlOps.replaceControlWithDataType = function (listIdx, columnName, new
         var val = controlObject.valueFromIdElement(controlElem);
         var id = controlElem.id;
         var cls = controlElem.className.match(/list_col_\d+/)[0];
-        $(controlElem).replaceWith(DetailControlFactory.getControlObject(newType).renderToDisplay(id, cls, true, ObjUtil.stringToObject(val)));
+        $(controlElem).replaceWith(DetailControlFactory.getControlObject(newDataType).renderToDisplay(id, cls, true, ObjUtil.stringToObject(val)));
         i++;
     }
 };
