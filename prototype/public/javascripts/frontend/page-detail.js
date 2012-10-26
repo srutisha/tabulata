@@ -226,10 +226,6 @@ DetailPageController.attachListEvents = function () {
 
     DetailControlFactory.attachChangeHandlers($("#mtbl"), ColumnValueChangeHandler);
 
-    $("#mtbl").on("focusout", ".hed-act", function (event) {
-        DetailPageController.handleColumnHeaderChangeEvent(event);
-    });
-
     $("#mtbl").on("tap", "#lcAddRowButton", function (event) {
         lc.addRow(event.target);
         event.preventDefault();
@@ -237,25 +233,43 @@ DetailPageController.attachListEvents = function () {
 
     $("#mtbl").on("tap", "#lcAddColumnButton", function (event) {
         var headerField = lc.addColumn(event.target);
-        EditPane.showPaneForHeader(headerField, true);
+        showPaneIfName($(headerField));
         focusScrollblock(headerField, event);
         // this is for the pane to not immediately disappear again due to the focus event
         event.stopImmediatePropagation();
     });
+
+    var showPaneTimer;
+
+    var showPaneIfName = function ($headerElem) {
+        if ($headerElem.val().length > 1) {
+            EditPane.showPaneForElement($headerElem);
+        } else {
+            showPaneTimer = window.setTimeout(function() {
+                showPaneIfName($headerElem);
+            }, 1600);
+        }
+    };
 
     $("#mtbl").on("tap", ".hed-act", function (event) {
         if (EditPane.headerColumnPushed(event)) {
             event.stopImmediatePropagation();
             event.preventDefault();
         } else {
-            EditPane.showPaneEvent(event);
+            showPaneIfName($(event.target));
+            event.stopImmediatePropagation();
             focusScrollblock(event.target, event);
         }
     });
 
+    $("#mtbl").on("focusout", ".hed-act", function (event) {
+        window.clearTimeout(showPaneTimer);
+        DetailPageController.handleColumnHeaderChangeEvent(event);
+    });
+
     $("#mtbl").on("tap", ".inp-cal", function (event) {
-        EditPane.showPaneEvent(event);
-        event.preventDefault();
+        EditPane.showPaneForElement($(event.target));
+        event.stopImmediatePropagation();
     });
 
     $("#mtbl").on("tap", "input", function (event) {

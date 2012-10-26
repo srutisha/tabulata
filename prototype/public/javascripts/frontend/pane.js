@@ -98,15 +98,14 @@ EditPane.dismissPane = function () {
 };
 
 
-EditPane.showPaneEvent = function(event) {
-	EditPane.lastClicked = event.target;
+EditPane.showPaneForElement = function($elem) {
+	EditPane.lastClicked = $elem[0];
 
-	var idParts = event.target.id.split(/_/);
+	var idParts = $elem[0].id.split(/_/);
 
     //TODO remove dependency on DOM for determining column type, but query the list control.
 	EditPane.showPaneForHeader(EditPane.lastClicked,
 			$("#"+Symbols.columnRowSymbol(idParts[1], idParts[2], "H")).data("exp") == undefined);
-	event.stopImmediatePropagation();
 };
 
 EditPane.updatePaneEvent = function(event) {
