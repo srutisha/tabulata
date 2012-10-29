@@ -228,6 +228,17 @@ var ColumnValueChangeHandler = function(e, v) {
 };
 
 DetailPageController.attachListEvents = function () {
+    var rowsToAdd = 0;
+    var rowAddHandle;
+
+    var handleAddRowClicked = function(){
+        $('#clickCounter').hide('fast');
+        for (var i=0;i<rowsToAdd; i++) {
+            lc.addRow();
+        }
+        rowsToAdd = 0;
+    };
+
     $("#mtbl").on("click", function (event) {
         event.preventDefault();
     });
@@ -235,8 +246,13 @@ DetailPageController.attachListEvents = function () {
     DetailControlFactory.attachChangeHandlers($("#mtbl"), ColumnValueChangeHandler);
 
     $("#mtbl").on("tap", "#lcAddRowButton", function (event) {
-        lc.addRow(event.target);
-        event.preventDefault();
+        window.clearTimeout(rowAddHandle);
+        rowsToAdd ++;
+        var buttonPos = $('#lcAddRowButton').offset();
+        buttonPos.left += 50;
+        buttonPos.top -= $('#clickCounter').height()/2;
+        $('#clickCounter').html(rowsToAdd).css({left:0,top:0}).offset(buttonPos).show('fast');
+        rowAddHandle = window.setTimeout(handleAddRowClicked, 900);
     });
 
     $("#mtbl").on("tap", "#lcAddColumnButton", function (event) {
@@ -280,7 +296,7 @@ DetailPageController.attachListEvents = function () {
         event.stopImmediatePropagation();
     });
 
-    $("#mtbl").on("tap", "input", function (event) {
+    $("#mtbl").on("tap", "input.inp-act", function (event) {
         EditPane.focusEvent(event);
         //event.preventDefault();
         var currentScrollPos = $("#mtbl tbody").scrollTop();

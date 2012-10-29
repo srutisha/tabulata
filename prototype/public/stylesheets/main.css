@@ -468,3 +468,13 @@ input.listselect-inactive {
     border-radius: 10px;
     display: inline-block;
 }
+
+#clickCounter {
+    background: #fefefe;
+    border: 1px solid black;
+    font-size: 45px;
+    color: #333;
+    padding: 15px;
+    position: fixed;
+    z-index: 5000;
+}

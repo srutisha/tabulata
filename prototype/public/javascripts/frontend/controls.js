@@ -392,8 +392,8 @@ function ListControl() {
 		return e;
 	};
 
-	this.addRow = function(button) {
-		var tr = $(button).parent().parent().get(0);
+	this.addRow = function() {
+		var tr = $('#mtbl tr:last');
 
 		$(tr).children().each(function(index){
 			if (index == dimensions.x) {

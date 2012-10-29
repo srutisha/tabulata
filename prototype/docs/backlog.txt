@@ -2,8 +2,6 @@ QUICK FEATURES
 
 Delete Singulars/Columns
 
-Usability When adding elements to list (tab creates row)
-
 ------------------------------------------------------------------------------------------
 
 ISSUES
@@ -32,8 +30,6 @@ LOW in engine, use precise number library for calculations, number handling
 ------------------------------------------------------------------------------------------
 
 EDITING OF LIST
-
-editing: add columns/rows: count pushes, then do. show number of pushes.
 
 add column (to left/right of existing column)
 
