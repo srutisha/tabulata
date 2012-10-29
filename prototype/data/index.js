@@ -5,23 +5,8 @@ var emptyBlock = function(uuid, name) {
             'id': uuid,
             'created': new Date().getTime()
         },
-        singulars : [ {
-            name : 'Singular',
-            value : 'List.Column.sum'
-        } ],
-            lists: [
-        {
-            name: 'List',
-            numRows: 1,
-            columns: [
-                {
-                    name: 'Column',
-                    values: ['']
-                }
-
-            ]
-        }
-    ]
+        singulars : [ ],
+        lists     : [ ]
     };
 };
 

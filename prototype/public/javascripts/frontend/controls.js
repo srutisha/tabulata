@@ -129,6 +129,7 @@ function ListSelectControl() {
     };
 
     this.createNew = function () {
+        $('#no-list-message').hide();
         var listData = {
             name: 'List',
             numRows: 1,
@@ -305,9 +306,15 @@ function ListControl() {
         return allRows;
     };
 
+    this.clear = function () {
+        $("#mtbl").html("");
+        columnCounter = dimensions.x = dimensions.y = 0;
+    };
+
     this.init = function (idx, list, noAddRowButton) {
 		_list = list;
-		$("#mtbl").html("");
+
+        this.clear();
 
         this.myIdx = idx;
 

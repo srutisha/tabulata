@@ -459,3 +459,12 @@ input.listselect-inactive {
 #open-includes.open {
     background-image: -webkit-linear-gradient(#ccc,#ddd);
 }
+
+#no-list-message {
+    background-color: #f5ffb7;
+    border: 1px solid #eeff80;
+    padding: 15px;
+    margin: 15px;
+    border-radius: 10px;
+    display: inline-block;
+}

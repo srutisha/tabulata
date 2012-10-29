@@ -52,7 +52,15 @@ DetailPageController.loadBlock = function(block) {
     sc.init(block.singulars);
     $("#block-title").val(block.prolog.name);
 
-    lc.init(0, block.lists[0]);
+    lc.clear();
+
+    if (block.lists.length > 0) {
+        lc.init(0, block.lists[0]);
+        $('#no-list-message').hide();
+    } else {
+        $('#no-list-message').show();
+    }
+
     lsc.init(block.lists);
 
     incc.init(block.includes);

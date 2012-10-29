@@ -529,7 +529,9 @@ ExpressionEvaluator.prototype.handleIdentifier = function (ac, name, param) {
 		if (this.ctx.singularByName(name) != undefined) {
 			var sg = this.ctx.singularByName(name);
 			return Node.c(sg.symbol()+".$V()");
-		} else return Node.c("'"+name+"'"); //throw Error("Top-level symbol not known: "+name);
+		} else if (name == "If") {
+            return this.handleIf(ac, param[0], param[1], param[2]);
+        } else return Node.c("'"+name+"'"); //throw Error("Top-level symbol not known: "+name);
 	} else if (ac.list) {
 		if (this.ctx.columnByListAndName(ac.list.name(), name)) {
 			var col = this.ctx.columnByListAndName(ac.list.name(), name);

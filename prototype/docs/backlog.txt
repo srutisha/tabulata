@@ -2,13 +2,15 @@ QUICK FEATURES
 
 Delete Singulars/Columns
 
-Only show Pane when name is > size 1, with delay
-
 Usability When adding elements to list (tab creates row)
 
 ------------------------------------------------------------------------------------------
 
 ISSUES
+
+HIGH list-name and column-name cannot be the same -> fix
+
+HIGH names are not validated (brackets, numbers should probably be possible)
 
 LOW only use jq data() , remove plain dataset access
 
