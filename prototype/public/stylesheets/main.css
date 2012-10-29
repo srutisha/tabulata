@@ -146,9 +146,8 @@ input[type=button] {
     padding-top:4pt;
     padding-bottom:4pt;
     font-color:black;
-    /*background:white;*/
-    /*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#555), color-stop(80%,#F9F9F9), color-stop(100%,#fff));*/
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(70%,#F9F9F9), color-stop(100%,#555));
+    background: -moz-linear-gradient(90deg, #555, #F9F9F9 30%, #fff);
     height:50px;
     position:fixed;
     top:0;
@@ -237,8 +236,8 @@ input.listselect-active {
     -webkit-border-bottom-right-radius: 1px;
     -webkit-border-bottom-left-radius: 1px;
     -moz-border-radius: 6px;
-    -moz-border-radius-bottomright: 1px;
-    -moz-border-radius-bottomleft: 1px;
+    -moz-border-radius-bottom-right: 1px;
+    -moz-border-radius-bottom-left: 1px;
     border-radius: 6px;
     border-bottom-right-radius: 1px;
     border-bottom-left-radius: 1px;
@@ -246,6 +245,7 @@ input.listselect-active {
     border-bottom: 1px solid white;
     background: -webkit-gradient(linear, left top, left bottom,
     color-stop(0%,#cacaca), color-stop(66%,#d8d8d8), color-stop(100%,#eee)) !important;
+    background: -moz-linear-gradient(0deg, #cacaca, #d8d8d8 66%, #eee) !important;
     box-shadow: 1px 1px 4px white inset !important;
 }
 
@@ -265,6 +265,7 @@ input.listselect-inactive {
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#999), color-stop(66%,#999), color-stop(100%,#bbb));
+    background: -moz-linear-gradient(270deg, #999, #999 66%, #bbb);
     width: 100%;
 }
 
@@ -321,6 +322,7 @@ input.listselect-inactive {
 
     /*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee), color-stop(66%,#eee), color-stop(100%,#bbb));           */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#999), color-stop(66%,#999), color-stop(100%,#bbb));
+    background: -moz-linear-gradient(0deg, #999, #999 66%, #bbb);
 }
 
 .home-block-container .home-block-title {
@@ -361,8 +363,8 @@ input.listselect-inactive {
     border-radius: 7px;
     background: #fefefe;
 
-    -webkit-box-shadow: inset 0 0  5px 1px rgba(50,50,50,0.2),
-    1px 2px 5px rgba(0,0,0, 0.9);
+    -webkit-box-shadow: inset 0 0  5px 1px rgba(50,50,50,0.2), 1px 2px 5px rgba(0,0,0, 0.9);
+    box-shadow: inset 0 0  5px 1px rgba(50,50,50,0.2), 1px 2px 5px rgba(0,0,0, 0.9);
 
 }
 
