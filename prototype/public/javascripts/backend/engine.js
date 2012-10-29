@@ -91,15 +91,24 @@ Engine.prototype.singularResultValues = function () {
 
 Engine.prototype.calculateAggregatingValueColumns = function() {
     this.ctx.valueFunctionColumns().forEach(function(col) {
-        if (col.isAggregating()) {
-            var dummy = col.values();
-        }
+        try {
+            if (col.isAggregating()) {
+                var dummy = col.values();
+            }
+        } catch (ex) {}
     });
 };
 
 Engine.prototype.sendSingulars = function (rr) {
     this.ctx.allSingulars().forEach(function (sg) {
-        var em = EngineMessage.updateSingularValue(sg.name(), sg.value());
+        var sgValue;
+        try {
+            sgValue = sg.value();
+        } catch (ex) {
+            console.log(ex);
+            sgValue = "#ERR#";
+        }
+        var em = EngineMessage.updateSingularValue(sg.name(), sgValue);
         rr(em);
     });
 };
@@ -109,9 +118,14 @@ Engine.prototype.sendChangedData = function (rr) {
 	// for now, just send everything
 	this.ctx.valueFunctionColumns().forEach(function(col) {
         if (col.valueFunction() != undefined && col.valueFunction().length > 0) {
-            var em = EngineMessage.updateColumnValues(col.listName(), col.name(), col.values());
-            em.isAggregated = col.list.isAggregated;
-            rr(em);
+            try {
+                var em = EngineMessage.updateColumnValues(col.listName(), col.name(), col.values());
+                em.isAggregated = col.list.isAggregated;
+                rr(em);
+            } catch (ex) {
+                rr(EngineMessage.updateColumnValues(col.listName(), col.name(), ["#ERR#"]));
+                console.log(ex);
+            }
         }
 	});
     this.sendSingulars(rr);
