@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4b3eff57-cb2b-4246-9719-f4ea477661a4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/backend/engine.js" afterPath="$PROJECT_DIR$/public/javascripts/backend/engine.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/backlog.txt" afterPath="$PROJECT_DIR$/docs/backlog.txt" />
     </list>
     <ignored path="nodejs.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -115,19 +115,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="backlog.txt" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="backlog.txt" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/docs/backlog.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="0" selection-start="200" selection-end="200" vertical-scroll-proportion="0.0">
+            <state line="9" column="0" selection-start="199" selection-end="199" vertical-scroll-proportion="0.22881356">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="engine.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="engine.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/backend/engine.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="125" column="87" selection-start="3765" selection-end="3765" vertical-scroll-proportion="0.53956836">
+            <state line="125" column="87" selection-start="3765" selection-end="3765" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -179,10 +179,10 @@
         <option value="$PROJECT_DIR$/public/javascripts/frontend/controls.js" />
         <option value="$PROJECT_DIR$/views/index.ejs" />
         <option value="$PROJECT_DIR$/public/stylesheets/main.css" />
-        <option value="$PROJECT_DIR$/docs/backlog.txt" />
         <option value="$PROJECT_DIR$/public/javascripts/lib/parser.js" />
         <option value="$PROJECT_DIR$/docs/tabulata-expression.peg" />
         <option value="$PROJECT_DIR$/public/javascripts/backend/engine.js" />
+        <option value="$PROJECT_DIR$/docs/backlog.txt" />
       </list>
     </option>
   </component>
@@ -650,7 +650,11 @@
       <created>1351532358649</created>
       <updated>1351532358649</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="catch exceptions and send marker for error">
+      <created>1351534122064</created>
+      <updated>1351534122064</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -716,7 +720,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="allow numbers in identifiers" />
+    <option name="LAST_COMMIT_MESSAGE" value="catch exceptions and send marker for error" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -752,6 +756,7 @@
     <MESSAGE value="create the lists empty" />
     <MESSAGE value="list and column name can be same" />
     <MESSAGE value="allow numbers in identifiers" />
+    <MESSAGE value="catch exceptions and send marker for error" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -859,16 +864,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/backlog.txt">
+    <entry file="file://$PROJECT_DIR$/public/javascripts/backend/engine.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="0" selection-start="200" selection-end="200" vertical-scroll-proportion="0.0">
+        <state line="125" column="87" selection-start="3765" selection-end="3765" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/backend/engine.js">
+    <entry file="file://$PROJECT_DIR$/docs/backlog.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="87" selection-start="3765" selection-end="3765" vertical-scroll-proportion="0.53956836">
+        <state line="9" column="0" selection-start="199" selection-end="199" vertical-scroll-proportion="0.22881356">
           <folding />
         </state>
       </provider>

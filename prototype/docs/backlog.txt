@@ -8,8 +8,6 @@ Usability When adding elements to list (tab creates row)
 
 ISSUES
 
-HIGH mark errors in expressions
-
 HIGH names are not validated (brackets, numbers should probably be possible)
 
 LOW only use jq data() , remove plain dataset access
