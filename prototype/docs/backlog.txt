@@ -8,7 +8,7 @@ Usability When adding elements to list (tab creates row)
 
 ISSUES
 
-HIGH list-name and column-name cannot be the same -> fix
+HIGH mark errors in expressions
 
 HIGH names are not validated (brackets, numbers should probably be possible)
 

@@ -453,9 +453,15 @@ ExpressionEvaluator.prototype.handleNode = function (ast, ac) {
 };
 
 ExpressionEvaluator.prototype.handleAccess = function (ac, data, operand) {
+    var self = this;
+
+    var checkListAccess = function () {
+        return ac.list && self.ctx.columnByListAndName(ac.list.name(), data.name);
+    };
+
 	if (ac.top || ac.list) {
 		// top-level symbol is table
-		if (this.ctx.listByName(data.name) != undefined) {
+		if (! checkListAccess() && this.ctx.listByName(data.name) != undefined) {
 			var list = this.ctx.listByName(data.name);
 			return this.handleNode(operand, AccessContext.list(list, ac));
 		} if (this.ctx.includeByName(data.name)) {
