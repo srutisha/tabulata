@@ -47,7 +47,7 @@ primary
           execution: js.map(function(a){return a[1]}).join("")
         };
       }
-  / __ "(" additive:additive ")" { return additive; }
+  / __ "(" additive:additive ")" __ { return additive; }
 
 path =  f:function p:pathEx ? {
     if (p==="") return f;
@@ -62,7 +62,7 @@ pathEx = __ "." p:path
     {return p;}
 
 function =
-   __ id:identifier __ pa:paramList ?
+   __ id:identifier __ pa:paramList ? __
    {
      if (pa === "") return { type: "identifier", name: id };
      return { type: "identifier", name: id, param:pa };
@@ -87,7 +87,7 @@ number "number"
   = sg: "-" ? n1:[0-9] + pt:"." ? n2:[0-9]* { return flatten([sg,n1,pt,n2]); }
 
 identifier "identifier"
-  = letters:[A-Za-z]+ { return letters.join(""); }
+  = letters:([A-Za-z][A-Za-z0-9]*) { return flatten(letters); }
 
 __ = (whitespace / eol )*
 

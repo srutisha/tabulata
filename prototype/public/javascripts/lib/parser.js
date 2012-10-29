@@ -925,7 +925,7 @@ listcalcParser = (function(){
                     return cachedResult.result;
                 }
 
-                var result0, result1, result2, result3;
+                var result0, result1, result2, result3, result4;
                 var pos0, pos1;
 
                 pos0 = clone(pos);
@@ -939,7 +939,13 @@ listcalcParser = (function(){
                             result3 = parse_paramList();
                             result3 = result3 !== null ? result3 : "";
                             if (result3 !== null) {
-                                result0 = [result0, result1, result2, result3];
+                                result4 = parse___();
+                                if (result4 !== null) {
+                                    result0 = [result0, result1, result2, result3, result4];
+                                } else {
+                                    result0 = null;
+                                    pos = clone(pos1);
+                                }
                             } else {
                                 result0 = null;
                                 pos = clone(pos1);
@@ -981,7 +987,7 @@ listcalcParser = (function(){
                     return cachedResult.result;
                 }
 
-                var result0, result1, result2, result3, result4, result5;
+                var result0, result1, result2, result3, result4;
                 var pos0, pos1;
 
                 pos0 = clone(pos);
@@ -1012,13 +1018,7 @@ listcalcParser = (function(){
                                     }
                                 }
                                 if (result4 !== null) {
-                                    result5 = parse___();
-                                    if (result5 !== null) {
-                                        result0 = [result0, result1, result2, result3, result4, result5];
-                                    } else {
-                                        result0 = null;
-                                        pos = clone(pos1);
-                                    }
+                                    result0 = [result0, result1, result2, result3, result4];
                                 } else {
                                     result0 = null;
                                     pos = clone(pos1);
@@ -1361,39 +1361,56 @@ listcalcParser = (function(){
                     return cachedResult.result;
                 }
 
-                var result0, result1;
-                var pos0;
+                var result0, result1, result2;
+                var pos0, pos1;
 
                 reportFailures++;
                 pos0 = clone(pos);
+                pos1 = clone(pos);
                 if (/^[A-Za-z]/.test(input.charAt(pos.offset))) {
-                    result1 = input.charAt(pos.offset);
+                    result0 = input.charAt(pos.offset);
                     advance(pos, 1);
                 } else {
-                    result1 = null;
+                    result0 = null;
                     if (reportFailures === 0) {
                         matchFailed("[A-Za-z]");
                     }
                 }
-                if (result1 !== null) {
-                    result0 = [];
-                    while (result1 !== null) {
-                        result0.push(result1);
-                        if (/^[A-Za-z]/.test(input.charAt(pos.offset))) {
-                            result1 = input.charAt(pos.offset);
+                if (result0 !== null) {
+                    result1 = [];
+                    if (/^[A-Za-z0-9]/.test(input.charAt(pos.offset))) {
+                        result2 = input.charAt(pos.offset);
+                        advance(pos, 1);
+                    } else {
+                        result2 = null;
+                        if (reportFailures === 0) {
+                            matchFailed("[A-Za-z0-9]");
+                        }
+                    }
+                    while (result2 !== null) {
+                        result1.push(result2);
+                        if (/^[A-Za-z0-9]/.test(input.charAt(pos.offset))) {
+                            result2 = input.charAt(pos.offset);
                             advance(pos, 1);
                         } else {
-                            result1 = null;
+                            result2 = null;
                             if (reportFailures === 0) {
-                                matchFailed("[A-Za-z]");
+                                matchFailed("[A-Za-z0-9]");
                             }
                         }
                     }
+                    if (result1 !== null) {
+                        result0 = [result0, result1];
+                    } else {
+                        result0 = null;
+                        pos = clone(pos1);
+                    }
                 } else {
                     result0 = null;
+                    pos = clone(pos1);
                 }
                 if (result0 !== null) {
-                    result0 = (function(offset, line, column, letters) { return letters.join(""); })(pos0.offset, pos0.line, pos0.column, result0);
+                    result0 = (function(offset, line, column, letters) { return flatten(letters); })(pos0.offset, pos0.line, pos0.column, result0);
                 }
                 if (result0 === null) {
                     pos = clone(pos0);
