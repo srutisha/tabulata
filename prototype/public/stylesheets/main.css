@@ -142,8 +142,7 @@ input[type=button] {
 }
 
 #headerbar {
-    padding-left:8pt;
-    padding-top:4pt;
+    padding-left:4pt;
     padding-bottom:4pt;
     font-color:black;
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(70%,#F9F9F9), color-stop(100%,#555));
@@ -159,6 +158,7 @@ input[type=button] {
     font-family: 'Fugaz One', cursive;
     font-size:35px;
     float:left;
+    padding-left:8pt;
 }
 
 #info {
@@ -172,6 +172,14 @@ input[type=button] {
 
 #detailheader {
     float: left;
+}
+
+#detailheader a {
+    margin-top: -2px;
+}
+
+#detailheader input {
+    margin-top: 5px;
 }
 
 #block-title {
@@ -222,13 +230,14 @@ input[type=button] {
 }
 
 #listselect {
-    margin-left:10px;
+    margin-left:15px;
 }
 
 input.listselect-active, input.listselect-inactive {
     width: 150px !important;
     display: inline !important;
     font-weight: bold;
+    margin-right: 8px !important;
 }
 
 input.listselect-active {
