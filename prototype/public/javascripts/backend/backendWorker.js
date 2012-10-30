@@ -2,6 +2,10 @@
 var isWebWorker = typeof(importScripts)!=="undefined";
 
 var includes = ['engine.js', 'datasource.js', 'interface/common.js', 'interface/engineMessage.js', '../lib/parser.js'];
+
+includes.push('engine.js', 'engine/context.js', 'engine/evaluators.js',
+              'engine/fn-include.js', 'engine/fn-singular.js', 'engine/fn-list.js', 'engine/fn-column.js');
+
 if (isWebWorker) {
     includes.forEach(function(i) {
         importScripts(i);
