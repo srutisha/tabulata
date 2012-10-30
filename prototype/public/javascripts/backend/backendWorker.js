@@ -100,8 +100,6 @@ postLog = function (msg) {
     }
 };
 
-console.log("here");
-
 if (isWebWorker) {
     onmessage = onmessageFunction;
 } else {
