@@ -181,30 +181,23 @@ ExpressionEvaluator.prototype.handleIdentifier = function (ac, name, param) {
         } else if (name == "If") {
             return this.handleIf(ac, param[0], param[1], param[2]);
         } else throw Error("List column not known: "+name);
-    } else if (ac.column) {
+    } else if (ac.column || ac.valueList) {
         switch (name) {
-            case "sum":
-            case "count":
-                return Node.c(".$_"+name+"()");
-            case "uniques":
-                return Node.c(".$_"+name+"()", NT.list);
             case "above":
+                if (ac.valueList) {
+                    throw Error("Above only for columns!");
+                }
                 return Node.c(".$V_above(idx0"+this.numericParams(param)+")");
             case "select":
             case "selectFirst":
                 if (param == undefined) throw Error(name + " needs param");
                 return this.handleSelect(name, ac, param[0]);
             default:
-                throw Error("column function not known: "+name);
-        }
-    } else if (ac.valueList) {
-        switch (name) {
-            case "sum":
-            case "count":
-                return Node.c(".$_"+name+"()");
-            case "uniques":
-                return Node.c(".$_"+name+"()", NT.list);
-            default:
+                if (ValueColumn.hasFunction(name)) {
+                    return Node.c(".$_"+name+"()");
+                } else if (ValueColumn.hasListFunction(name)) {
+                    return Node.c(".$l_"+name+"()", NT.list);
+                }
                 throw Error("value list function not known: "+name);
         }
     } else throw Error("cannot handle identifier here: "+name);

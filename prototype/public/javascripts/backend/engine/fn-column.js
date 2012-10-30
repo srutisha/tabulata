@@ -4,8 +4,20 @@ function ValueColumn(ctx, valueArray) {
     this.valueArray = valueArray;
 };
 
+ValueColumn.hasFunction = function (name) {
+    return ValueColumn.prototype['$_' + name] != undefined;
+};
+
+ValueColumn.hasListFunction = function (name) {
+    return ValueColumn.prototype['$l_' + name] != undefined;
+}
+
 ValueColumn.prototype.values = function() {
     return this.valueArray;
+};
+
+ValueColumn.prototype.$_mean = function () {
+    return this.$_count() == 0 ? 0 : this.$_sum() / this.$_count();
 };
 
 ValueColumn.prototype.$_sum = function () {
@@ -20,7 +32,7 @@ ValueColumn.prototype.$_count = function () {
     return this.values().length;
 };
 
-ValueColumn.prototype.$_uniques = function () {
+ValueColumn.prototype.$l_uniques = function () {
     return new ValueColumn(this.ctx, this.values().reduce(function (ar, ac) {
         if (ar.indexOf(ac) == -1) {
             ar.push(ac);
