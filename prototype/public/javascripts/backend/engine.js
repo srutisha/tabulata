@@ -105,7 +105,7 @@ Engine.prototype.sendSingulars = function (rr) {
         try {
             sgValue = sg.value();
         } catch (ex) {
-            console.log(ex);
+            console.error(ex);
             sgValue = "#ERR#";
         }
         var em = EngineMessage.updateSingularValue(sg.name(), sgValue);
@@ -124,7 +124,7 @@ Engine.prototype.sendChangedData = function (rr) {
                 rr(em);
             } catch (ex) {
                 rr(EngineMessage.updateColumnValues(col.listName(), col.name(), ["#ERR#"]));
-                console.log(ex);
+                console.error(ex);
             }
         }
 	});

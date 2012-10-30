@@ -116,35 +116,43 @@ ExpressionEvaluator.prototype.handleAccess = function (ac, data, operand) {
 
 ExpressionEvaluator.prototype.handleInclude = function (ac, data, operand) {
     var inc = this.ctx.includeByName(data.name);
-    var path = inc.symbol()+'.jsonData()';
     var self = this;
 
-    while (operand.type == 'access') {
-        path += '.' + operand.data.name;
-        operand = operand.operand;
-    }
+    var handleIndexAccess = function (paramObj) {
+        if (paramObj.param && paramObj.param.type && paramObj.param.type == 'indexed' && paramObj.param.name != '') {
+            return "["+self.handleIdentifier(ac, paramObj.param.name).exp+"]";
+        }
+        return "";
+    };
 
-    if (operand.type != 'identifier') {
-        throw new Error("JSON include must end in identifier");
+    var path = inc.symbol()+'.jsonData()' + handleIndexAccess(data);
+
+    var emptyBracketsObject = operand;
+
+    if (operand) {
+        while (operand.type == 'access') {
+            path += '.' + operand.data.name + handleIndexAccess(operand);
+            operand = operand.operand;
+        }
+
+        if (operand.type != 'identifier') {
+            throw new Error("JSON include must end in identifier");
+        } else {
+            path += '.' + operand.name + handleIndexAccess(operand);
+        }
     } else {
-        path += '.' + operand.name;
+        emptyBracketsObject = data;
     }
 
     var prefix = '('+inc.symbol()+'.jsonReady()?';
 
-    if (operand.param) {
-        if (operand.param.type && operand.param.type == 'indexed') {
-            if (operand.param.name == '') {
-                return Node.c(prefix+'new ValueColumn(ctx, Object.keys('+path+'))'+':new ValueColumn(ctx,[]))', NT.list);
-            } else {
-                return Node.c(prefix+path+"["+this.handleIdentifier(ac, operand.param.name).exp+"]"+':0)');
-            }
-        } else {
-            throw new Error("no parameter list allowed in JSON access")
-        }
+    if (emptyBracketsObject.param && emptyBracketsObject.param.type
+        && emptyBracketsObject.param.type == 'indexed' && emptyBracketsObject.param.name == '') {
+        return Node.c(prefix+'new ValueColumn(ctx, Object.keys('+path+'))'+':new ValueColumn(ctx,[]))', NT.list);
+    } else {
+        var exp = prefix+'$fn.$_safeValue(function(){return '+path+';}):NaN)';
+        return Node.c(exp);
     }
-
-
 };
 
 ExpressionEvaluator.prototype.numericParams = function (param) {
@@ -174,6 +182,8 @@ ExpressionEvaluator.prototype.handleIdentifier = function (ac, name, param) {
         } else if (this.ctx.singularByName(name) != undefined) {
             var sg = this.ctx.singularByName(name);
             return Node.c(sg.symbol()+".$V()");
+        } else if (this.ctx.includeByName(name)) {
+            return this.handleInclude(ac, {name: name, param: param}, null);
         } else if (name === "count") {
             return Node.c(ac.list.symbol()+".$_count()");
         } else if (name == "Sequence") {

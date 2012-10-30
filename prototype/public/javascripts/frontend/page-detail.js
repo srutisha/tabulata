@@ -119,7 +119,9 @@ DetailPageController.updateColumnEventReceived = function (data) {
         var value = values[i];
         if (isNumericColumn) {
             $("#"+id).addClass("control-type-number");
-            value = value.toFixed(numberOfAfterComma);
+            if (value) {
+                value = value.toFixed(numberOfAfterComma);
+            }
         }
         $("#"+id).val(value);
     }

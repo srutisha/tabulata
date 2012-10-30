@@ -202,6 +202,13 @@ function Context(engine, block) {
 
     this.$fn = new function () {};
 
+    this.$fn.$_safeValue = function (valFn) {
+        try {
+            return valFn();
+        } catch (e) {
+            return 0;
+        }
+    };
 
     this.$fn.$Sequence = function (zz, a) {
         var ret = new Array();
