@@ -1,12 +1,16 @@
-QUICK FEATURES
+FEATURES
 
 Delete Singulars/Columns
+
+Include : extend to be able to include JS for calculations
 
 ------------------------------------------------------------------------------------------
 
 ISSUES
 
-HIGH names are not validated (brackets, numbers should probably be possible)
+HIGH names are not validated (brackets should probably be possible)
+
+HIGH build such that only 1 JS file is served
 
 LOW only use jq data() , remove plain dataset access
 
@@ -22,10 +26,13 @@ MED refactor frontend code to not use column/list/singular name as it makes the 
     than necessary.
 
 MED "Sequence * 3" should probably work as a list expression
+    (-> when lv oder rv is list, apply binary functions to each item in list)
 
-MED If in singulars ?
+LOW split context into 2 objects:
+    (a) EngineContext for functionality called by the engine,
+    (b) ExecutionContext for functionality called during evaluation (in with (ctx))
 
-LOW in engine, use precise number library for calculations, number handling
+MED in engine, use precise number library for calculations, number handling
 
 ------------------------------------------------------------------------------------------
 
