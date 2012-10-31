@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4b3eff57-cb2b-4246-9719-f4ea477661a4" name="Default" comment="">
+    <list default="true" id="4b3eff57-cb2b-4246-9719-f4ea477661a4" name="Default" comment="backlog">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/public/javascripts/frontend/controls.js" afterPath="$PROJECT_DIR$/public/javascripts/frontend/page-detail-controls.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/public/javascripts/frontend/detailcontrols.js" afterPath="$PROJECT_DIR$/public/javascripts/frontend/page-detail-listfieldcontrols.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/public/javascripts/frontend/includes.js" afterPath="$PROJECT_DIR$/public/javascripts/frontend/page-detail-includescontrol.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/public/javascripts/frontend/page-detail.js" afterPath="$PROJECT_DIR$/public/javascripts/frontend/page-detail-controller.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/public/javascripts/frontend/pane.js" afterPath="$PROJECT_DIR$/public/javascripts/frontend/page-detail-pane.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/backlog.txt" afterPath="$PROJECT_DIR$/docs/backlog.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.ejs" afterPath="$PROJECT_DIR$/views/index.ejs" />
     </list>
     <ignored path="nodejs.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -70,15 +75,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="page-detail.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/page-detail.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="123" column="13" selection-start="3477" selection-end="3477" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="backendWorker.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/backend/backendWorker.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -88,17 +84,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fn-column.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/javascripts/backend/engine/fn-column.js">
+      <file leaf-file-name="page-detail-controller.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/page-detail-controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="9" selection-start="1736" selection-end="1736" vertical-scroll-proportion="0.0">
+            <state line="298" column="7" selection-start="9238" selection-end="9238" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tabulata-expression.peg" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/tabulata-expression.peg">
+      <file leaf-file-name="page-detail-includescontrol.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/page-detail-includescontrol.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
@@ -124,19 +120,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="context.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/javascripts/backend/engine/context.js">
+      <file leaf-file-name="page-detail-controls.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/page-detail-controls.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="208" column="20" selection-start="5634" selection-end="5634" vertical-scroll-proportion="0.0">
+            <state line="241" column="9" selection-start="6508" selection-end="6508" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="backlog.txt" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/docs/backlog.txt">
+      <file leaf-file-name="page-detail-pane.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/page-detail-pane.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="28" selection-start="358" selection-end="358" vertical-scroll-proportion="0.3559322">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="page-detail-listfieldcontrols.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/page-detail-listfieldcontrols.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -305,6 +310,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="javascripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nodejs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="prototype" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javascripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -705,7 +732,11 @@
       <created>1351670737784</created>
       <updated>1351670737784</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="backlog">
+      <created>1351675673520</created>
+      <updated>1351675673520</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -723,10 +754,10 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18263666" sideWeight="0.29106945" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22636656" sideWeight="0.29106945" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18263666" sideWeight="0.51157665" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22636656" sideWeight="0.51157665" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -771,7 +802,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="test file" />
+    <option name="LAST_COMMIT_MESSAGE" value="backlog" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -805,10 +836,10 @@
     <MESSAGE value="new jquery mobile" />
     <MESSAGE value="remove unnecessary log" />
     <MESSAGE value="split the engine" />
-    <MESSAGE value="backlog" />
     <MESSAGE value="refactor" />
     <MESSAGE value="bugfixes for json-load" />
     <MESSAGE value="test file" />
+    <MESSAGE value="backlog" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -818,51 +849,9 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="239" column="19" selection-start="3810" selection-end="3810" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="53" selection-start="1307" selection-end="1307" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/backend/engine/fn-singular.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="77" column="0" selection-start="1673" selection-end="1673" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/backend/datasource.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/backend/engine/fn-list.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="52" column="0" selection-start="1165" selection-end="1165" vertical-scroll-proportion="1.2717391">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/backend/backendWorker.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="14" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -888,9 +877,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/backend/engine/evaluators.js">
+    <entry file="file://$PROJECT_DIR$/tabulata-1/WebContent/test-json/bitcoin_rates.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="212" selection-end="212" vertical-scroll-proportion="0.0">
+        <state line="0" column="33" selection-start="33" selection-end="33" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/side-pane.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -902,30 +898,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/page-detail.js">
+    <entry file="file://$PROJECT_DIR$/public/javascripts/backend/backendWorker.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="123" column="13" selection-start="3477" selection-end="3477" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tabulata-1/WebContent/test-json/bitcoin_rates.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="33" selection-start="33" selection-end="33" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/backend/engine/context.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="208" column="20" selection-start="5634" selection-end="5634" vertical-scroll-proportion="0.0">
+        <state line="6" column="14" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/backlog.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="28" selection-start="358" selection-end="358" vertical-scroll-proportion="0.3559322">
+        <state line="14" column="28" selection-start="358" selection-end="358" vertical-scroll-proportion="0.36734694">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/backend/engine/context.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="208" column="20" selection-start="5634" selection-end="5634" vertical-scroll-proportion="5.2881355">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/backend/engine/evaluators.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="0" selection-start="212" selection-end="212" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/page-detail-listfieldcontrols.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/page-detail-controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="298" column="7" selection-start="9238" selection-end="9238" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/page-detail-pane.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/page-detail-controls.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="241" column="9" selection-start="6508" selection-end="6508" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/frontend/page-detail-includescontrol.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
