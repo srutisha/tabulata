@@ -87,7 +87,6 @@ function Column(ctx, list, content) {
         return content.valueFunction;
     }
 
-    //TODO NOT GOOD!! BAD PROGRAMMER!
     this.getContent = function () {
         return content;
     };
@@ -149,8 +148,7 @@ function Column(ctx, list, content) {
     };
 
     this.$V = function(idx) {
-        if (valueCache[idx] != undefined) return valueCache[idx];
-        return ObjUtil.stringToObject(this.values()[idx]);
+        return valueCache[idx] || ObjUtil.stringToObject(this.values()[idx]);
     };
 
     this.evaluate = function () {
