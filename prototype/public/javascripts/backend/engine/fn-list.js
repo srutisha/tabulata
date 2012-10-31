@@ -34,14 +34,14 @@ function List(ctx, _list) {
 
     this.jsonData = function () {
         var cols = ctx.columnsByListObj(self).map(function (col) { return col.jsonData(); });
-        return this.isAggregated ? {
+        var obj = {
             'name': _list.name,
-            'columns': cols
-        } : {
-            'name': _list.name,
-            'numRows': this.numRows(),
             'columns': cols
         };
+        if (! this.isAggregated) {
+            obj['numRows'] = this.numRows();
+        }
+        return obj;
     };
 
     this.update = function (listData) {
