@@ -4,6 +4,10 @@ Delete Singulars/Columns
 
 Include : extend to be able to include JS for calculations
 
+CSV Import http://code.google.com/p/jquery-csv/ , https://developer.mozilla.org/en-US/docs/DOM/FileReader
+
+JSON Export (Server-Side)
+
 ------------------------------------------------------------------------------------------
 
 ISSUES
@@ -33,6 +37,8 @@ LOW split context into 2 objects:
     (b) ExecutionContext for functionality called during evaluation (in with (ctx))
 
 MED in engine, use precise number library for calculations, number handling
+
+MED improve frontend-code (use some library)
 
 ------------------------------------------------------------------------------------------
 
