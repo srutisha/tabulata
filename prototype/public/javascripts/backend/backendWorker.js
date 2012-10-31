@@ -6,18 +6,27 @@ var includes = ['engine.js', 'datasource.js', 'interface/common.js', 'interface/
 includes.push('engine.js', 'engine/context.js', 'engine/evaluators.js',
               'engine/fn-include.js', 'engine/fn-singular.js', 'engine/fn-list.js', 'engine/fn-column.js');
 
-if (isWebWorker) {
-    includes.forEach(function(i) {
-        importScripts(i);
-    });
-    importScripts('../lib/pollen-0.1.91.js');
 
+postLog = function (msg) {
+    if (isWebWorker) {
+        postMessage({eventName:"log", msg:msg})	;
+    } else {
+        console.log("worker:");
+        console.log(msg);
+    }
+};
+
+if (isWebWorker) {
     console = function () {};
 
     console.log = function(msg) {
         postLog("engine.js: "+msg);
     };
 
+    includes.forEach(function(i) {
+        importScripts(i);
+    });
+    importScripts('../lib/pollen-0.1.91.js');
 } else {
     includes.forEach(function(i) {
         $.ajax({
@@ -92,16 +101,6 @@ var onmessageFunction = function(message) {
     // for now, do this on any message
     DataSource.updateBlock(engine.blockJson());
 	engine.sendChangedData(resultReceiver);
-};
-
-
-postLog = function (msg) {
-    if (isWebWorker) {
-    	postMessage({eventName:"log", msg:msg})	;
-    } else {
-        console.log("worker:");
-        console.log(msg);
-    }
 };
 
 if (isWebWorker) {

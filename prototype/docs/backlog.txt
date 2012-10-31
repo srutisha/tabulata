@@ -38,6 +38,8 @@ MED in engine, use precise number library for calculations, number handling
 
 MED improve frontend-code (use some library)
 
+LOW make WebWorker-usable again.
+
 ------------------------------------------------------------------------------------------
 
 EDITING OF LIST

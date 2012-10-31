@@ -7,7 +7,7 @@ var ajaxFailer = function(jqx, status) {
 };
 
 DataSource.getBlocks = function (blockWork) {
-    $.ajax('/user/'+DataSource.user)
+    $.ajax({url: '/user/'+DataSource.user})
         .done(function(blockReply) {
             blockReply.blocks.forEach(function (blockUuid) {
                 DataSource.onBlockWithId(blockUuid, blockWork);

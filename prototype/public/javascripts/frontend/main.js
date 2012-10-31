@@ -61,7 +61,6 @@ var MockWorker = function (workerUrl) {
 }
 
 EngineFront.prototype.messageHandler = function (event) {
-    console.log(event.data);
     if (event.data.eventName == "blockDataMessage") {
         HomePageController.load([event.data.data]);
     }
@@ -81,8 +80,6 @@ EngineFront.prototype.messageHandler = function (event) {
 
 
 EngineFront.prototype.sendEvent = function (frontendMessage) {
-	console.log("Sending message .. ");
-	console.log(frontendMessage);
     frontendMessage.user = user;
 	this.worker.postMessage(frontendMessage);
 };

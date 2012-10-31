@@ -569,7 +569,7 @@
         /**
          Ajax
          */
-        ajax: {
+        _ajax: {
             _options: {
                 url: "",
                 data: "",
@@ -590,7 +590,7 @@
              **/
             get: function(request) {
                 request.type = "GET";
-                this._ajax(request);
+                Pollen._ajax._ajax(request);
             },
             /**
              *  $.ajax.post( request ) -> Implemented. Documention incomplete.
@@ -600,7 +600,7 @@
              **/
             post: function(request) {
                 request.type = "POST";
-                this._ajax(request);
+                Pollen._ajax._ajax(request);
             },
             _ajax: function(request) {
                 var options   = Pollen.object.extend( this._options, request ),
@@ -620,7 +620,7 @@
                 }
 
                 if (_xhr) {
-                    Pollen.ajax._confXHR(_xhr, options, json, ajaxSuccess);
+                    Pollen._ajax._confXHR(_xhr, options, json, ajaxSuccess);
                     _xhr.open(options.type, options.url, options.async);
 
                     if ( _type == "post" ) {
@@ -989,7 +989,7 @@
         return WorkerOnMessage;
     };
 
-    p.ajax = $.ajax  = Pollen.ajax;
+    p.ajax = $.ajax  = Pollen._ajax.get;
 
     //  Sub Module Objects to attach to Pollen/$ root
     ("identify date string evaluate reflection array func object data json worker")
