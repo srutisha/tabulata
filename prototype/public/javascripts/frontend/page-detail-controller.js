@@ -189,6 +189,11 @@ DetailPageController.attachSingularEvents = function () {
     });
 
 
+    $("#stbl").on("input", ".inp-key", function (event) {
+        DetailPageController.validateKeyPressed(event);
+    });
+
+
     $("#stbl").on("focusout", ".inp-key", function (event) {
         if ($(event.target).data("oldValue") != event.target.value) {
             DetailPageController.handleSingularNameChangedEvent(event);
@@ -227,6 +232,20 @@ DetailPageController.handleSingularNameChangedEvent = function (event) {
 var ColumnValueChangeHandler = function(e, v) {
     // a lambda such that "this" will be set to ef and not the window object when passing the function as reference
     return DetailPageController.handleColumnValueChangeEvent(e, v);
+};
+
+DetailPageController.validateKeyPressed = function (event) {
+    var $e = $(event.target);
+    var value = $e.val();
+    var pattern = /[^0-9A-Za-z ]/g;
+    if (value.match(pattern)) {
+        var idx = $e[0].selectionStart;
+        $e.val(value.replace(pattern, ""));
+        window.setTimeout(function() {
+            $e[0].setSelectionRange(idx, idx);
+        },0);
+        $e.css({"background-color": '#e88'}).delay(150).queue(function (){$(this).css({"background-color": ""}); $(this).dequeue();});
+    }
 };
 
 DetailPageController.attachListEvents = function () {
@@ -286,6 +305,10 @@ DetailPageController.attachListEvents = function () {
             event.stopImmediatePropagation();
             focusScrollblock(event.target, event);
         }
+    });
+
+    $("#mtbl").on("input", ".hed-act", function (event) {
+        DetailPageController.validateKeyPressed(event);
     });
 
     $("#mtbl").on("focusout", ".hed-act", function (event) {

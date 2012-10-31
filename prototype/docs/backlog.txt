@@ -12,8 +12,6 @@ JSON Export (Server-Side)
 
 ISSUES
 
-HIGH names are not validated (brackets should probably be possible)
-
 HIGH build such that only 1 JS file is served
 
 LOW only use jq data() , remove plain dataset access
