@@ -12,7 +12,8 @@
     "underscore": "*",
     "redis": "0.8.x",
     "nconf": "*",
-    "async": "*"
+    "async": "*",
+    "igneous": "*"
   },
   "subdomain": "tabulata",
   "engines": {

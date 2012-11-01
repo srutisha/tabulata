@@ -1,12 +1,6 @@
 
 var isWebWorker = typeof(importScripts)!=="undefined";
 
-var includes = ['engine.js', 'datasource.js', 'interface/common.js', 'interface/engineMessage.js', '../lib/parser.js'];
-
-includes.push('engine.js', 'engine/context.js', 'engine/evaluators.js',
-              'engine/fn-include.js', 'engine/fn-singular.js', 'engine/fn-list.js', 'engine/fn-column.js');
-
-
 postLog = function (msg) {
     if (isWebWorker) {
         postMessage({eventName:"log", msg:msg})	;
@@ -23,18 +17,7 @@ if (isWebWorker) {
         postLog("engine.js: "+msg);
     };
 
-    includes.forEach(function(i) {
-        importScripts(i);
-    });
     importScripts('../lib/pollen-0.1.91.js');
-} else {
-    includes.forEach(function(i) {
-        $.ajax({
-            url: '/javascripts/backend/'+i,
-            dataType: 'script',
-            async: false
-        });
-    });
 }
 
 var engine;

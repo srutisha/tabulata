@@ -10,21 +10,22 @@ var express = require('express')
       , http = require('http')
       , path = require('path')
       , redis = require("redis")
-      , tabulataData = require("./data/index")
+      , tabulataData = require("./app/server/data")
       , async = require("async")
-      , nconf = require('nconf');
+      , nconf = require('nconf')
+      , igneous = require('igneous');
 
 var app = express();
 
 nconf.file({ file: './config/config.json' });
 
-var dbKey = process.env.NODE_ENV || "local";
+var environment = process.env.NODE_ENV || "local";
 
-console.log("have db-key: "+dbKey);
+console.log("have db-key: "+environment);
 
-var port = nconf.get('database-'+dbKey+':port'),
-    host = nconf.get('database-'+dbKey+':host'),
-    pass = nconf.get('database-'+dbKey+':password');
+var port = nconf.get('database-'+environment+':port'),
+    host = nconf.get('database-'+environment+':host'),
+    pass = nconf.get('database-'+environment+':password');
 
 var db = redis.createClient(port, host);
 
@@ -33,6 +34,31 @@ db.auth(pass, function (err) {
         throw err;
     }
 });
+
+var igneous_middleware = igneous({
+    root: __dirname +'/app',
+    minify: environment == 'production',
+    flows: [
+        {
+            route: 'scripts/application-frontend.js',
+            type: 'js',
+            paths: [
+                'client/frontend',
+                'interface'
+            ]
+        },
+        {
+            route: 'scripts/application-backend.js',
+            type: 'js',
+            paths: [
+                'client/backend',
+                'engine',
+                'generated',
+                'interface'
+            ]
+        }
+    ]
+})
 
 
 db.on("error", function (err) {
@@ -51,6 +77,7 @@ app.configure(function(){
         res.header('Access-Control-Allow-Origin', '*');
         next();
     });
+    app.use( igneous_middleware );
     app.use(app.router);
     app.use(require('stylus').middleware(__dirname + '/public'));
     app.use(express.static(path.join(__dirname, 'public')));

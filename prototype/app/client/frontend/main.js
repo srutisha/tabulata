@@ -21,7 +21,7 @@ function loadDetailPage(block) {
 
 function EngineFront() {
 	var self = this;
-	this.worker = new MockWorker("/javascripts/backend/backendWorker.js");
+	this.worker = new MockWorker("/scripts/application-backend.js");
     //this.worker = new Worker("/javascripts/backend/backendWorker.js");
 
     this.worker.onmessage = function(event) {
@@ -32,7 +32,9 @@ function EngineFront() {
 		console.log("Worker error: " + error.message + " in "+error.filename+":"+error.lineno+"\n");
 		throw error;
 	};
-}
+};
+
+var __MW;
 
 var MockWorker = function (workerUrl) {
 
