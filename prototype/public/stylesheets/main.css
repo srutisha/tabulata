@@ -161,6 +161,12 @@ input[type=button] {
     padding-left:8pt;
 }
 
+#title .small {
+    font-size: 13px;
+    margin-left: 9px;
+    vertical-align: 90%;
+}
+
 #info {
     font-size: 10pt;
     padding-top:10pt;
