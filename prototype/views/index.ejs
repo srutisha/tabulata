@@ -21,6 +21,8 @@
 
 <script src="/javascripts/lib/underscore-1.4.2.js"></script>
 
+<script src="http://jquery-csv.googlecode.com/files/jquery.csv-0.64.min.js"></script>
+
 <script src="/scripts/application-frontend.js"></script>
 
 </head>
@@ -88,6 +90,11 @@
     <div id="includes" class="detail-popup"><h2>Includes</h2>
         <div id="includes-list"></div>
         <div id="includes-add"><a id="add-button" href="#" data-role="button" data-icon="gear" data-inline="true" data-mini="true">Add</a></div>
+    </div>
+    <div id="pane-import" class="detail-popup"><h2>Import CSV</h2>
+        <input type="file" id="input" />
+        <a id="import-button" href="#" data-role="button" data-icon="gear" data-inline="true" data-mini="true">Execute</a>
+        <a id="import-cancel" href="#" data-role="button" data-icon="back" data-inline="true" data-mini="true">Cancel</a>
     </div>
 </div>
 <div id="clickCounter" style="display:none;"></div>

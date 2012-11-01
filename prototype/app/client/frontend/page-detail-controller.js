@@ -4,7 +4,7 @@ function DetailPageController () {
 
 }
 
-var sc, lc, il, lsc, incc;
+var sc, lc, il, lsc, incc, impc;
 
 DetailPageController.init = function () {
     sc = new SingularControl();
@@ -16,6 +16,8 @@ DetailPageController.init = function () {
     lsc = new ListSelectControl();
 
     incc = new IncludesControl();
+
+    impc = new ImportControl();
 
     DetailPageController.attachEvents();
     EditPane.attachEvents();
@@ -83,6 +85,11 @@ DetailPageController.attachSelectControlEvents = function () {
 
     $("#listselect").on("tap", "#listselect-new-list", function (event) {
         lsc.createNew();
+        event.preventDefault();
+    });
+
+    $("#listselect").on("tap", "#listselect-import-list", function (event) {
+        impc.open();
         event.preventDefault();
     });
 

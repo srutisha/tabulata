@@ -111,11 +111,11 @@ function ListSelectControl() {
             .attr("readonly", true);
     };
 
-    function initListControl(idx) {
+    var initListControl = function (idx) {
         lc.init(idx, lists[idx]);
         il.update();
         sc.updateOffset();
-    }
+    };
 
     this.selected = function (targetElem) {
         disableActive();
@@ -129,7 +129,6 @@ function ListSelectControl() {
     };
 
     this.createNew = function () {
-        $('#no-list-message').hide();
         var listData = {
             name: 'List',
             numRows: 1,
@@ -138,9 +137,13 @@ function ListSelectControl() {
                     name: 'Column',
                     values: ['']
                 }
-                ]
+            ]
         };
+        this.createNewWithData(listData);
+    };
 
+    this.createNewWithData = function (listData) {
+        $('#no-list-message').hide();
         var idx = lists.length;
 
         this.activeIndex = idx;
@@ -175,12 +178,20 @@ function ListSelectControl() {
         lists.forEach(function (list, idx) {
             $(idx == self.activeIndex ? self.renderActive(idx, list) : self.renderToSelect(idx, list)).appendTo("#listselect");
         });
-        $("#listselect").append(this.renderNew());
+        $("#listselect").append(this.renderNew()).append(this.renderImport());
         $("#listselect").trigger('create');
     };
 
     this.renderNew = function () {
-        var btn = html.crelem("a", "New", "listselect-new-list");
+        return this.renderAddButton("New", "listselect-new-list");
+    };
+
+    this.renderImport = function () {
+        return this.renderAddButton("Import", "listselect-import-list");
+    };
+
+    this.renderAddButton = function (id, text) {
+        var btn = html.crelem("a", id, text);
 
         // setting the dataset property as .dataset = {..} doesn't work.
         btn.dataset.role = "button";

@@ -2,7 +2,7 @@
 function EngineMessage(eventName, appliesTo) {
 	 this.eventName = eventName;
 	 this.appliesTo = appliesTo;
-}
+};
 
 EngineMessage.updateSingularValue = function(sgName, value) {
 	var em = new EngineMessage("updateSingular", sgName);

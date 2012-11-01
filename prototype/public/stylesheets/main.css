@@ -444,13 +444,17 @@ input.listselect-inactive {
     -webkit-margin-start: 0px;
 }
 
-#includes {
+#includes , #pane-import {
     position: fixed;
     top: 55px;
     left:150px;
     width:580px;
     display: none;
     z-index:105;
+}
+
+#pane-import input {
+    width: 300px;
 }
 
 #includes h2 {
