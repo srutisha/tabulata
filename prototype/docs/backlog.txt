@@ -14,6 +14,8 @@ ISSUES
 
 HIGH build such that only 1 JS file is served
 
+MED redis -> mongodb (hosted redis seems to drop documents)
+
 LOW only use jq data() , remove plain dataset access
 
 MED touch-selecting: if holding longer than a bit (ie. click-event gets fired (working assumption)), then
