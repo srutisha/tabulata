@@ -140,7 +140,11 @@ DetailPageController.updateSingularEventReceived = function (data) {
     if (inp.data("locked")) {
         return;
     }
-    inp.val(data.value);
+    var value = data.value;
+    if (ObjUtil.isNumber(value)) {
+        value = Math.round(value*10000)/10000;
+    }
+    inp.val(value);
 };
 
 DetailPageController.attachSingularEvents = function () {

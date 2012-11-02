@@ -10,9 +10,9 @@ display parsing error while writing
 
 Round function (needs "Number" object)
 
-round singulars to 4 places after decimal
-
 GUI: provide all lists & columns
+
+selectFirst: should return 0 when nothing selected?
 
 ------------------------------------------------------------------------------------------
 
