@@ -92,6 +92,10 @@ function ListSelectControl() {
 
     this.activeIndex = 0;
 
+    this.listsSource = function () {
+        return lists;
+    };
+
     this.init = function (_lists) {
         lists = _lists;
         this.activeIndex = 0;

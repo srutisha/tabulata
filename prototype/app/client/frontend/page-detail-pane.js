@@ -6,8 +6,6 @@ function EditPane () {
 EditPane.attachEvents = function () {
 	$('.radio-coltype').change(function (event) {
 		$('#pane-edit-expression').toggle(event.target.id == 'radio-coltype-valueFunction');
-		//EditPane.showPaneForHeader(EditPane.lastClicked, event.target.id == 'radio-coltype-values');
-
 	});
 
 	$("#pane-apply").on("tap", function (event) {
@@ -24,6 +22,20 @@ EditPane.attachEvents = function () {
 	$("#pane-value-function").on("focus", function(event) {
 		EditPane.isEditingFunction = true;
 	});
+
+    $('#quickselect-container').on("tap", "a", function (event) {
+        var $e = $(event.target);
+        var name = $e.text();
+        var list = $e.siblings('.list-name').text();
+
+        if ($(".listselect-active").val() != list) {
+            name = list+"."+name;
+        }
+
+        EditPane.insertNameInFormula(normalizeName(name));
+
+        event.preventDefault();
+    });
 };
 
 EditPane.visible = false;
@@ -35,18 +47,22 @@ EditPane.singularKeyPushed = function(event) {
 	return EditPane.headerColumnPushed(event);
 };
 
+EditPane.insertNameInFormula = function (name) {
+    if (EditPane.isEditingFunction) {
+        var currentFormula = $("#pane-value-function").val();
+        var name = normalizeName(name);
+        var idx = $("#pane-value-function")[0].selectionStart;
+        var newFormula = currentFormula.substr(0, idx) + name + currentFormula.substr(idx);
+        $("#pane-value-function").val(newFormula);
+        $("#pane-value-function").focus();
+        $("#pane-value-function")[0].setSelectionRange(idx + name.length, idx + name.length);
+        return true;
+    }
+    return false;
+};
+
 EditPane.headerColumnPushed = function(event) {
-	if (EditPane.isEditingFunction) {
-		var currentFormula = $("#pane-value-function").val();
-		var name = normalizeName($(event.target).val());
-		var idx = $("#pane-value-function")[0].selectionStart;
-		var newFormula = currentFormula.substr(0, idx) + name + currentFormula.substr(idx);
-		$("#pane-value-function").val(newFormula);
-		$("#pane-value-function").focus();
-		$("#pane-value-function")[0].setSelectionRange(idx + name.length, idx + name.length);
-		return true;
-	}
-	return false;
+	return EditPane.insertNameInFormula($(event.target).val());
 };
 
 EditPane.savePane = function () {
@@ -129,6 +145,7 @@ EditPane.showPaneForHeader = function(inputElem, isValues) {
 		$('#radio-coltype-valueFunction').prop("checked", true).checkboxradio("refresh");
 		$('#radio-coltype-values').prop("checked", false).checkboxradio("refresh");
 		$('#pane-edit-expression').toggle(true);
+        EditPane.updateQuickselect();
 	}
 
     var dataType = lc.getColumnDataType(idParts[2]);
@@ -150,7 +167,6 @@ EditPane.showPaneForHeader = function(inputElem, isValues) {
 	}
 
 	EditPane.highlightColumn(inputElem);
-
 	EditPane.show();
 };
 
@@ -177,8 +193,6 @@ EditPane.hide = function () {
 
 
 EditPane.focusEvent = function (event) {
-	console.log("focus event");
-	console.log(event);
 	if (! EditPane.visible) return;
 
 	if ($(event.target).closest("#pane").length>0) {
@@ -188,3 +202,9 @@ EditPane.focusEvent = function (event) {
 	EditPane.dismissPane();
 };
 
+EditPane.updateQuickselect = function () {
+    var source   = $("#quickselect-template").html();
+    var template = Handlebars.compile(source);
+    var quickselect = template({lists: lsc.listsSource()});
+    $('#quickselect-container').html(quickselect);
+};

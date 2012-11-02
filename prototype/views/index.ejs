@@ -22,6 +22,19 @@
 
 <script src="/scripts/application-frontend.js"></script>
 
+<script id="quickselect-template" type="text/x-handlebars-template">
+  <div id="quickselect">
+      {{#lists}}
+        <div class="list">
+            <span class="list-name">{{name}}</span>
+            {{#columns}}
+                <a href="#">{{name}}</a>
+            {{/columns}}
+        </div>
+      {{/lists}}
+  </div>
+</script>
+
 </head>
 <script>
  function BlockMove(event) {
@@ -77,10 +90,11 @@
             <input class="radio-datatype" id="radio-datatype-boolean" type="radio" name="data_type" value="boolean" />
             <label for="radio-datatype-boolean">Boolean</label>
         </fieldset>
-    <p id="pane-edit-expression" class="pane-gui-element">
+    <div id="pane-edit-expression" class="pane-gui-element">
     <span>Column Expression</span> <br/>
     <input id="pane-value-function" class="pane-input"/>
-    </p>
+    <div id="quickselect-container"></div>
+    </div>
     <input id="pane-apply" data-inline="true" class="pane-button" type="button" value="Apply" />
     <input id="pane-cancel" data-inline="true" class="pane-button" type="button" value="Cancel" />
     </div>

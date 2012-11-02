@@ -73,6 +73,14 @@ input[type=button] {
     width:100px;
 }
 
+#quickselect a {
+    color: #3373a5;
+}
+
+#quickselect a:hover {
+    color: #439dd9;
+}
+
 .add-button {
     width:1.5em;
 
