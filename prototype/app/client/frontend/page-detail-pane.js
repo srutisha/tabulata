@@ -136,6 +136,8 @@ EditPane.showPaneForHeader = function(inputElem, isValues) {
 	var idParts = inputElem.id.split(/_/);
 	var exp = $("#"+Symbols.columnRowSymbol(idParts[1], idParts[2], "H")).data("exp");
 
+    EditPane.updateQuickselect();
+
 	if (isValues) {
 		// it's a values column
 		$('#radio-coltype-values').prop("checked", true).checkboxradio("refresh");
@@ -145,7 +147,6 @@ EditPane.showPaneForHeader = function(inputElem, isValues) {
 		$('#radio-coltype-valueFunction').prop("checked", true).checkboxradio("refresh");
 		$('#radio-coltype-values').prop("checked", false).checkboxradio("refresh");
 		$('#pane-edit-expression').toggle(true);
-        EditPane.updateQuickselect();
 	}
 
     var dataType = lc.getColumnDataType(idParts[2]);
