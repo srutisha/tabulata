@@ -43,6 +43,7 @@ var igneous_middleware = igneous({
             route: 'scripts/application-frontend.js',
             type: 'js',
             paths: [
+                'lib-distr',
                 'client/frontend',
                 'interface'
             ]

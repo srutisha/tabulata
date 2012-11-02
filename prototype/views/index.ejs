@@ -18,9 +18,6 @@
 
 <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
-
-<script src="/javascripts/lib/underscore-1.4.2.js"></script>
-
 <script src="http://jquery-csv.googlecode.com/files/jquery.csv-0.64.min.js"></script>
 
 <script src="/scripts/application-frontend.js"></script>
@@ -58,7 +55,7 @@
     </div>
     <div id="mainwrapper">
     <div id="main">
-    <div id="no-list-message">There is no list yet.<br/>Create one using the "New" button above.</div>
+    <div id="no-list-message">There is no list yet.<br/>Create one using the "New" or "Import" buttons above.</div>
     <table id="mtbl">
     </table>
     </div>
@@ -91,10 +88,13 @@
         <div id="includes-list"></div>
         <div id="includes-add"><a id="add-button" href="#" data-role="button" data-icon="gear" data-inline="true" data-mini="true">Add</a></div>
     </div>
-    <div id="pane-import" class="detail-popup"><h2>Import CSV</h2>
-        <input type="file" id="input" />
+    <div id="pane-import"><h2>Import CSV</h2>
+<br>
+        Name: <input id="import-name" type="text" />
+        <input id="import-file" class="ui-shadow-inset" type="file" id="input" />
+        <div id="import-error"></div>
         <a id="import-button" href="#" data-role="button" data-icon="gear" data-inline="true" data-mini="true">Execute</a>
-        <a id="import-cancel" href="#" data-role="button" data-icon="back" data-inline="true" data-mini="true">Cancel</a>
+        <a id="import-cancel" class="simplemodal-close" href="#" data-role="button" data-icon="back" data-inline="true" data-mini="true">Cancel</a>
     </div>
 </div>
 <div id="clickCounter" style="display:none;"></div>

@@ -3,45 +3,53 @@ ImportControl = function () {
     var self = this;
 
     $("#pane-import").on("tap", "#import-button", function (event) {
-        var files = $("#pane-import input")[0].files;
+        var files = $("#pane-import #import-file")[0].files;
+        var name = $("#import-name").val();
 
-        // "FileList" cannot do iterable
-        for (var i = 0; i < files.length; i++) {
-            self.importFile (files.item(i));
+        if (!name || name.length == 0) {
+            self.showError("Set a name", "name");
+        } else if (!files || files.length < 1) {
+            self.showError("Select a file", "file");
+        } else {
+            // "FileList" cannot do iterable
+            for (var i = 0; i < files.length; i++) {
+                self.importFile (name, files.item(i));
+            }
+            $.modal.close();
         }
-        $("#pane-import").hide();
-        event.preventDefault();
-    });
-
-    $("#pane-import").on("tap", "#import-cancel", function (event) {
-        $("#pane-import").hide();
         event.preventDefault();
     });
 };
 
-ImportControl.prototype.importFile = function (file) {
+ImportControl.prototype.showError = function (text, field) {
+    $("#import-name, #import-file").removeClass("error");
+    $('#import-error').html(text);
+    if (field) {
+        $("#import-"+field).addClass("error");
+    }
+};
+
+ImportControl.prototype.importFile = function (name, file) {
     var self=this, reader = new FileReader();
     reader.readAsText(file);
     reader.onload = function () {
         var csv = reader.result;
         var arrays = $.csv.toArrays(csv);
-        var listData = self.toListData(arrays);
+        var listData = self.toListData(name, arrays);
         lsc.createNewWithData(listData);
     };
 };
 
-ImportControl.allListIndex = 0;
-
-ImportControl.prototype.toListData = function (array) {
+ImportControl.prototype.toListData = function (name, array) {
     array = array.filter(function(e) {return e != undefined; } ); // chop off empty lines at the end
 
     if (array.length < 1) {
-        throw new Error("Too Small.");
+        this.showError("No valid contents", "file");
     }
 
     var list = {};
     list.numRows = array.length - 1; // assume a header
-    list.name = 'Imported List ' + (ImportControl.allListIndex++);
+    list.name = name;
     list.columns = [];
 
 
@@ -57,5 +65,6 @@ ImportControl.prototype.toListData = function (array) {
 };
 
 ImportControl.prototype.open = function () {
-    $("#pane-import").show();
+    this.showError("&nbsp;");
+    $("#pane-import").modal();
 };
