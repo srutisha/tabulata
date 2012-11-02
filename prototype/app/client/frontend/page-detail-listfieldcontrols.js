@@ -148,6 +148,8 @@ BooleanControl.doRender = function (id, className, value) {
     // TODO: make jqm render this as a slider
     var selectId = id+"-select";
 
+    value = ObjUtil.stringToObject(value);
+
     var label = html.crelem("label", "OnOff");
     label.htmlFor = selectId;
     label.className = "ui-hidden-accessible";
