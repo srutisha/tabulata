@@ -6,6 +6,14 @@ Include : extend to be able to include JS for calculations
 
 JSON Export (Server-Side)
 
+display parsing error while writing
+
+Round function (needs "Number" object)
+
+round singulars to 4 places after decimal
+
+GUI: provide all lists & columns
+
 ------------------------------------------------------------------------------------------
 
 ISSUES
