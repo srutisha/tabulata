@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>tabulata</title>
+    <link rel="stylesheet" type="text/css" href="assets/main.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+    <script>
+
+        WebFontConfig = {
+            google: { families: [ 'Fugaz One', 'Anaheim', 'Share Tech Mono', 'Droid Sans' ] },
+            active: function() {
+
+            }
+        };
+        (function() {
+            var wf = document.createElement('script');
+            wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+                    '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+            wf.type = 'text/javascript';
+            wf.async = 'true';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(wf, s);
+        })();
+    </script>
+</head>
+<body>
+<div id="maincontent">
+<p><span class="title">tabulata</span> calculates and aggregates <strong>list-based
+    data</strong>. Its function expressions are versatile and easy to read and use.</p>
+
+<p>
+    Currently, <span class="tabulata">tabulata</span> exists as a functional prototype to explore some ideas I
+    had to improve on the current spreadsheet/database divide. It takes its inspiration from
+    <a href="http://www.lastcalc.com/" target="_blank">LastCalc</a> and
+    <a href="http://www.acqualia.com/soulver/" target="_blank">Soulver</a>, but the basic idea existed before I even
+    knew about these products.
+</p>
+
+<p>
+    Instead of work sheets with arbitrary coordinates-based addressing, <span class="tabulata">tabulata</span> forces
+    you to name everything which can be referenced and has an explicit concept of lists.
+</p>
+
+<p class="open-app">&rsaquo;&rsaquo; Open up <a href="http://tabulata.jit.su/" target="_blank">the application</a>
+    now. It already contains some examples.</p>
+
+    <p>The budget example is outlined below in more detail. It introduces the terminology and showcases the
+        way <span class="tabulata">tabulata</span> lets you manipulate <strong>lists</strong>, <strong>values</strong>
+        and <strong>expressions</strong>.</p>
+
+<h2>Key Concepts</h2>
+
+<div class="example">
+    <div class="home-block-container"><div class="home-block-delete">×</div><div class="home-block-title">Budget</div><div class="home-block-lists">Control &nbsp;•&nbsp;&nbsp;Budget &nbsp;•&nbsp;&nbsp;Transactions</div><dt>Total Spent</dt><dd>156.5</dd><dt>Total Budgeted</dt><dd>140</dd><dt>Number Of Transactions</dt><dd>5</dd><dt>Spent In Categories Over Budget</dt><dd>138.5</dd></div>
+</div>
+
+<p>A <strong>block</strong> is a collection of <strong>lists</strong> and <strong>singulars</strong>.
+    It is displayed on the <strong>home screen</strong> in condensed form,
+    as shown here. Selecting the block opens it for editing.</p>
+
+<p>In a block, calculated values are displayed, the expression generating the value can be edited when
+    the calculated value is clicked.</p>
+
+<p>A singular associates a name with an expression. When the singular is <strong>starred</strong>, it appears in the
+    condensed block on the home screen. To edit a singular, click the value.</p>
+
+<p>A list is named and consists of columns. A <strong>column</strong> contains either values or an expression.
+    Columns and rows are appended using the „+“-buttons.</p>
+
+<h2>Calculation</h2>
+
+<p>In an expression,  <code>ListName.ColumnName</code> references the contained or calculated data in list form. On that
+    <strong>list object</strong> functions like <code>sum</code>, <code>count</code> and <code>select</code> are called
+    using <code>ListName.ColumnName.functionName</code>.</p>
+
+<p>A <strong>column expression</strong> is calculated for each row of the list. <code>ColumnName</code> accesses the
+    corresponding value in the same row, <code>ColumnName.above</code> the value one row above. Singulars can be
+    referenced.
+</p>
+
+<p>A <strong>list aggregation</strong> is created with an expression which returns a list in the first column. In the
+    example <code>uniques</code> returns a list with each value of the referenced column contained once. Aggregated
+    data is then calculated in the other columns by using <code>select</code> and <code>sum</code> over the other table
+    columns.
+</p>
+
+<h2>Include External Data</h2>
+<p>Using <strong>includes</strong>, external data sources can be directly accessed inside a block. Currently implemented
+for arbitrary <code>JSON</code> APIs, once mapped to a name, the data inside the object tree can be used for creating
+and manipulating lists. See the <strong>Currency Portfolio</strong> example.</p>
+
+    <p class="open-app">&rsaquo;&rsaquo; Open up <a href="http://tabulata.jit.su/" target="_blank">the application</a>
+        now. It contains the examples outlined here.</p>
+
+<h2>Current Status, Future Plans, Contact</h2>
+<p>Tabulata exists as a pleasure project of <a href="http://www.rutishauser.name/">Samuel Rutishauser</a> to
+    play around with technologies and ideas. Its key premise lacks in ease of understanding and real improvement, thus
+    I decided to cease active development.
+</p>
+<p>I have a <a href="https://twitter.com/sam_symbolist">Twitter</a> and <a href="mailto:srutisha+tabulata@gmail.com">E-Mail</a>.</p>
+</div>
+<div id="footer">
+    &mdash; Copyright &copy; 2012 Samuel Rutishauser &mdash;
+</div>
+</body>
+</html>

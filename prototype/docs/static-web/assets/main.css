@@ -1,0 +1,159 @@
+body {
+    margin:0;
+    padding:0;
+    text-align:center;
+    font-size: 16pt;
+    background-color: #f5f5f5;
+}
+
+.wf-active .title,
+.wf-active .tabulata {
+    font-family: 'Fugaz One', sans-serif;
+}
+
+.wf-active p,
+.wf-active h2,
+.wf-active #footer {
+    font-family: Anaheim, sans-serif;
+}
+
+h2 {
+    font-weight: normal;
+    font-size: 162%;
+    margin: 6pt 0 3pt;
+    padding: 0;
+}
+
+h2 + p {
+    margin-top: 3pt;
+}
+
+.title { font-size:162%; font-weight:bold; }
+
+div p:first-child {
+    margin-top: 0;
+}
+
+code {
+    background: #ecee54;
+}
+
+a {
+    color: #633;
+}
+
+a:hover {
+    color: #cb5327;
+}
+
+.wf-active code {
+    font-family: 'Share Tech Mono', monospace;
+    font-weight: normal;
+    font-size: 92%;
+}
+
+#maincontent {
+    width: 700px;
+    margin:25px auto;
+    padding: 25px;
+    text-align:left;
+    background: #fefefe;
+    color: #330;
+    border: 1px solid #bbb;
+    box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.1);
+}
+
+#footer {
+    margin: 25px 0 15px;
+    font-size: 12pt;
+    color: #666;
+    text-shadow: rgba(0, 0, 0, 0.2) -1px -1px 1px;
+
+
+}
+
+.example {
+    font-family: "Droid Sans", sans-serif;
+}
+
+
+
+.open-app {
+    border: solid #666;
+    border-width: 1px 0 1px;
+    padding: 4pt 0 4pt 4pt;
+    margin: 2pt 0 2pt 0;
+    background: #efe;
+}
+
+.open-app + h2 {
+    margin-top: 1em;
+}
+
+/*  HOME page styles */
+
+.home-block-container .home-block-title {
+    font-size: 15pt;
+    padding-bottom: 2px;
+    text-decoration: underline;
+}
+
+.home-block-container .home-block-delete {
+    font-size: 25px;
+    float: right;
+    margin: -10px -10px;
+    padding: 0px 6px 0px 6px;
+    border: dotted black;
+    border-width: 0 0 1px 1px;
+    border-top-right-radius: 7px;
+}
+
+.home-block-container {
+    background: -webkit-gradient(linear, right top, left bottom, color-stop(0%,#fff), color-stop(100%,#bbb));
+    cursor: pointer;
+}
+
+.home-block-container .home-block-lists {
+    padding-bottom: 6px;
+}
+
+.home-block-container, #home-new-block {
+    margin:10px;
+    float: right;
+    width: 50%;
+    color:#333;
+    padding:10px;
+    font-size:13pt;
+
+    border: 1px solid;
+    border-color: #bfbfbf #e6e6e6 #e6e6e6 #bfbfbf;
+    border-radius: 7px;
+    background: #fefefe;
+
+    -webkit-box-shadow: inset 0 0  5px 1px rgba(50,50,50,0.2), 1px 2px 5px rgba(0,0,0, 0.9);
+    box-shadow: inset 0 0  5px 1px rgba(50,50,50,0.2), 1px 2px 5px rgba(0,0,0, 0.9);
+
+}
+
+.home-block-container dt {
+    float: left;
+    clear: left;
+    width:60%;
+    border-bottom: 1px dotted #555;
+}
+
+.home-block-container dd {
+    float: left;
+    border-bottom: 1px dotted #555;
+    -webkit-margin-start: 0px;
+}
+
+#includes {
+    position: fixed;
+    top: 55px;
+    left:150px;
+    width:580px;
+    display: none;
+    z-index:105;
+}
+
