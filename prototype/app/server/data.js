@@ -240,89 +240,6 @@ exports.exampleBlocks = [
         ,
         {
             prolog: {
-                name: 'Example Multiple Lists',
-                id: generateUuid()
-            },
-            singulars : [
-            ],
-            lists: [
-                {
-                    name: 'First List',
-                    numRows: 3,
-                    columns: [
-                        {
-                            name: 'Column One',
-                            values: ['Name 1', 'Name 2', 'Name 3']
-                        },
-                        {
-                            name: 'Numbers One',
-                            dataType: 'number',
-                            values: [5, 4, 3]
-                        },
-                        {
-                            name: 'Numbers Two',
-                            dataType: 'number',
-                            values: [6, 3, 2]
-                        },
-                        {
-                            name: 'Total Numbers',
-                            valueFunction: 'NumbersOne + NumbersTwo'
-                        }
-                    ]
-                },
-                {
-                    name: 'Second List',
-                    numRows: 3,
-                    columns: [
-                        {
-                            name: 'Column One',
-                            values: ['Name 1', 'Name 2', 'Name 3']
-                        },
-                        {
-                            name: 'Numbers One',
-                            dataType: 'number',
-                            values: [15, 4, 3]
-                        },
-                        {
-                            name: 'Numbers Two',
-                            dataType: 'number',
-                            values: [6, 3, 2]
-                        },
-                        {
-                            name: 'Total Numbers',
-                            valueFunction: 'NumbersOne + NumbersTwo'
-                        }
-                    ]
-                },
-                {
-                    name: 'Third List',
-                    numRows: 3,
-                    columns: [
-                        {
-                            name: 'Column One',
-                            values: ['Name 1', 'Name 2', 'Name 3']
-                        },
-                        {
-                            name: 'Numbers One',
-                            dataType: 'number',
-                            values: [25, 4, 3]
-                        },
-                        {
-                            name: 'Numbers Two',
-                            dataType: 'number',
-                            values: [6, 3, 2]
-                        },
-                        {
-                            name: 'Total Numbers',
-                            valueFunction: 'NumbersOne + NumbersTwo'
-                        }
-                    ]
-                }
-            ]
-        }
-        ,
-        {
-            prolog: {
                 name: 'Currency Portfolio',
                 id: generateUuid()
             },
@@ -330,7 +247,7 @@ exports.exampleBlocks = [
                 {
                     name : "Open Rates",
                     /*                url : "http://openexchangerates.org/api/latest.json?app_id=76e31cf78b46494986f8f5ec65ed381c" */
-                    url : "http://192.168.1.4/tabulata/test-json/exchangeRates.json"
+                    url : "http://tabulata.jit.su/test/exchangeRates.json"
                 }
             ],
             singulars : [
