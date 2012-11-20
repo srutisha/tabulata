@@ -17,7 +17,7 @@ The client divides responsabilitiy between *frontend* (GUI, rendering) and *back
 + Node.js server -- <a href="tabulata/blob/master/prototype/app.js">blob/master/prototype/app.js</a>
 + Calculation engine -- <a href="tabulata/tree/master/prototype/app/engine">tree/master/prototype/app/engine</a>
 + Backend -- <a href="tabulata/tree/master/prototype/app/client/backend">tree/master/prototype/app/client/backend</a>
-+ Interface between Frontend and Backend -- <a href="tabulata/tree/master/prototype/app/app/interface">tree/master/prototype/app/app/interface</a>
++ Interface between Frontend and Backend -- <a href="tabulata/tree/master/prototype/app/interface">tree/master/prototype/app/interface</a>
 + Frontend (GUI) -- <a href="tabulata/tree/master/prototype/app/client/frontend">tree/master/prototype/app/client/frontend</a>
 
 
