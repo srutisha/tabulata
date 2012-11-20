@@ -50,10 +50,9 @@
 
 <p>
     Currently, <span class="tabulata">tabulata</span> exists as a functional prototype to explore some ideas I
-    had to improve on the current spreadsheet/database divide. It takes its inspiration from
+    had to improve on the current spreadsheet metaphor. It takes some inspiration from
     <a href="http://www.lastcalc.com/" target="_blank">LastCalc</a> and
-    <a href="http://www.acqualia.com/soulver/" target="_blank">Soulver</a>, but the basic idea existed before I even
-    knew about these products.
+    <a href="http://www.acqualia.com/soulver/" target="_blank">Soulver</a>, but the basic idea existed before I even knew about these products and was developed back in 2007.
 </p>
 
 <p>
@@ -62,10 +61,9 @@
 </p>
 
 <p class="open-app">&rsaquo;&rsaquo; Open up <a href="http://tabulata.jit.su/" target="_blank">the application</a>
-    now. It already contains some examples.</p>
+    now. It already contains some examples. <br/>&rsaquo;&rsaquo; Note: Bookmark the URL you are redirected to for later retrieval.</p>
 
-    <p>The budget example is outlined below in more detail. It introduces the terminology and showcases the
-        way <span class="tabulata">tabulata</span> lets you manipulate <strong>lists</strong>, <strong>values</strong>
+    <p>Read further to learn how <span class="tabulata">tabulata</span> lets you manipulate <strong>lists</strong>, <strong>values</strong>
         and <strong>expressions</strong>.</p>
 
 <h2>Key Concepts</h2>
@@ -79,12 +77,12 @@
     as shown here. Selecting the block opens it for editing.</p>
 
 <p>In a block, calculated values are displayed, the expression generating the value can be edited when
-    the calculated value is clicked.</p>
+    the calculated value is activated by clicking or tapping.</p>
 
-<p>A singular associates a name with an expression. When the singular is <strong>starred</strong>, it appears in the
+<p>A singular associates one name with one expression generating one resulting value. When the singular is <strong>starred</strong>, it appears in the
     condensed block on the home screen. To edit a singular, click the value.</p>
 
-<p>A list is named and consists of columns. A <strong>column</strong> contains either values or an expression.
+<p>A list is named and consists of named columns. A <strong>column</strong> contains either values or an expression.
     Columns and rows are appended using the „+“-buttons.</p>
 
 <h2>Calculation</h2>
@@ -98,10 +96,7 @@
     referenced.
 </p>
 
-<p>A <strong>list aggregation</strong> is created with an expression which returns a list in the first column. In the
-    example <code>uniques</code> returns a list with each value of the referenced column contained once. Aggregated
-    data is then calculated in the other columns by using <code>select</code> and <code>sum</code> over the other table
-    columns.
+<p>A <strong>list aggregation</strong> is created using an expression which returns a list as the first column. Examples for expressions which return a list are <code>uniques</code> and <code>select</code>. <code>List.Column.uniques</code> returns a list with each distinct value of <code>Column</code> contained once. Aggregated data is then calculated in the other columns by using <code>select</code> and <code>sum</code> on arbitrary other columns.
 </p>
 
 <h2>Include External Data</h2>
@@ -110,14 +105,15 @@ for arbitrary <code>JSON</code> APIs, once mapped to a name, the data inside the
 and manipulating lists. See the <strong>Currency Portfolio</strong> example.</p>
 
     <p class="open-app">&rsaquo;&rsaquo; Open up <a href="http://tabulata.jit.su/" target="_blank">the application</a>
-        now. It contains the examples outlined here.</p>
+        now. It contains the example outlined here. <br/>&rsaquo;&rsaquo; Note: Bookmark the URL you are redirected to for later retrieval.</p>
 
-<h2>Current Status, Future Plans, Contact</h2>
-<p>Tabulata exists as a pleasure project of <a href="http://www.rutishauser.name/">Samuel Rutishauser</a> to
-    play around with technologies and ideas. Its key premise lacks in ease of understanding and real improvement, thus
-    I decided to cease active development.
-</p>
+<h2>Source Code, Licence</h2>
+<p>Tabulata is released under the GNU Affero General Public License. <br/> Find it here: <a href="https://github.com/srutisha/tabulata">tabulata on github</a>.
+
+<h2>Current Status, Contact</h2>
+<p>Tabulata is a side project of <a href="http://www.rutishauser.name/">Samuel Rutishauser</a> to play around with technologies and ideas. </p>
 <p>I have a <a href="https://twitter.com/sam_symbolist">Twitter</a> and <a href="mailto:srutisha+tabulata@gmail.com">E-Mail</a>.</p>
+
 </div>
 <div id="footer">
     &mdash; Copyright &copy; 2012 Samuel Rutishauser &mdash;
