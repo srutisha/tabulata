@@ -8,23 +8,23 @@ A working installation of tabulata including the examples is available at http:/
 
 ## Technical Design
 
-Tabulata has a slim server backend built in [Node.js](http://nodejs.org/) using [Express](http://expressjs.com/). Persistence is done using [Redis](http://redis.io/) (which was chosen due to having a very easy interface). The client is written using Javascript and (jQuery)[http://jquery.com/]. It uses JSON-REST to fetch content from the backend. Calculation is done client-side (but could be done also server-side). 
+Tabulata has a slim server backend built in [Node.js](http://nodejs.org/) using [Express](http://expressjs.com/). Persistence is done using [Redis](http://redis.io/) (which was chosen due to having a very easy interface). The client is written using Javascript and [jQuery](http://jquery.com/). It uses JSON-REST to fetch content from the backend. Calculation is done client-side (but could be done also server-side). 
 
-The client divides responsabilitiy between *frontend* (GUI, rendering) and *backend* (calculation). The backend code is designed to be executed as a WebWorker, though currently it's not to facilitate development. [PEG.js](http://pegjs.majda.cz/) is used to parse the tabulata expressions (which are then translated into Javascript to be executed). The grammar is defined in <a href="blob/master/prototype/docs/tabulata-expression.peg">prototype/docs/tabulata-expression.peg</a>.
+The client divides responsabilitiy between *frontend* (GUI, rendering) and *backend* (calculation). The backend code is designed to be executed as a WebWorker, though currently it's not to facilitate development. [PEG.js](http://pegjs.majda.cz/) is used to parse the tabulata expressions (which are then translated into Javascript to be executed). The grammar is defined in <a href="tabulata/blob/master/prototype/docs/tabulata-expression.peg">prototype/docs/tabulata-expression.peg</a>.
 
 ### Source Files Organization
 
-+ Node.js server -- <a href="blob/master/prototype/app.js">blob/master/prototype/app.js</a>
-+ Calculation engine -- <a href="tree/master/prototype/app/engine">tree/master/prototype/app/engine</a>
-+ Backend -- <a href="tree/master/prototype/app/client/backend">tree/master/prototype/app/client/backend</a>
-+ Interface between Frontend and Backend -- <a href="tree/master/prototype/app/app/interface">tree/master/prototype/app/app/interface</a>
-+ Frontend (GUI) -- <a href="tree/master/prototype/app/client/frontend">tree/master/prototype/app/client/frontend</a>
++ Node.js server -- <a href="tabulata/blob/master/prototype/app.js">blob/master/prototype/app.js</a>
++ Calculation engine -- <a href="tabulata/tree/master/prototype/app/engine">tree/master/prototype/app/engine</a>
++ Backend -- <a href="tabulata/tree/master/prototype/app/client/backend">tree/master/prototype/app/client/backend</a>
++ Interface between Frontend and Backend -- <a href="tabulata/tree/master/prototype/app/app/interface">tree/master/prototype/app/app/interface</a>
++ Frontend (GUI) -- <a href="tabulata/tree/master/prototype/app/client/frontend">tree/master/prototype/app/client/frontend</a>
 
 
 ## Installation and Running
 
 1. Tabulata uses [Node.js](http://nodejs.org/) and [Redis](http://redis.io/). Have them installed.
-1. Edit the config file <a href="blob/master/prototype/config/config.json">prototype/config/config.json</a>, if necessary
+1. Edit the config file <a href="tabulata/blob/master/prototype/config/config.json">prototype/config/config.json</a>, if necessary
 1. Install packages and run node:
 
    ```
