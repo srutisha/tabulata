@@ -27,7 +27,7 @@
     <script>
 
         WebFontConfig = {
-            google: { families: [ 'Fugaz One', 'Anaheim', 'Share Tech Mono', 'Droid Sans' ] },
+            google: { families: [ 'Fugaz One', 'Anaheim', 'Share Tech Mono' ] },
             active: function() {
 
             }
@@ -68,32 +68,37 @@
 
 <h2>Key Concepts</h2>
 
-<div class="example">
-    <div class="home-block-container"><div class="home-block-delete">×</div><div class="home-block-title">Budget</div><div class="home-block-lists">Control &nbsp;•&nbsp;&nbsp;Budget &nbsp;•&nbsp;&nbsp;Transactions</div><dt>Total Spent</dt><dd>156.5</dd><dt>Total Budgeted</dt><dd>140</dd><dt>Number Of Transactions</dt><dd>5</dd><dt>Spent In Categories Over Budget</dt><dd>138.5</dd></div>
-</div>
 
 <p>A <strong>block</strong> is a collection of <strong>lists</strong> and <strong>singulars</strong>.
     It is displayed on the <strong>home screen</strong> in condensed form,
     as shown here. Selecting the block opens it for editing.</p>
-
+    <img src="assets/Block.png" />
 <p>In a block, calculated values are displayed, the expression generating the value can be edited when
     the calculated value is activated by clicking or tapping.</p>
-
+    <img src="assets/singular.png" />
 <p>A singular associates one name with one expression generating one resulting value. When the singular is <strong>starred</strong>, it appears in the
     condensed block on the home screen. To edit a singular, click the value.</p>
-
+    <img src="assets/list.png" />
 <p>A list is named and consists of named columns. A <strong>column</strong> contains either values or an expression.
     Columns and rows are appended using the „+“-buttons.</p>
 
 <h2>Calculation</h2>
 
+<p>
+    The heart of <span class="tabulata">tabulata</span> are the expressions which calculate singulars and
+    expression columns. Any existing or calculated data is referenced exclusively by name, spaces are omitted, so <code>Tax Rate</code>
+    as a name is referenced using the symbol <code>TaxRate</code>.
+</p>
+
 <p>In an expression,  <code>ListName.ColumnName</code> references the contained or calculated data in list form. On that
-    <strong>list object</strong> functions like <code>sum</code>, <code>count</code> and <code>select</code> are called
+    <strong>list representation</strong> functions like <code>sum</code>, <code>count</code> and <code>select</code> are called
     using <code>ListName.ColumnName.functionName</code>.</p>
+
+    <img src="assets/edit_exp.png" />
 
 <p>A <strong>column expression</strong> is calculated for each row of the list. <code>ColumnName</code> accesses the
     corresponding value in the same row, <code>ColumnName.above</code> the value one row above. Singulars can be
-    referenced.
+    referenced. A simple example would be, for the column <code>Tax</code> the expression <code>Price * TaxRate</code>.
 </p>
 
 <p>A <strong>list aggregation</strong> is created using an expression which returns a list as the first column. Examples for expressions which return a list are <code>uniques</code> and <code>select</code>. <code>List.Column.uniques</code> returns a list with each distinct value of <code>Column</code> contained once. Aggregated data is then calculated in the other columns by using <code>select</code> and <code>sum</code> on arbitrary other columns.

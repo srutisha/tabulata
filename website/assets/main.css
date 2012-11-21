@@ -53,7 +53,7 @@ a:hover {
 }
 
 #maincontent {
-    width: 700px;
+    width: 760px;
     margin:25px auto;
     padding: 25px;
     text-align:left;
@@ -72,12 +72,6 @@ a:hover {
 
 }
 
-.example {
-    font-family: "Droid Sans", sans-serif;
-}
-
-
-
 .open-app {
     border: solid #666;
     border-width: 1px 0 1px;
@@ -90,70 +84,8 @@ a:hover {
     margin-top: 1em;
 }
 
-/*  HOME page styles */
-
-.home-block-container .home-block-title {
-    font-size: 15pt;
-    padding-bottom: 2px;
-    text-decoration: underline;
+img {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
 }
-
-.home-block-container .home-block-delete {
-    font-size: 25px;
-    float: right;
-    margin: -10px -10px;
-    padding: 0px 6px 0px 6px;
-    border: dotted black;
-    border-width: 0 0 1px 1px;
-    border-top-right-radius: 7px;
-}
-
-.home-block-container {
-    background: -webkit-gradient(linear, right top, left bottom, color-stop(0%,#fff), color-stop(100%,#bbb));
-    cursor: pointer;
-}
-
-.home-block-container .home-block-lists {
-    padding-bottom: 6px;
-}
-
-.home-block-container, #home-new-block {
-    margin:10px;
-    float: right;
-    width: 50%;
-    color:#333;
-    padding:10px;
-    font-size:13pt;
-
-    border: 1px solid;
-    border-color: #bfbfbf #e6e6e6 #e6e6e6 #bfbfbf;
-    border-radius: 7px;
-    background: #fefefe;
-
-    -webkit-box-shadow: inset 0 0  5px 1px rgba(50,50,50,0.2), 1px 2px 5px rgba(0,0,0, 0.9);
-    box-shadow: inset 0 0  5px 1px rgba(50,50,50,0.2), 1px 2px 5px rgba(0,0,0, 0.9);
-
-}
-
-.home-block-container dt {
-    float: left;
-    clear: left;
-    width:60%;
-    border-bottom: 1px dotted #555;
-}
-
-.home-block-container dd {
-    float: left;
-    border-bottom: 1px dotted #555;
-    -webkit-margin-start: 0px;
-}
-
-#includes {
-    position: fixed;
-    top: 55px;
-    left:150px;
-    width:580px;
-    display: none;
-    z-index:105;
-}
-
